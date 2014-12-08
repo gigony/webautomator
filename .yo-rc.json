@@ -1,0 +1,9 @@
+{
+  "generator-java": {
+    "title": "WebAutomator",
+    "description": "An infrastructure for Web automation.",
+    "author": "Gigon Bae",
+    "email": "gigony@gmail.com",
+    "namespace": "edu.unl.webautomator"
+  }
+}
