@@ -1,10 +1,9 @@
 package edu.unl.webautomator.core.configuration;
 
-import org.boon.IO;
-import org.boon.json.JsonFactory;
-import org.boon.json.JsonSerializer;
-import org.boon.json.JsonSerializerFactory;
-import org.boon.json.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.unl.webautomator.core.util.JacksonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +12,8 @@ import java.io.File;
 /**
  * Created by gigony on 12/6/14.
  */
+
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)
 public class WebAutomatorConfiguration {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebAutomatorConfiguration.class);
@@ -20,9 +21,36 @@ public class WebAutomatorConfiguration {
     WebAutomatorPlugins plugins = WebAutomatorPlugins.defaultPlugins();
     WebBrowserConfiguration browserConfiguration;
     WebProxyConfiguration proxyConfiguration = WebProxyConfiguration.noProxy();
-    WebEventTypes webEventTypes;
+    WebEventTypes eventTypes;
 
     WebAutomatorConfiguration() {
+    }
+
+    @JsonCreator
+    WebAutomatorConfiguration(@JsonProperty("plugins") WebAutomatorPlugins plugins,
+                              @JsonProperty("browserConfiguration") WebBrowserConfiguration browserConfiguration,
+                              @JsonProperty("proxyConfiguration") WebProxyConfiguration proxyConfiguration,
+                              @JsonProperty("eventTypes") WebEventTypes eventTypes) {
+        this.plugins = plugins;
+        this.browserConfiguration = browserConfiguration;
+        this.proxyConfiguration = proxyConfiguration;
+        this.eventTypes = eventTypes;
+    }
+
+    public WebAutomatorPlugins getPlugins() {
+        return plugins;
+    }
+
+    public WebBrowserConfiguration getBrowserConfiguration() {
+        return browserConfiguration;
+    }
+
+    public WebProxyConfiguration getProxyConfiguration() {
+        return proxyConfiguration;
+    }
+
+    public WebEventTypes getEventTypes() {
+        return eventTypes;
     }
 
     public <T> Class<T> getPluginClass(String pluginName) {
@@ -31,36 +59,16 @@ public class WebAutomatorConfiguration {
 
 
     public static WebAutomatorConfiguration defaultConfiguration() {
+        return new WebAutomatorConfigurationBuilder().build();
+    }
 
-        return null;
+    public static WebAutomatorConfiguration importFromJson(File jsonFile) {
+        return JacksonHelper.loadObjectFromJson(jsonFile, WebAutomatorConfiguration.class);
+    }
+
+    public void exportToJson(File jsonFile) {
+        JacksonHelper.saveObjectToJson(jsonFile, this);
     }
 
 
-    //    public static CustomObjectSerializer<WebAutomatorConfiguration> serializer(){
-//        return new CustomObjectSerializer<WebAutomatorConfiguration>() {
-//            @Override
-//            public Class<WebAutomatorConfiguration> type() {
-//                return WebAutomatorConfiguration.class;
-//            }
-//            @Override
-//            public void serializeObject(JsonSerializerInternal serializer, WebAutomatorConfiguration instance, CharBuf builder) {
-//
-//
-//            }
-//        };
-//
-//    }
-    public void exportToJson(String fileName) {
-
-        JsonSerializerFactory factory = new JsonSerializerFactory();
-        factory.addTypeSerializer(WebAutomatorPlugins.class, WebAutomatorPlugins.serializer());
-        JsonSerializer serializer = factory.create();
-        File dest = new File(fileName);
-        IO.write(IO.path(dest.toString()), serializer.serialize(this).toString());
-    }
-
-    public void importFromJson(String fileName) {
-        ObjectMapper mapper = new JsonFactory().create();
-
-    }
 }

@@ -11,37 +11,37 @@ public class WebAutomatorPluginsBuilder {
 
     Multimap<String, String> pluginNameMap = LinkedListMultimap.create();
 
-    public WebAutomatorPluginsBuilder(){
+    public WebAutomatorPluginsBuilder() {
     }
 
 
-    public WebAutomatorPluginsBuilder setPlugin(String pluginName, String pluginClassName){
+    public WebAutomatorPluginsBuilder setPlugin(String pluginName, String pluginClassName) {
         Preconditions.checkNotNull(pluginName);
         Preconditions.checkNotNull(pluginClassName);
 
         pluginNameMap.removeAll(pluginName);
-        pluginNameMap.put(pluginName,pluginClassName);
+        pluginNameMap.put(pluginName, pluginClassName);
         return this;
     }
 
-    public WebAutomatorPluginsBuilder appendPlugin(String pluginName, String pluginClassName){
+    public WebAutomatorPluginsBuilder appendPlugin(String pluginName, String pluginClassName) {
         Preconditions.checkNotNull(pluginName);
         Preconditions.checkNotNull(pluginClassName);
 
-        pluginNameMap.put(pluginName,pluginClassName);
+        pluginNameMap.put(pluginName, pluginClassName);
         return this;
     }
 
 
     public void setDefaultPlugins() {
-        setPlugin("core.converter.testcase", "edu.unl.webautomator.converter.WebTestCaseConverter");
-        setPlugin("core.extractor.state", "edu.unl.webautomator.extractor.WebStateExtractor");
-        setPlugin("core.extractor.event","edu.unl.webautomator.extractor.WebEventExtractor");
-        setPlugin("core.provider.eventinput","edu.unl.webautomator.provider.WebEventInputProvider");
-        setPlugin("core.executor.event", "edu.unl.webautomator.executor.WebEventExecutor");
+        setPlugin("core.converter.testcase", "edu.unl.webautomator.core.converter.WebTestCaseConverter");
+        setPlugin("core.extractor.state", "edu.unl.webautomator.core.extractor.WebStateExtractor");
+        setPlugin("core.extractor.event", "edu.unl.webautomator.core.extractor.WebEventExtractor");
+        setPlugin("core.provider.eventinput", "edu.unl.webautomator.core.provider.WebEventInputProvider");
+        setPlugin("core.executor.event", "edu.unl.webautomator.core.executor.WebEventExecutor");
     }
 
-    public WebAutomatorPlugins build(){
+    public WebAutomatorPlugins build() {
         return new WebAutomatorPlugins(pluginNameMap);
     }
 }

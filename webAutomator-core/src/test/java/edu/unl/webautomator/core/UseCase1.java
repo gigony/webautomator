@@ -1,8 +1,5 @@
 package edu.unl.webautomator.core;
 
-import org.junit.Test;
-import org.w3c.dom.Document;
-
 /**
  * Created by gigony on 12/4/14.
  */

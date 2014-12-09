@@ -3,9 +3,6 @@
  */
 package edu.unl.webautomator;
 
-import static org.junit.Assert.*;
-import org.junit.*;
-
 /**
  * Main class unit tests.
  *

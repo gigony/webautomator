@@ -1,5 +1,7 @@
 package edu.unl.webautomator.core.configuration;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
@@ -20,7 +22,10 @@ public class WebProxyConfiguration {
         this(webProxyType, "none", -1);
     }
 
-    WebProxyConfiguration(WebProxyType webProxyType, String host, int port) {
+    @JsonCreator
+    WebProxyConfiguration(@JsonProperty("webProxyType") WebProxyType webProxyType,
+                          @JsonProperty("host") String host,
+                          @JsonProperty("port") int port) {
         this.webProxyType = webProxyType;
         this.host = host;
         this.port = port;
@@ -49,6 +54,17 @@ public class WebProxyConfiguration {
         return new WebProxyConfiguration(WebProxyType.SYSTEM);
     }
 
+    public WebProxyType getWebProxyType() {
+        return webProxyType;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public int getPort() {
+        return port;
+    }
 
     @Override
     public String toString() {

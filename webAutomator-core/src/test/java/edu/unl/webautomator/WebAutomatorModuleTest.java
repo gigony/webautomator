@@ -5,10 +5,9 @@ import edu.unl.webautomator.core.QTE;
 import edu.unl.webautomator.core.WebAutomator;
 import edu.unl.webautomator.core.WebAutomatorModule;
 import edu.unl.webautomator.core.configuration.WebAutomatorConfiguration;
-import junit.framework.TestCase;
 import org.junit.Test;
 
-public class WebAutomatorModuleTest extends TestCase {
+public class WebAutomatorModuleTest {
 
     @Test
     public void WebAutomatorModuleTest() {
@@ -21,7 +20,6 @@ public class WebAutomatorModuleTest extends TestCase {
     public void WebAutomatorTest() {
         WebAutomator automator = QTE.webAutomator();
     }
-
 
 
 }

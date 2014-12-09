@@ -11,13 +11,13 @@ public class WebAutomatorConfigurationBuilder {
 
     private WebAutomatorConfiguration config;
 
-    public WebAutomatorConfigurationBuilder(){
+    public WebAutomatorConfigurationBuilder() {
         config = new WebAutomatorConfiguration();
         //config.
     }
 
     public WebAutomatorConfiguration build() {
 
-        return null;
+        return config;
     }
 }
