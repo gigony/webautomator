@@ -24,7 +24,7 @@ public final class WebAutomatorPlugins {
     private final ImmutableMultimap<String, String> plugins;
 
     @JsonCreator
-    WebAutomatorPlugins(@JsonProperty("plugins") Multimap<String, String> plugins) {
+    WebAutomatorPlugins(@JsonProperty("pluginConfiguration") Multimap<String, String> plugins) {
         this.plugins = ImmutableMultimap.copyOf(plugins);
     }
 

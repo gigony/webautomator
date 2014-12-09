@@ -27,7 +27,7 @@ public class JacksonHelper {
     }
 
 
-    public static void saveObjectToJson(File file, Object obj) {
+    public static void saveObjectToJsonFile(File file, Object obj) {
         try {
             SingletonHolder.instance.mapper.writeValue(file, obj);
         } catch (Exception e) {
@@ -35,13 +35,21 @@ public class JacksonHelper {
         }
     }
 
-    public static <T> T loadObjectFromJson(File file, Class<T> klass) {
+    public static <T> T loadObjectFromJsonFile(File file, Class<T> klass) {
         try {
             return SingletonHolder.instance.mapper.readValue(file, klass);
         } catch (Exception e) {
             LOG.error("Failed to load object from Json file({}): {}", file.toString(), e.getMessage());
         }
         return null;
+    }
+
+    public static void printObjectToJson(Object obj) {
+        try {
+            SingletonHolder.instance.mapper.writeValue(System.out, obj);
+        } catch (Exception e) {
+            LOG.error("Failed to print object to Json: {}", e.getMessage());
+        }
     }
 
 

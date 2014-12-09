@@ -15,7 +15,7 @@ public class WebAutomatorConfigurationBuilder {
     public WebAutomatorConfigurationBuilder() {
         config = new WebAutomatorConfiguration();
 
-        config.plugins = WebAutomatorPlugins.defaultPlugins();
+        config.pluginConfiguration = WebAutomatorPlugins.defaultPlugins();
         config.browserConfiguration = WebBrowserConfiguration.defaultBrowser();
         config.proxyConfiguration = WebProxyConfiguration.noProxy();
         config.eventTypes = WebEventTypes.defaultEventTypes();
@@ -25,7 +25,7 @@ public class WebAutomatorConfigurationBuilder {
 
     public WebAutomatorConfigurationBuilder setWebAutomatorPlugins(WebAutomatorPlugins plugins){
         Preconditions.checkNotNull(plugins);
-        config.plugins = plugins;
+        config.pluginConfiguration = plugins;
 
         return this;
     }

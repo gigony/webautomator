@@ -8,6 +8,8 @@ import edu.unl.webautomator.core.platform.WebBrowser;
  */
 public abstract class BasicWebBrowser implements WebBrowser {
 
+    
+
     public BasicWebBrowser(WebBrowserConfiguration browserConfiguration){
 
     }

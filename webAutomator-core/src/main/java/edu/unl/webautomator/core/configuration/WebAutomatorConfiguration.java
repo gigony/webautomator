@@ -22,7 +22,7 @@ public class WebAutomatorConfiguration {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebAutomatorConfiguration.class);
 
-    WebAutomatorPlugins plugins;
+    WebAutomatorPlugins pluginConfiguration;
     WebBrowserConfiguration browserConfiguration;
     WebProxyConfiguration proxyConfiguration;
     WebEventTypes eventTypes;
@@ -31,18 +31,18 @@ public class WebAutomatorConfiguration {
     }
 
     @JsonCreator
-    WebAutomatorConfiguration(@JsonProperty("plugins") WebAutomatorPlugins plugins,
+    WebAutomatorConfiguration(@JsonProperty("pluginConfiguration") WebAutomatorPlugins pluginConfiguration,
                               @JsonProperty("browserConfiguration") WebBrowserConfiguration browserConfiguration,
                               @JsonProperty("proxyConfiguration") WebProxyConfiguration proxyConfiguration,
                               @JsonProperty("eventTypes") WebEventTypes eventTypes) {
-        this.plugins = plugins;
+        this.pluginConfiguration = pluginConfiguration;
         this.browserConfiguration = browserConfiguration;
         this.proxyConfiguration = proxyConfiguration;
         this.eventTypes = eventTypes;
     }
 
-    public WebAutomatorPlugins getPlugins() {
-        return plugins;
+    public WebAutomatorPlugins getPluginConfiguration() {
+        return pluginConfiguration;
     }
 
     public WebBrowserConfiguration getBrowserConfiguration() {
@@ -58,7 +58,7 @@ public class WebAutomatorConfiguration {
     }
 
     public <T> Class<T> getPluginClass(String pluginName) {
-        return plugins.getPluginClass(pluginName);
+        return pluginConfiguration.getPluginClass(pluginName);
     }
 
 
@@ -67,23 +67,23 @@ public class WebAutomatorConfiguration {
     }
 
     public static WebAutomatorConfiguration importFromJson(File jsonFile) {
-        return JacksonHelper.loadObjectFromJson(jsonFile, WebAutomatorConfiguration.class);
+        return JacksonHelper.loadObjectFromJsonFile(jsonFile, WebAutomatorConfiguration.class);
     }
 
     public void exportToJson(File jsonFile) {
-        JacksonHelper.saveObjectToJson(jsonFile, this);
+        JacksonHelper.saveObjectToJsonFile(jsonFile, this);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(plugins,browserConfiguration,proxyConfiguration,eventTypes);
+        return Objects.hashCode(pluginConfiguration,browserConfiguration,proxyConfiguration,eventTypes);
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof WebAutomatorConfiguration){
             WebAutomatorConfiguration that = (WebAutomatorConfiguration)obj;
-            return Objects.equal(plugins,that.plugins) &&
+            return Objects.equal(pluginConfiguration,that.pluginConfiguration) &&
                     Objects.equal(browserConfiguration,that.browserConfiguration) &&
                     Objects.equal(proxyConfiguration,that.proxyConfiguration) &&
                     Objects.equal(eventTypes,that.eventTypes);

@@ -6,7 +6,7 @@ import edu.unl.webautomator.core.platform.WebBrowserType;
 /**
  * Created by gigony on 12/9/14.
  */
-public class WebBrowserConfigurationBuilder extends WebBrowserConfiguration {
+public class WebBrowserConfigurationBuilder  {
     private final WebBrowserConfiguration browserConfiguration;
 
     public WebBrowserConfigurationBuilder(){
