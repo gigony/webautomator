@@ -1,4 +1,4 @@
-package edu.unl.webautomator.core;
+package edu.unl.webautomator.core.platform;
 
 /**
  * Created by gigony on 12/6/14.

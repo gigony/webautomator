@@ -12,6 +12,7 @@ public class WebAutomatorPluginsBuilder {
     Multimap<String, String> pluginNameMap = LinkedListMultimap.create();
 
     public WebAutomatorPluginsBuilder() {
+        setDefaultPlugins();
     }
 
 
@@ -33,7 +34,7 @@ public class WebAutomatorPluginsBuilder {
     }
 
 
-    public void setDefaultPlugins() {
+    private void setDefaultPlugins() {
         setPlugin("core.converter.testcase", "edu.unl.webautomator.core.converter.WebTestCaseConverter");
         setPlugin("core.extractor.state", "edu.unl.webautomator.core.extractor.WebStateExtractor");
         setPlugin("core.extractor.event", "edu.unl.webautomator.core.extractor.WebEventExtractor");

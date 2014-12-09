@@ -21,7 +21,6 @@ public class JacksonHelper {
         private static final JacksonHelper instance = new JacksonHelper();
     }
 
-
     private JacksonHelper() {
         mapper.registerModule(new GuavaModule());
         mapper.configure(SerializationFeature.INDENT_OUTPUT, true);

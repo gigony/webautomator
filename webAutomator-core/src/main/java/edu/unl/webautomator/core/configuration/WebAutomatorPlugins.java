@@ -2,6 +2,7 @@ package edu.unl.webautomator.core.configuration;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
@@ -29,7 +30,6 @@ public final class WebAutomatorPlugins {
 
     public static WebAutomatorPlugins defaultPlugins() {
         WebAutomatorPluginsBuilder builder = new WebAutomatorPluginsBuilder();
-        builder.setDefaultPlugins();
         return builder.build();
     }
 
@@ -69,5 +69,19 @@ public final class WebAutomatorPlugins {
             LOG.error("Plugin {} cannot be loaded.", pluginName);
         }
         return klass;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(plugins);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof WebAutomatorPlugins){
+            WebAutomatorPlugins that = (WebAutomatorPlugins)obj;
+            return Objects.equal(plugins,that.plugins);
+        }
+        return false;
     }
 }

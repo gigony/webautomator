@@ -9,8 +9,8 @@ package edu.unl.webautomator.core {
     package edu.unl.webautomator.core.configuration {
         'package edu.unl.webautomator.core.configuration.internal{}
     }
-    package edu.unl.webautomator.core.browser {
-        'package edu.unl.webautomator.core.browser.internal{}
+    package edu.unl.webautomator.core.platform {
+        'package edu.unl.webautomator.core.platform.internal{}
     }
     package edu.unl.webautomator.core.converter{
         'package edu.unl.webautomator.core.converter.internal{}
