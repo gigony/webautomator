@@ -9,8 +9,8 @@ import java.io.File;
 public class WebAutomatorConfigurationTest {
 
     @Test
-    public void configurationLoadTest() {
-        WebAutomatorConfiguration config = new WebAutomatorConfigurationBuilder().build();
+    public final void configurationLoadTest() {
+        WebAutomatorConfiguration config = new WebAutomatorConfiguration.WebAutomatorConfigurationBuilder().build();
         File file = new File("/Users/gigony/Development/Repository/github/webautomator/temp/config.json");
         config.exportToJson(file);
         JacksonHelper.printObjectToJson(config);

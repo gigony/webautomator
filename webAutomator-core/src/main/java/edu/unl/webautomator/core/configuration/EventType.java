@@ -9,34 +9,34 @@ import com.google.common.base.Objects;
  */
 public class EventType {
     private String eventTypeName;
-    private String locator;
+    private String eventLocator;
 
     @JsonCreator
-    public EventType(@JsonProperty("eventTypeName") String eventTypeName,
-                     @JsonProperty("locator") String locator) {
-        this.eventTypeName=eventTypeName;
-        this.locator=locator;
+    public EventType(@JsonProperty("eventTypeName") final String eTypeName,
+                     @JsonProperty("eventLocator") final String locator) {
+        this.eventTypeName = eTypeName;
+        this.eventLocator = locator;
     }
 
-    public String getEventTypeName() {
-        return eventTypeName;
+    public final String getEventTypeName() {
+        return this.eventTypeName;
     }
 
-    public String getLocator() {
-        return locator;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(eventTypeName, locator);
+    public final String getEventLocator() {
+        return this.eventLocator;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof EventType){
-            EventType that = (EventType)obj;
-            return Objects.equal(eventTypeName,that.eventTypeName) &&
-                    Objects.equal(locator,that.locator);
+    public final int hashCode() {
+        return Objects.hashCode(this.eventTypeName, this.eventLocator);
+    }
+
+    @Override
+    public final boolean equals(final Object obj) {
+        if (obj instanceof EventType) {
+            EventType that = (EventType) obj;
+            return Objects.equal(this.eventTypeName, that.eventTypeName)
+                    && Objects.equal(this.eventLocator, that.eventLocator);
         }
         return false;
     }

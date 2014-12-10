@@ -5,17 +5,19 @@ import org.openqa.selenium.By;
 /**
  * Created by gigony on 12/9/14.
  */
-public class SeleniumHelper {
+public final class SeleniumHelper {
+    private SeleniumHelper() {
+    }
 
 
-    public static By convertStringLocatorToBy(String locator){
+    public static By convertStringLocatorToBy(final String locator) {
         if (locator.startsWith("css=")) {
             return By.cssSelector(locator);
         } else if (locator.startsWith("xpath=")) {
             return By.xpath(locator.substring("xpath=".length()));
-        } else if (locator.startsWith("//")){
+        } else if (locator.startsWith("//")) {
             return By.xpath(locator);
-        } else if (locator.startsWith("id=")){
+        } else if (locator.startsWith("id=")) {
             return By.id(locator.substring("id=".length()));
         } else if (locator.startsWith("name=")) {
             return By.name(locator.substring("name=".length()));

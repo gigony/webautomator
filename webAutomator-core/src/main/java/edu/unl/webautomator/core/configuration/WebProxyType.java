@@ -4,20 +4,20 @@ package edu.unl.webautomator.core.configuration;
  * Created by gigony on 12/7/14.
  */
 public enum WebProxyType {
-    //TODO - change value
+    //TODO - verify values
     NONE(0),
     MANUAL(1),
-    AUTO(2),
-    BROWSER(3),
-    SYSTEM(4);
+    BROWSER(3), // check
+    AUTO(4),
+    SYSTEM(5);
 
     private int value;
 
-    private WebProxyType(int value) {
-        this.value = value;
+    private WebProxyType(final int val) {
+        this.value = val;
     }
 
     public int toIntValue() {
-        return value;
+        return this.value;
     }
 }

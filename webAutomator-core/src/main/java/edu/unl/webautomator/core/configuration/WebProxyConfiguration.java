@@ -15,27 +15,27 @@ import javax.annotation.concurrent.Immutable;
 public class WebProxyConfiguration {
 
     private final WebProxyType webProxyType;
-    private final String host;
-    private final int port;
+    private final String hostAddr;
+    private final int portNum;
 
-    WebProxyConfiguration(WebProxyType webProxyType) {
-        this(webProxyType, "none", -1);
+    WebProxyConfiguration(final WebProxyType proxyType) {
+        this(proxyType, "none", -1);
     }
 
     @JsonCreator
-    WebProxyConfiguration(@JsonProperty("webProxyType") WebProxyType webProxyType,
-                          @JsonProperty("host") String host,
-                          @JsonProperty("port") int port) {
-        this.webProxyType = webProxyType;
-        this.host = host;
-        this.port = port;
+    WebProxyConfiguration(@JsonProperty("webProxyType") final WebProxyType proxyType,
+                          @JsonProperty("host") final String host,
+                          @JsonProperty("port") final int port) {
+        this.webProxyType = proxyType;
+        this.hostAddr = host;
+        this.portNum = port;
     }
 
     public static WebProxyConfiguration noProxy() {
         return new WebProxyConfiguration(WebProxyType.NONE);
     }
 
-    public static WebProxyConfiguration manualProxy(String host, int port) {
+    public static WebProxyConfiguration manualProxy(final String host, final int port) {
         Preconditions.checkNotNull(host);
         Preconditions.checkArgument(port >= 0 && port <= 65535,
                 "Port number should be ranging from 0 to 65535 (" + port + " was specified).");
@@ -54,41 +54,41 @@ public class WebProxyConfiguration {
         return new WebProxyConfiguration(WebProxyType.SYSTEM);
     }
 
-    public WebProxyType getWebProxyType() {
-        return webProxyType;
+    public final WebProxyType getWebProxyType() {
+        return this.webProxyType;
     }
 
-    public String getHost() {
-        return host;
+    public final String getHostAddr() {
+        return this.hostAddr;
     }
 
-    public int getPort() {
-        return port;
+    public final int getPortNum() {
+        return this.portNum;
     }
 
     @Override
-    public String toString() {
-        switch (webProxyType) {
+    public final String toString() {
+        switch (this.webProxyType) {
             case MANUAL:
-                return "Manual proxy (" + host + ":" + port + ")";
+                return "Manual proxy (" + this.hostAddr + ":" + this.portNum + ")";
             default:
-                return "Proxy type: " + webProxyType.toString();
+                return "Proxy type: " + this.webProxyType.toString();
         }
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hashCode(webProxyType, port, host);
+    public final int hashCode() {
+        return Objects.hashCode(this.webProxyType, this.portNum, this.hostAddr);
     }
 
 
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
         if (obj instanceof WebProxyConfiguration) {
             WebProxyConfiguration that = (WebProxyConfiguration) obj;
             return Objects.equal(this.webProxyType, that.webProxyType)
-                    && Objects.equal(this.port, that.port)
-                    && Objects.equal(this.host, that.host);
+                    && Objects.equal(this.portNum, that.portNum)
+                    && Objects.equal(this.hostAddr, that.hostAddr);
         }
         return false;
     }

@@ -12,41 +12,41 @@ import java.io.File;
 /**
  * Created by gigony on 12/8/14.
  */
-public class JacksonHelper {
+public final class JacksonHelper {
     private static final Logger LOG = LoggerFactory.getLogger(JacksonHelper.class);
 
     private ObjectMapper mapper = new ObjectMapper();
 
     private static class SingletonHolder {
-        private static final JacksonHelper instance = new JacksonHelper();
+        private static final JacksonHelper INSTANCE = new JacksonHelper();
     }
 
     private JacksonHelper() {
-        mapper.registerModule(new GuavaModule());
-        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+        this.mapper.registerModule(new GuavaModule());
+        this.mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
     }
 
 
-    public static void saveObjectToJsonFile(File file, Object obj) {
+    public static void saveObjectToJsonFile(final File file, final Object obj) {
         try {
-            SingletonHolder.instance.mapper.writeValue(file, obj);
+            SingletonHolder.INSTANCE.mapper.writeValue(file, obj);
         } catch (Exception e) {
             LOG.error("Failed to save object to Json file({}): {}", file.toString(), e.getMessage());
         }
     }
 
-    public static <T> T loadObjectFromJsonFile(File file, Class<T> klass) {
+    public static <T> T loadObjectFromJsonFile(final File file, final Class<T> klass) {
         try {
-            return SingletonHolder.instance.mapper.readValue(file, klass);
+            return SingletonHolder.INSTANCE.mapper.readValue(file, klass);
         } catch (Exception e) {
             LOG.error("Failed to load object from Json file({}): {}", file.toString(), e.getMessage());
         }
         return null;
     }
 
-    public static void printObjectToJson(Object obj) {
+    public static void printObjectToJson(final Object obj) {
         try {
-            SingletonHolder.instance.mapper.writeValue(System.out, obj);
+            SingletonHolder.INSTANCE.mapper.writeValue(System.out, obj);
         } catch (Exception e) {
             LOG.error("Failed to print object to Json: {}", e.getMessage());
         }
