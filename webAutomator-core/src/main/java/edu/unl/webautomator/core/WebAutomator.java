@@ -6,6 +6,7 @@ import edu.unl.webautomator.core.converter.TestCaseConverter;
 import edu.unl.webautomator.core.executor.EventExecutor;
 import edu.unl.webautomator.core.extractor.EventExtractor;
 import edu.unl.webautomator.core.extractor.StateExtractor;
+import edu.unl.webautomator.core.model.State;
 import edu.unl.webautomator.core.platform.WebBrowser;
 import edu.unl.webautomator.core.provider.EventInputProvider;
 import org.openqa.selenium.WebDriver;
@@ -35,5 +36,8 @@ public interface WebAutomator extends Automator {
 
 
 
+    State getState();
 
+
+    void quit();
 }

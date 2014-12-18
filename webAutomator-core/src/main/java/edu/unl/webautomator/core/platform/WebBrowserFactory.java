@@ -1,5 +1,6 @@
 package edu.unl.webautomator.core.platform;
 
+import edu.unl.webautomator.core.configuration.WebAutomatorConfiguration;
 import edu.unl.webautomator.core.configuration.WebBrowserConfiguration;
 import edu.unl.webautomator.core.platform.browser.ChromeWebBrowser;
 import edu.unl.webautomator.core.platform.browser.FireFoxWebBrowser;
@@ -15,7 +16,9 @@ public final class WebBrowserFactory {
     private WebBrowserFactory() {
     }
 
-    public static WebBrowser create(final WebBrowserConfiguration browserConfiguration) {
+    public static WebBrowser create(final WebAutomatorConfiguration configuration) {
+        WebBrowserConfiguration browserConfiguration = configuration.getBrowserConfiguration();
+
         WebBrowserType browserType = browserConfiguration.getBrowserType();
         switch (browserType) {
             case CHROME:

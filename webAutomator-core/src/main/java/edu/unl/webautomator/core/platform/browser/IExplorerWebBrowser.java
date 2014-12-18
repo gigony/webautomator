@@ -17,4 +17,12 @@ public class IExplorerWebBrowser extends BasicWebBrowser {
 
         setWebDriver(iExplorerDriver);
     }
+
+    @Override
+    protected final void moveToParentFrameImpl() {
+        this.getWebDriver().switchTo().parentFrame();
+        if (!getFrameStack().isEmpty()) {
+            getFrameStack().pop();
+        }
+    }
 }

@@ -12,7 +12,7 @@ public final class SeleniumHelper {
 
     public static By convertStringLocatorToBy(final String locator) {
         if (locator.startsWith("css=")) {
-            return By.cssSelector(locator);
+            return By.cssSelector(locator.substring("css=".length()));
         } else if (locator.startsWith("xpath=")) {
             return By.xpath(locator.substring("xpath=".length()));
         } else if (locator.startsWith("//")) {

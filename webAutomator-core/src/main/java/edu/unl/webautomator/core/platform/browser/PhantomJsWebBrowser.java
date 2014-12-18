@@ -7,6 +7,8 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.util.Deque;
+
 /**
  * Created by gigony on 12/9/14.
  */
@@ -37,5 +39,21 @@ public class PhantomJsWebBrowser extends BasicWebBrowser {
         setWebDriver(phantomJsDriver);
 
 
+    }
+
+    /**
+     *
+     * Implementation of #moveToParentFrameImpl is different because PhantomJs doesn't seem to work well
+     * with 'parentFrame()' method.
+     *
+     */
+    @Override
+    protected final void moveToParentFrameImpl() {
+
+        Deque<String> frameStack = getFrameStack();
+        if (!frameStack.isEmpty()) {
+            frameStack.pop();
+        }
+        moveToAbsoluteFrame(getFrameId());
     }
 }

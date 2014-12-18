@@ -48,4 +48,12 @@ public class RemoteWebBrowser extends BasicWebBrowser {
 
         setWebDriver(remoteWebDriver);
     }
+
+    @Override
+    protected final void moveToParentFrameImpl() {
+        this.getWebDriver().switchTo().parentFrame();
+        if (!getFrameStack().isEmpty()) {
+            getFrameStack().pop();
+        }
+    }
 }

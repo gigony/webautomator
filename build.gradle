@@ -40,3 +40,8 @@ subprojects {
 }
 
 // mainClassName = "edu.unl.webautomator.Main"
+
+
+task getHomeDir << {
+    println gradle.gradleHomeDir
+}

@@ -56,6 +56,13 @@ public class WebAutomatorConfiguration {
         return this.pluginConfiguration.getPluginClass(pluginName);
     }
 
+    public static WebAutomatorConfiguration create(final WebBrowserType browserType) {
+        return builder().setWebBrowserConfiguration(
+                WebBrowserConfiguration.builder(browserType)
+                        .build()
+        ).build();
+    }
+
     public static WebAutomatorConfiguration create(final WebBrowserType browserType, final String webDriverBinPath) {
         return builder().setWebBrowserConfiguration(
                 WebBrowserConfiguration.builder(browserType)
