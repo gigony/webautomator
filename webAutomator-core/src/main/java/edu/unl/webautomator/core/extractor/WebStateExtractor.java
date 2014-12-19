@@ -19,6 +19,7 @@ public class WebStateExtractor implements StateExtractor {
   @Override
   public final State extractState() {
     WebBrowser browser = this.webAutomator.getWebBrowser();
+    return null;
 
 
 

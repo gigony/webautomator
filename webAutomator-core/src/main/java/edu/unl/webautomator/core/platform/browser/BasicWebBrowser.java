@@ -2,10 +2,9 @@ package edu.unl.webautomator.core.platform.browser;
 
 import com.google.common.base.Preconditions;
 import edu.unl.webautomator.core.configuration.WebBrowserConfiguration;
-import edu.unl.webautomator.core.model.State;
+import edu.unl.webautomator.core.model.WebDocument;
 import edu.unl.webautomator.core.platform.WebBrowser;
 import edu.unl.webautomator.core.util.JSoupHelper;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -63,7 +62,7 @@ public abstract class BasicWebBrowser implements WebBrowser {
 
     while (iterator.hasNext()) {
       frameName = iterator.next();
-      buf.append('.');
+      buf.append(WebDocument.FRAME_SPLITTER);
       buf.append(frameName);
     }
 
@@ -92,7 +91,7 @@ public abstract class BasicWebBrowser implements WebBrowser {
       return;
     }
 
-    String[] names = frameId.split("\\.+");
+    String[] names = frameId.split(WebDocument.FRAME_SPLITTER_MATCHER);
     for (String name : names) {
       this.moveToRelativeFrame(name);
     }
@@ -112,32 +111,25 @@ public abstract class BasicWebBrowser implements WebBrowser {
   public final String getNormalizedPageSource() {
     final String html = this.getPageSource();
 
+
     return null;
   }
 
   @Override
-  public final String getPageSourceWithFrameContent() {
-
-    Document dom = this.getPageDomWithFrameContent("");
-    return dom.toString();
-  }
-
-  @Override
-  public final Document getPageDomWithFrameContent() {
-    return this.getPageDomWithFrameContent("");
+  public final String getJsonPageSourceWithFrameContent() {
+    return this.getPageDomWithFrameContent().toJson();
   }
 
   /**
-   * Because new Ids were added to frames,
-   * it may cause some problems when you are attempting to use frame ids inside top-level frames
-   *
-   * @param currentFrameLocation
    * @return
    */
-  private Document getPageDomWithFrameContent(final String currentFrameLocation) {
+  @Override
+  public final WebDocument getPageDomWithFrameContent() {
     final String content = this.getPageSource();
 
-    Document dom = Jsoup.parse(content);
+    Document dom = JSoupHelper.parse(content);
+    dom.outputSettings().prettyPrint(false);
+    WebDocument webDoc = new WebDocument(dom);
 
     Elements frameElements = dom.getElementsByTag("frame");
 
@@ -147,23 +139,17 @@ public abstract class BasicWebBrowser implements WebBrowser {
     for (Element elem : frameElements) {
       String id = JSoupHelper.getIdOrName(elem);
 
+      // process only frames having id or name.
       if (!"".equals(id)) {
         this.moveToRelativeFrame(id);
 
-        final String frameLocation = "".equals(currentFrameLocation)
-          ? id : currentFrameLocation + "." + id;
-
-        Document frameDom = this.getPageDomWithFrameContent(frameLocation);
-
-        elem.appendChild(frameDom.child(0));
-
-        // set new id to frame
-        elem.attr("id", frameLocation);
+        WebDocument frameDoc = this.getPageDomWithFrameContent();
+        webDoc.appendFrame(id, frameDoc);
 
         this.moveToParentFrame();
       }
     }
-    return dom;
+    return webDoc;
   }
 
   @Override

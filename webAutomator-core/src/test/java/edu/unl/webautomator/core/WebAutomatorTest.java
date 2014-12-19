@@ -1,9 +1,10 @@
 package edu.unl.webautomator.core;
 
 import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
+import edu.unl.webautomator.core.model.WebDocument;
 import edu.unl.webautomator.core.platform.WebBrowser;
 import edu.unl.webautomator.core.platform.WebBrowserType;
-import org.jsoup.nodes.Document;
+import edu.unl.webautomator.core.util.JSoupHelper;
 import org.jsoup.nodes.Element;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -30,13 +31,13 @@ public class WebAutomatorTest {
 
       String html = driver.getPageSource();
 
-      Document a = browser.getPageDomWithFrameContent();
+      WebDocument a = browser.getPageDomWithFrameContent();
 
-      Element el = a.getElementById("a.aaa.d");
+      Element el = a.getFrame("a>aaa>d").getDocument();
 
       System.out.println(el);
 
-      System.out.println(browser.getFrameContent("a.aaa.d"));
+      System.out.println(browser.getFrameContent("a>aaa>d"));
 
     } catch (Throwable e) {
       e.printStackTrace();
@@ -71,7 +72,7 @@ public class WebAutomatorTest {
 
     selenium.open("frameset.html");
 
-    String html = browser.getPageSourceWithFrameContent();
+    String html = browser.getJsonPageSourceWithFrameContent();
 
     System.out.println(html);
     automator.quit();
@@ -88,9 +89,69 @@ public class WebAutomatorTest {
 
     selenium.open("http://www.nate.com");
 
-    String html = browser.getPageSourceWithFrameContent();
+    WebDocument dom = browser.getPageDomWithFrameContent();
+    String json = dom.toJson();
+    System.out.println(json);
 
-    System.out.println(html);
+    WebDocument dom2 = WebDocument.getDocumentFromJson(json);
+    String json2 = dom2.toJson();
+//    json2 = json2.replaceAll("[\\s\\n]+", " ");
+    System.out.println(json2);
+    System.out.println(json.equals(json2));
+
+    WebDocument dom3 = WebDocument.getDocumentFromJson(json2);
+    String json3 = dom3.toJson();
+//    json3 = json3.replaceAll("( )\\\\[[\\s\\\\n]+", " ");
+    System.out.println(json3);
+
+
+
+        char[] htmlArr = json2.toCharArray();
+    char[] targetArr = json3.toCharArray();
+    int len = Math.min(htmlArr.length, targetArr.length);
+    for (int i = 0; i < len; i++) {
+      if (htmlArr[i] != targetArr[i]) {
+        System.out.println(String.format("%d: %c - %c", i, htmlArr[i], targetArr[i]));
+      }
+    }
+    System.out.println(json2.equals(json3));
+
+    System.out.println(JSoupHelper.areElementSame(dom2.getDocument(), dom3.getDocument()));
+//    System.out.println(dom.getDocument().outputSettings().syntax().name());
+//    System.out.println(dom2.getDocument().outputSettings().syntax().name());
+//    System.out.println(dom3.getDocument().outputSettings().syntax().name());
+
+
+
+//    Document dom = JSoupHelper.getDomFromFrameContentString(html);
+//
+//    System.out.println(html);
+//    System.out.println("#########################");
+//    String target = dom.toString();
+//    System.out.println(target);
+//    System.out.println(html.equals(target));
+//    System.out.println(html.length() + "," + target.length());
+
+//    char[] htmlArr = html.toCharArray();
+//    char[] targetArr = target.toCharArray();
+//    int len = Math.min(htmlArr.length, targetArr.length);
+//    for (int i = 0; i < len; i++) {
+//      if (htmlArr[i] != targetArr[i]) {
+//        System.out.println(String.format("%d: %c - %c", i, htmlArr[i], targetArr[i]));
+//      }
+//    }
+//    Document dom2 = JSoupHelper.getDomFromFrameContentString(target);
+//    Document dom2b = JSoupHelper.getDomFromFrameContentString(target);
+//    String target2 = dom2.toString();
+//    System.out.println(target.equals(target2));
+//    Document dom3 = JSoupHelper.getDomFromFrameContentString(target2);
+//    String target3 = dom3.toString();
+//    System.out.println(target3.equals(target2));
+//
+//    System.out.println(JSoupHelper.areElementSame(dom2, dom2b));
+//    System.out.println(JSoupHelper.areElementSame(dom, dom2));
+//    System.out.println(JSoupHelper.areElementSame(dom2, dom3));
+
     automator.quit();
 
   }
@@ -110,14 +171,13 @@ public class WebAutomatorTest {
 
     String html = driver.getPageSource();
 
-    Document a = browser.getPageDomWithFrameContent();
+    WebDocument a = browser.getPageDomWithFrameContent();
 
-
-    Element el = a.getElementById("a.aaa.d");
+    Element el = a.getFrame("a>aaa>d").getDocument();
 
     System.out.println(el);
 
-    System.out.println(browser.getFrameContent("a.aaa.d"));
+    System.out.println(browser.getFrameContent("a>aaa>d"));
   }
 
   @Test
@@ -132,7 +192,7 @@ public class WebAutomatorTest {
     selenium.open("frameset.html");
     selenium.waitForPageToLoad("30000");
 
-    String html = browser.getPageSourceWithFrameContent();
+    String html = browser.getJsonPageSourceWithFrameContent();
 
 
     System.out.println(html);

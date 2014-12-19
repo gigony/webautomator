@@ -1,7 +1,6 @@
 package edu.unl.webautomator.core.platform;
 
-import edu.unl.webautomator.core.model.State;
-import org.jsoup.nodes.Document;
+import edu.unl.webautomator.core.model.WebDocument;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -35,9 +34,9 @@ public interface WebBrowser {
     void moveToParentFrame();
 
 
-    String getPageSourceWithFrameContent();
+    String getJsonPageSourceWithFrameContent();
 
-    Document getPageDomWithFrameContent();
+    WebDocument getPageDomWithFrameContent();
 
     String getFrameContent(String frameID);
 

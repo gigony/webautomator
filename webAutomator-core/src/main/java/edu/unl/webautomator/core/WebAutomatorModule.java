@@ -34,12 +34,6 @@ public class WebAutomatorModule extends AbstractModule {
                 .implement(EventInputProvider.class, this.config.<EventInputProvider>getPluginClass("core.provider.eventinput"))
                 .implement(EventExecutor.class, this.config.<EventExecutor>getPluginClass("core.executor.event"))
                 .build(WebAutomatorComponentFactory.class));
-
-        //        bind(TestCaseConverter.class).to(this.config.<TestCaseConverter>getPluginClass("core.converter.testcase"));
-        //        bind(StateExtractor.class).to(this.config.<StateExtractor>getPluginClass("core.extractor.state"));
-        //        bind(EventExtractor.class).to(this.config.<EventExtractor>getPluginClass("core.extractor.event"));
-        //        bind(EventInputProvider.class).to(this.config.<EventInputProvider>getPluginClass("core.provider.eventinput"));
-        //        bind(EventExecutor.class).to(this.config.<EventExecutor>getPluginClass("core.executor.event"));
     }
 
 

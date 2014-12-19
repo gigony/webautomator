@@ -26,6 +26,11 @@ public final class JacksonHelper {
         this.mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
     }
 
+    public static ObjectMapper getObjectMapper() {
+      return SingletonHolder.INSTANCE.mapper;
+    }
+
+
 
     public static void saveObjectToJsonFile(final File file, final Object obj) {
         try {

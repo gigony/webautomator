@@ -27,6 +27,9 @@ public class WebAutomatorConfiguration {
     private WebBrowserConfiguration browserConfiguration;
     private WebEventTypes eventTypes;
 
+
+
+
     WebAutomatorConfiguration() {
     }
 

@@ -1,15 +1,20 @@
 package edu.unl.webautomator.core.util;
 
-import com.google.common.base.*;
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by gigony on 12/11/14.
  */
 public final class JSoupHelper {
+  private static final Set<String> PRESERVE_WHITESPACE_TAGS = Sets.newHashSet("pre", "plaintext", "title", "textarea");
 
   private JSoupHelper() {
   }
@@ -29,6 +34,63 @@ public final class JSoupHelper {
   public static String getJSoupCssSelector(final Element node) {
     return node.cssSelector();
   }
+
+  public static String normalizeHtmlString(final Document document) {
+    String html = document.toString();
+    html = html.replaceAll("[\\s\\n]+", " ");
+    return html;
+  }
+
+  public static Document parse(final String html) {
+    Document dom = Jsoup.parse(html);
+    stripText(dom);
+    return dom;
+  }
+
+//  public static Document getDomFromFrameContentString(final String html) {
+//    Document dom = Jsoup.parse(html);
+//    dom.outputSettings().prettyPrint(false);
+//
+//
+//    Elements frameElements = dom.getElementsByTag("frame");
+//
+//    // append iframe elements
+//    frameElements.addAll(dom.getElementsByTag("iframe"));
+//
+//    for (Element elem : frameElements) {
+//      String id = JSoupHelper.getIdOrName(elem);
+//
+//      if (!"".equals(id)) {
+//        Comment comment = (Comment) elem.childNodes().get(0);
+//        String innerHtml = comment.getData().trim();
+//        Document innerDom = Jsoup.parse(innerHtml);
+//        innerDom.outputSettings().prettyPrint(false);
+//
+//        elem.empty();
+//        elem.appendChild(innerDom.child(0)); // set dom object
+//      }
+//    }
+//    return dom;
+//  }
+//
+//  public static String getPageSourceWithFrameContent(final Document dom) {
+//
+//    Elements frameElements = dom.getElementsByTag("frame");
+//
+//    // append iframe elements
+//    frameElements.addAll(dom.getElementsByTag("iframe"));
+//
+//    for (Element elem : frameElements) {
+//      String id = JSoupHelper.getIdOrName(elem);
+//
+//      if (!"".equals(id)) {
+//        String innerHtml = elem.html().trim();
+//        elem.empty();
+//        elem.appendChild(new Comment(innerHtml, ""));
+//      }
+//    }
+//    return dom.toString();
+//  }
 
   public static class PathStep {
 
@@ -287,6 +349,93 @@ public final class JSoupHelper {
 
     // ignore that 'XPath treats CDATA as text nodes.'
     return left.nodeName().equals(right.nodeName());
+  }
+
+
+  public static boolean areElementSame(final Node left, final Node right) {
+    if (left == right) {
+      return true;
+    }
+    if (left == null && right != null) {
+      return false;
+    }
+    if (left != null && right == null) {
+      return false;
+    }
+
+    if (!left.nodeName().equals(right.nodeName())) {
+      return false;
+    }
+
+
+    if (left instanceof TextNode && right instanceof TextNode) {
+      String leftText = ((TextNode) left).getWholeText();
+      String rightText = ((TextNode) right).getWholeText();
+      if (!leftText.equals(rightText)) {
+        return false;
+      }
+    }
+
+    Attributes leftAttrs = left.attributes();
+    Attributes rightAttrs = right.attributes();
+
+    if (!leftAttrs.equals(rightAttrs)) {
+      return false;
+    }
+
+    if (!left.attr("class").equals(right.attr("class"))) {
+      return false;
+    }
+
+    List<Node> leftChildren = left.childNodes();
+    List<Node> rightChildren = right.childNodes();
+    if (leftChildren.size() != rightChildren.size()) {
+      return false;
+    }
+    int childNum = leftChildren.size();
+    for (int i = 0; i < childNum; i++) {
+      if (!areElementSame(leftChildren.get(i), rightChildren.get(i))) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Remove unnecessary text nodes from a given node and its child nodes.
+   * This is necessary because output htmls from a Document object seem to not
+   * match with original html when many serialization/deserialization operations are performed.
+   * @param node Document object
+   * @return
+   */
+  public static boolean stripText(final Node node) {
+
+    int childSize = node.childNodeSize();
+
+    for (int i = 0; i < childSize; i++) {
+      boolean result = stripText(node.childNode(i));
+      if (result) {
+        childSize--;
+        i--;
+      }
+    }
+
+    boolean removed = false;
+    if (node.nodeName().equals("#text")) {
+      String parentTag = node.parentNode().nodeName();
+      if (!PRESERVE_WHITESPACE_TAGS.contains(parentTag)) {
+        TextNode textNode = (TextNode) node;
+        String text = textNode.getWholeText();
+        text = text.trim();
+        if (text.equals("")) {
+          node.remove();
+          removed = true;
+        } else {
+          node.attr("text", text); //rewrite text node
+        }
+      }
+    }
+    return removed;
   }
 
 
