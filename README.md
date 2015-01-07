@@ -1,6 +1,6 @@
 # WebAutomator
 
-An infrastructure for Web automation.
+An infrastructure for Web automation (in development).
 
 ## Requirements
 
