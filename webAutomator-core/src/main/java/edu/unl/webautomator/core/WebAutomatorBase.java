@@ -7,6 +7,7 @@ import edu.unl.webautomator.core.converter.WebTestCaseConverter;
 import edu.unl.webautomator.core.executor.WebEventExecutor;
 import edu.unl.webautomator.core.extractor.WebEventExtractor;
 import edu.unl.webautomator.core.extractor.WebStateExtractor;
+import edu.unl.webautomator.core.model.WebEvent;
 import edu.unl.webautomator.core.model.WebState;
 import edu.unl.webautomator.core.platform.WebBrowser;
 import edu.unl.webautomator.core.platform.WebBrowserFactory;
@@ -93,6 +94,11 @@ public class WebAutomatorBase implements WebAutomator {
   @Override
   public final WebState getState(final String uri) {
     return this.stateExtractor.extractState(uri);
+  }
+
+  @Override
+  public final void execute(final WebEvent webEvent) {
+    this.eventExecutor.execute(webEvent);
   }
 
   @Override

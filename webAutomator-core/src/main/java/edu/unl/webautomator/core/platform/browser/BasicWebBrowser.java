@@ -7,6 +7,7 @@ import edu.unl.webautomator.core.configuration.WebBrowserConfiguration;
 import edu.unl.webautomator.core.model.WebDocument;
 import edu.unl.webautomator.core.platform.WebBrowser;
 import edu.unl.webautomator.core.util.JSoupHelper;
+import edu.unl.webautomator.core.util.MyWebDriverBackedSelenium;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -23,7 +24,7 @@ public abstract class BasicWebBrowser implements WebBrowser {
   private WebAutomatorConfiguration configuration;
 
   private WebDriver webDriver;
-  private WebDriverBackedSelenium selenium;
+  private MyWebDriverBackedSelenium selenium;
 
   private LinkedList<String> frameStack = new LinkedList<String>();
 
@@ -39,14 +40,14 @@ public abstract class BasicWebBrowser implements WebBrowser {
 
   protected final void setWebDriver(final WebDriver driver) {
     this.webDriver = driver;
-    this.selenium = new WebDriverBackedSelenium(driver, "http://");
+    this.selenium = new MyWebDriverBackedSelenium(driver, "http://");
   }
 
   public final WebDriver getWebDriver() {
     return this.webDriver;
   }
 
-  public final WebDriverBackedSelenium getSelenium() {
+  public final MyWebDriverBackedSelenium getSelenium() {
     return this.selenium;
   }
 

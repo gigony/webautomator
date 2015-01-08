@@ -13,21 +13,21 @@ public class WebEvent implements Event {
   private String eventType;
   private String frameId;
   private String id;
-  private String input;
+  private String input; /** null if there is no input data for this event type **/
 
 
   public WebEvent(final String eventTypeName, final String uniqueId) {
     this.eventType = eventTypeName;
     this.frameId = "";
     this.id = uniqueId;
-    this.input = "";
+    this.input = null;
   }
 
   public WebEvent(final String eventTypeName, final String frameId, final String uniqueId) {
     this.eventType = eventTypeName;
     this.frameId = frameId;
     this.id = uniqueId;
-    this.input = "";
+    this.input = null;
   }
   @JsonCreator
   public WebEvent(@JsonProperty("eventType") final String eventTypeName,
@@ -47,6 +47,10 @@ public class WebEvent implements Event {
 
   public final String getFrameId() {
     return this.frameId;
+  }
+
+  public final String getCssLocator() {
+    return "css=" + this.id;
   }
 
   @Override
