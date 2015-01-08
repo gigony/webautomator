@@ -7,4 +7,6 @@ import edu.unl.webautomator.core.model.State;
  */
 public interface StateExtractor {
   State extractState();
+
+  State extractState(String uri);
 }

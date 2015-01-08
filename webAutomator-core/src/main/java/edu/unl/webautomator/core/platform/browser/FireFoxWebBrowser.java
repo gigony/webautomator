@@ -1,6 +1,7 @@
 package edu.unl.webautomator.core.platform.browser;
 
 import com.google.common.base.Strings;
+import edu.unl.webautomator.core.configuration.WebAutomatorConfiguration;
 import edu.unl.webautomator.core.configuration.WebBrowserConfiguration;
 import edu.unl.webautomator.core.configuration.WebProxyConfiguration;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -10,8 +11,9 @@ import org.openqa.selenium.firefox.FirefoxProfile;
  * Created by gigony on 12/9/14.
  */
 public class FireFoxWebBrowser extends BasicWebBrowser {
-    public FireFoxWebBrowser(final WebBrowserConfiguration browserConfiguration) {
-        super(browserConfiguration);
+    public FireFoxWebBrowser(final WebAutomatorConfiguration configuration) {
+      super(configuration);
+
     }
 
     @Override

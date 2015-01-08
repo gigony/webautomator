@@ -11,7 +11,7 @@ public final class SeleniumHelper {
 
 
     public static By convertStringLocatorToBy(final String locator) {
-        if (locator.startsWith("css=")) {
+        if (isCssLocator(locator)) {
             return By.cssSelector(locator.substring("css=".length()));
         } else if (locator.startsWith("xpath=")) {
             return By.xpath(locator.substring("xpath=".length()));
@@ -26,6 +26,27 @@ public final class SeleniumHelper {
         } else {
             return By.id(locator);
         }
-        // TODO - considering 'class', 'name' or 'tag' is missing here.
+        // @TODO - considering 'class', 'name' or 'tag' is missing here.
     }
+    public static boolean isCssLocator(final String locator) {
+      return locator.startsWith("css=");
+    }
+    public static String extractCssLocator(final String locator) {
+      if (isCssLocator(locator)) {
+        return locator.substring("css=".length());
+      }
+      throw new RuntimeException(String.format("'%s' is not CSS locator.", locator));
+    }
+    public static boolean isXPathLocator(final String locator) {
+      return locator.startsWith("xpath=") || locator.startsWith("//");
+    }
+    public static String extractXPathLocator(final String locator) {
+      if (locator.startsWith("xpath=")) {
+        return locator.substring("xpath=".length());
+      } else if (locator.startsWith("//")) {
+        return locator;
+      }
+      throw new RuntimeException(String.format("'%s' is not XPATH locator.", locator));
+    }
+
 }

@@ -11,6 +11,7 @@ import edu.unl.webautomator.core.util.JacksonHelper;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -21,11 +22,22 @@ public class WebDocument {
   public static final String FRAME_SPLITTER = ">";
   public static final String FRAME_SPLITTER_MATCHER = "\\s*>[>\\s]*";
 
+  private URI uri;
   private Document document;
   private Map<String, WebDocument> frames = Maps.newHashMap();
 
   public WebDocument(final Document doc) {
+    this.uri = URI.create("");
     this.document = doc;
+  }
+
+  public WebDocument(final String uriStr, final Document doc) {
+    this.uri = URI.create(uriStr);
+    this.document = doc;
+  }
+
+  public final URI getUri() {
+    return this.uri;
   }
 
   public final Document getDocument() {
@@ -57,7 +69,14 @@ public class WebDocument {
     Preconditions.checkNotNull(id);
     Preconditions.checkNotNull(doc);
 
-    this.frames.put(id, new WebDocument(doc));
+    this.frames.put(id, new WebDocument("", doc));
+  }
+
+  public final void appendFrame(final String id, final String uri, final Document doc) {
+    Preconditions.checkNotNull(id);
+    Preconditions.checkNotNull(doc);
+
+    this.frames.put(id, new WebDocument(uri, doc));
   }
 
   public final void appendFrame(final String id, final WebDocument doc) {
@@ -92,6 +111,7 @@ public class WebDocument {
 
   public final JsonNode getJsonNode() {
     ObjectNode node = JacksonHelper.getObjectMapper().createObjectNode();
+    node.put("uri", this.uri.toString());
     node.put("document", this.document.toString());
     JsonNode frameCollection = this.getFrameCollectionNode();
     if (frameCollection.size() > 0) {
@@ -121,10 +141,11 @@ public class WebDocument {
   }
 
   public static WebDocument getDocumentFromJson(final JsonNode node) {
+    String uri = node.get("uri").asText();
     String html = node.get("document").asText();
     Document dom = JSoupHelper.parse(html);
 
-    WebDocument doc = new WebDocument(dom);
+    WebDocument doc = new WebDocument(uri, dom);
 
     if (node.has("frames")) {
       JsonNode frames = node.get("frames");

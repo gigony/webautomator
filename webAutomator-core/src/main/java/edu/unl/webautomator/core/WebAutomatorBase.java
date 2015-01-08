@@ -3,14 +3,14 @@ package edu.unl.webautomator.core;
 import com.google.inject.Inject;
 import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 import edu.unl.webautomator.core.configuration.WebAutomatorConfiguration;
-import edu.unl.webautomator.core.converter.TestCaseConverter;
-import edu.unl.webautomator.core.executor.EventExecutor;
-import edu.unl.webautomator.core.extractor.EventExtractor;
-import edu.unl.webautomator.core.extractor.StateExtractor;
-import edu.unl.webautomator.core.model.State;
+import edu.unl.webautomator.core.converter.WebTestCaseConverter;
+import edu.unl.webautomator.core.executor.WebEventExecutor;
+import edu.unl.webautomator.core.extractor.WebEventExtractor;
+import edu.unl.webautomator.core.extractor.WebStateExtractor;
+import edu.unl.webautomator.core.model.WebState;
 import edu.unl.webautomator.core.platform.WebBrowser;
 import edu.unl.webautomator.core.platform.WebBrowserFactory;
-import edu.unl.webautomator.core.provider.EventInputProvider;
+import edu.unl.webautomator.core.provider.WebEventInputProvider;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -21,11 +21,11 @@ public class WebAutomatorBase implements WebAutomator {
   private final WebAutomatorConfiguration configuration;
   private final WebBrowser webBrowser;
   private final WebDriver webDriver;
-  private final TestCaseConverter testCaseConverter;
-  private final StateExtractor stateExtractor;
-  private final EventExtractor eventExtractor;
-  private final EventInputProvider eventInputProvider;
-  private final EventExecutor eventExecutor;
+  private final WebTestCaseConverter testCaseConverter;
+  private final WebStateExtractor stateExtractor;
+  private final WebEventExtractor eventExtractor;
+  private final WebEventInputProvider eventInputProvider;
+  private final WebEventExecutor eventExecutor;
 
 
   @Inject
@@ -61,33 +61,38 @@ public class WebAutomatorBase implements WebAutomator {
   }
 
   @Override
-  public final TestCaseConverter getTestCaseConverter() {
+  public final WebTestCaseConverter getTestCaseConverter() {
     return this.testCaseConverter;
   }
 
   @Override
-  public final StateExtractor getStateExtractor() {
+  public final WebStateExtractor getStateExtractor() {
     return this.stateExtractor;
   }
 
   @Override
-  public final EventExtractor getEventExtractor() {
+  public final WebEventExtractor getEventExtractor() {
     return this.eventExtractor;
   }
 
   @Override
-  public final EventInputProvider getEventInputProvider() {
+  public final WebEventInputProvider getEventInputProvider() {
     return this.eventInputProvider;
   }
 
   @Override
-  public final EventExecutor getEventExecutor() {
+  public final WebEventExecutor getEventExecutor() {
     return this.eventExecutor;
   }
 
   @Override
-  public final State getState() {
+  public final WebState getState() {
     return this.stateExtractor.extractState();
+  }
+
+  @Override
+  public final WebState getState(final String uri) {
+    return this.stateExtractor.extractState(uri);
   }
 
   @Override

@@ -20,7 +20,7 @@ dependencies {
     compile group: "com.google.code.findbugs", name: "jsr305", version: "3.0.0"
     compile group: "com.fasterxml.jackson.core", name: "jackson-core", version: "2.4.4"
     compile group: "com.fasterxml.jackson.datatype", name: "jackson-datatype-guava", version: "2.4.4"
-
+    compile group: "us.codecraft", name: "xsoup", version: "0.3.0"
     testCompile group: "io.vertx", name: "vertx-core", version:"2.1.5"
 }
 
@@ -57,7 +57,7 @@ test {
         def chromeDriverPath = "$targetFolder/chromedriver"
 
         systemProperty "webdriver.chrome.driver", chromeDriverPath
-        println chromeDriverPath
+        println "ChromeDriverPath: " + chromeDriverPath
 
         if(!file("$targetFolder/chromedriver").exists()) {
             targetFolder.mkdirs()
@@ -77,7 +77,7 @@ test {
                 }
             }
         }
-        println "haha"
+
     }
 }
 

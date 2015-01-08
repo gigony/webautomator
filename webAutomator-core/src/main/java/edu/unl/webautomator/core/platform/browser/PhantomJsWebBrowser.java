@@ -1,5 +1,6 @@
 package edu.unl.webautomator.core.platform.browser;
 
+import edu.unl.webautomator.core.configuration.WebAutomatorConfiguration;
 import edu.unl.webautomator.core.configuration.WebBrowserConfiguration;
 import edu.unl.webautomator.core.configuration.WebProxyConfiguration;
 import edu.unl.webautomator.core.configuration.WebProxyType;
@@ -13,8 +14,9 @@ import java.util.Deque;
  * Created by gigony on 12/9/14.
  */
 public class PhantomJsWebBrowser extends BasicWebBrowser {
-    public PhantomJsWebBrowser(final WebBrowserConfiguration browserConfiguration) {
-        super(browserConfiguration);
+    public PhantomJsWebBrowser(final WebAutomatorConfiguration configuration) {
+      super(configuration);
+
     }
 
     @Override

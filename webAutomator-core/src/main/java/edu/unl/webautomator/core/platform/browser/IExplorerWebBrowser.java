@@ -1,5 +1,6 @@
 package edu.unl.webautomator.core.platform.browser;
 
+import edu.unl.webautomator.core.configuration.WebAutomatorConfiguration;
 import edu.unl.webautomator.core.configuration.WebBrowserConfiguration;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
@@ -7,8 +8,9 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
  * Created by gigony on 12/9/14.
  */
 public class IExplorerWebBrowser extends BasicWebBrowser {
-    public IExplorerWebBrowser(final WebBrowserConfiguration browserConfiguration) {
-        super(browserConfiguration);
+    public IExplorerWebBrowser(final WebAutomatorConfiguration configuration) {
+      super(configuration);
+
     }
 
     @Override

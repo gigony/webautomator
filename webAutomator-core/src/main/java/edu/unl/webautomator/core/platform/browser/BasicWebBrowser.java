@@ -1,6 +1,8 @@
 package edu.unl.webautomator.core.platform.browser;
 
 import com.google.common.base.Preconditions;
+import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
+import edu.unl.webautomator.core.configuration.WebAutomatorConfiguration;
 import edu.unl.webautomator.core.configuration.WebBrowserConfiguration;
 import edu.unl.webautomator.core.model.WebDocument;
 import edu.unl.webautomator.core.platform.WebBrowser;
@@ -18,14 +20,18 @@ import java.util.LinkedList;
  * Created by gigony on 12/9/14.
  */
 public abstract class BasicWebBrowser implements WebBrowser {
+  private WebAutomatorConfiguration configuration;
 
   private WebDriver webDriver;
+  private WebDriverBackedSelenium selenium;
 
   private LinkedList<String> frameStack = new LinkedList<String>();
 
 
-  public BasicWebBrowser(final WebBrowserConfiguration browserConfiguration) {
+  public BasicWebBrowser(final WebAutomatorConfiguration configuration) {
+    WebBrowserConfiguration browserConfiguration = configuration.getBrowserConfiguration();
     this.configureWebBrowser(browserConfiguration);
+    this.configuration = configuration;
     Preconditions.checkNotNull(this.webDriver);
   }
 
@@ -33,10 +39,15 @@ public abstract class BasicWebBrowser implements WebBrowser {
 
   protected final void setWebDriver(final WebDriver driver) {
     this.webDriver = driver;
+    this.selenium = new WebDriverBackedSelenium(driver, "http://");
   }
 
   public final WebDriver getWebDriver() {
     return this.webDriver;
+  }
+
+  public final WebDriverBackedSelenium getSelenium() {
+    return this.selenium;
   }
 
   protected final Deque<String> getFrameStack() {
@@ -47,6 +58,18 @@ public abstract class BasicWebBrowser implements WebBrowser {
   @Override
   public final String getPageSource() {
     return this.webDriver.getPageSource();
+  }
+
+  @Override
+  public final String getCurrentUrl() {
+    return this.webDriver.getCurrentUrl();
+  }
+
+  @Override
+  public final void open(final String uri, final long timeout) {
+    this.webDriver.get(uri);
+    this.selenium.waitForPageToLoad(String.valueOf(timeout));
+    this.frameStack.clear();
   }
 
   @Override
@@ -129,7 +152,8 @@ public abstract class BasicWebBrowser implements WebBrowser {
 
     Document dom = JSoupHelper.parse(content);
     dom.outputSettings().prettyPrint(false);
-    WebDocument webDoc = new WebDocument(dom);
+    String uri = this.getCurrentUrl();
+    WebDocument webDoc = new WebDocument(uri, dom);
 
     Elements frameElements = dom.getElementsByTag("frame");
 
@@ -139,12 +163,16 @@ public abstract class BasicWebBrowser implements WebBrowser {
     for (Element elem : frameElements) {
       String id = JSoupHelper.getIdOrName(elem);
 
-      // process only frames having id or name.
+      // process only frames having id or name
       if (!"".equals(id)) {
         this.moveToRelativeFrame(id);
 
-        WebDocument frameDoc = this.getPageDomWithFrameContent();
-        webDoc.appendFrame(id, frameDoc);
+        // ignore if current frame's id should be ignored.
+        String currentFrameId = this.getFrameId();
+        if (!this.configuration.isIgnoringFrame(currentFrameId)) {
+          WebDocument frameDoc = this.getPageDomWithFrameContent();
+          webDoc.appendFrame(id, frameDoc);
+        }
 
         this.moveToParentFrame();
       }

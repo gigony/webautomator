@@ -129,7 +129,7 @@ public final class JSoupHelper {
       currentNode = currentNode.parent();
     }
 
-    String result = Joiner.on(" > ").join(steps.descendingIterator());
+    String result = Joiner.on(">").join(steps.descendingIterator());
 
     return result;
   }
@@ -281,7 +281,8 @@ public final class JSoupHelper {
       return null;
     }
 
-    String nodeType = node.getClass().getSimpleName();
+    // @TODO needs performance test
+//    String nodeType = node.getClass().getSimpleName();
 
     if (node instanceof Element) {
       if (optimized && !Strings.isNullOrEmpty(node.attr("id"))) {

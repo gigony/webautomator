@@ -2,13 +2,13 @@ package edu.unl.webautomator.core;
 
 import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 import edu.unl.webautomator.core.configuration.WebAutomatorConfiguration;
-import edu.unl.webautomator.core.converter.TestCaseConverter;
-import edu.unl.webautomator.core.executor.EventExecutor;
-import edu.unl.webautomator.core.extractor.EventExtractor;
-import edu.unl.webautomator.core.extractor.StateExtractor;
-import edu.unl.webautomator.core.model.State;
+import edu.unl.webautomator.core.converter.WebTestCaseConverter;
+import edu.unl.webautomator.core.executor.WebEventExecutor;
+import edu.unl.webautomator.core.extractor.WebEventExtractor;
+import edu.unl.webautomator.core.extractor.WebStateExtractor;
+import edu.unl.webautomator.core.model.WebState;
 import edu.unl.webautomator.core.platform.WebBrowser;
-import edu.unl.webautomator.core.provider.EventInputProvider;
+import edu.unl.webautomator.core.provider.WebEventInputProvider;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -16,28 +16,27 @@ import org.openqa.selenium.WebDriver;
  */
 public interface WebAutomator extends Automator {
 
-    WebAutomatorConfiguration getConfiguration();
+  WebAutomatorConfiguration getConfiguration();
 
-    WebBrowser getWebBrowser();
+  WebBrowser getWebBrowser();
 
-    WebDriver getWebDriver();
+  WebDriver getWebDriver();
 
-    WebDriverBackedSelenium createSelenium(String baseUrl);
+  WebDriverBackedSelenium createSelenium(String baseUrl);
 
-    TestCaseConverter getTestCaseConverter();
+  WebTestCaseConverter getTestCaseConverter();
 
-    StateExtractor getStateExtractor();
+  WebStateExtractor getStateExtractor();
 
-    EventExtractor getEventExtractor();
+  WebEventExtractor getEventExtractor();
 
-    EventInputProvider getEventInputProvider();
+  WebEventInputProvider getEventInputProvider();
 
-    EventExecutor getEventExecutor();
+  WebEventExecutor getEventExecutor();
 
+  WebState getState();
 
+  WebState getState(String uri);
 
-    State getState();
-
-
-    void quit();
+  void quit();
 }

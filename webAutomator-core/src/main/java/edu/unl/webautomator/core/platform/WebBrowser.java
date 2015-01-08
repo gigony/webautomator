@@ -8,44 +8,47 @@ import org.openqa.selenium.WebDriver;
  */
 public interface WebBrowser {
 
-    WebDriver getWebDriver();
+  WebDriver getWebDriver();
 
 
-    // Functions from WebDriver
+  // Functions from WebDriver
 
-    String getPageSource();
+  String getPageSource();
 
+  String getCurrentUrl();
 
-
-
-    // ####################################
-    // Improved functions with WebDriver
-    // ####################################
+  void open(String uri, long timeout);
 
 
-    String getFrameId();
-
-    void moveToDefaultFrame();
-
-    void moveToRelativeFrame(String frameId);
-
-    void moveToAbsoluteFrame(String frameId);
-
-    void moveToParentFrame();
+  // ####################################
+  // Improved functions with WebDriver
+  // ####################################
 
 
-    String getJsonPageSourceWithFrameContent();
+  String getFrameId();
 
-    WebDocument getPageDomWithFrameContent();
+  void moveToDefaultFrame();
 
-    String getFrameContent(String frameID);
+  void moveToRelativeFrame(String frameId);
+
+  void moveToAbsoluteFrame(String frameId);
+
+  void moveToParentFrame();
 
 
+  String getJsonPageSourceWithFrameContent();
+
+  WebDocument getPageDomWithFrameContent();
+
+  String getFrameContent(String frameID);
 
 
-    /**
-     * Return normalized ('script' tag is removed) page source.
-     * @return HTML code
-     */
-    String getNormalizedPageSource();
+  /**
+   * Return normalized ('script' tag is removed) page source.
+   *
+   * @return HTML code
+   */
+  String getNormalizedPageSource();
+
+
 }

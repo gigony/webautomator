@@ -22,15 +22,15 @@ public final class WebBrowserFactory {
         WebBrowserType browserType = browserConfiguration.getBrowserType();
         switch (browserType) {
             case CHROME:
-                return new ChromeWebBrowser(browserConfiguration);
+                return new ChromeWebBrowser(configuration);
             case FIREFOX:
-                return new FireFoxWebBrowser(browserConfiguration);
+                return new FireFoxWebBrowser(configuration);
             case IEXPLORER:
-                return new IExplorerWebBrowser(browserConfiguration);
+                return new IExplorerWebBrowser(configuration);
             case PHANTOMJS:
-                return new PhantomJsWebBrowser(browserConfiguration);
+                return new PhantomJsWebBrowser(configuration);
             case REMOTE:
-                return new RemoteWebBrowser(browserConfiguration);
+                return new RemoteWebBrowser(configuration);
             default:
                 throw new RuntimeException("No available web browser (" + browserType.name() + ")");
         }

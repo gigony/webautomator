@@ -1,6 +1,7 @@
 package edu.unl.webautomator.core.platform.browser;
 
 import com.google.common.base.Preconditions;
+import edu.unl.webautomator.core.configuration.WebAutomatorConfiguration;
 import edu.unl.webautomator.core.configuration.WebBrowserConfiguration;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -18,8 +19,9 @@ import java.net.URL;
 public class RemoteWebBrowser extends BasicWebBrowser {
     private static final Logger LOG = LoggerFactory.getLogger(RemoteWebBrowser.class);
 
-    public RemoteWebBrowser(final WebBrowserConfiguration browserConfiguration) {
-        super(browserConfiguration);
+    public RemoteWebBrowser(final WebAutomatorConfiguration configuration) {
+      super(configuration);
+
     }
 
     @Override
