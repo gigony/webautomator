@@ -20,6 +20,7 @@ public class WebStateExtractorTest {
 
     WebState webState = automator.getStateExtractor().extractState("http://localhost:8080/frameset.html");
 
+
     WebDocument doc = webState.getWebDoc();
 
     assertEquals(doc.getUri().toString(), "http://localhost:8080/frameset.html");
