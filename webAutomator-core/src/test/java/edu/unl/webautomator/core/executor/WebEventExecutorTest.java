@@ -29,6 +29,7 @@ public class WebEventExecutorTest {
       .setIgnoringFrameIds("")
       .build();
 
+
     WebAutomator automator = QTE.webAutomator(config);
 
     WebState webState = automator.getStateExtractor().extractState("http://localhost:8080/button.html");
@@ -39,24 +40,11 @@ public class WebEventExecutorTest {
       System.out.println(webEvent.toString());
     }
     automator.execute(availableEvents.get(0));
-//    automator.getWebBrowser().getSelenium().wait(3000);
-
 
     webState = automator.getStateExtractor().extractState();
     System.out.println(webState.getWebDoc().getDocument().toString());
-//    automator.getWebBrowser().getSelenium().wait(3000);
 
 
-
-    /*
-     Output:
-      WebEvent{eventType=click, frameId=, id=#a, input=}   --> this item will be removed by '.dontClick("css=frame[id=\"a\"]")' statement
-      WebEvent{eventType=click, frameId=, id=#b, input=}
-      WebEvent{eventType=click, frameId=, id=#c, input=}
-      WebEvent{eventType=click, frameId=a, id=#aa, input=}
-      WebEvent{eventType=click, frameId=a, id=#aaa, input=}
-      WebEvent{eventType=click, frameId=a>aaa, id=#d, input=} --> this item will be removed by '.setIgnoringFrameIds("a>aaa")' statement
-     */
 
     automator.quit();
 
