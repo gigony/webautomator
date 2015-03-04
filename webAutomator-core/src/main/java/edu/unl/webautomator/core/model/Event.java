@@ -16,11 +16,36 @@
 
 package edu.unl.webautomator.core.model;
 
+import java.util.List;
+
 /**
- * Created by gigony on 12/6/14.
+ * Created by gigony on 1/12/15.
  */
-public interface Event {
-  String getEventType();
-  String getId();
-  String getInput();
+public interface Event<E> {
+
+  int size();
+  E get(int index);
+
+  void addPreCondition(E element);
+  void addAction(E element);
+  void addPostCondition(E element);
+
+  List<E> getPreConditions();
+  E getPreCondition(int index);
+  E getFirstPreCondition();
+  E getLastPreCondition();
+  int getPreConditionSize();
+
+  List<E> getActions();
+  E getAction(int index);
+  E getAction();
+  E getFirstAction();
+  E getLastAction();
+  int getActionSize();
+
+  List<E> getPostConditions();
+  E getPostCondition(int index);
+  E getFirstPostCondition();
+  E getLastPostCondition();
+  int getPostConditionSize();
 }

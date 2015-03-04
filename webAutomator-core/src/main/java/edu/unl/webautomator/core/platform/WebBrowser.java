@@ -16,7 +16,6 @@
 
 package edu.unl.webautomator.core.platform;
 
-import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 import edu.unl.webautomator.core.model.WebDocument;
 import edu.unl.webautomator.core.util.MyWebDriverBackedSelenium;
 import org.openqa.selenium.WebDriver;

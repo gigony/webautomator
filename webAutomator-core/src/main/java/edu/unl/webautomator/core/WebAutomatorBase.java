@@ -11,7 +11,7 @@
  *    distributed under the License is distributed on an "AS IS" BASIS,
  *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ *    limitations under <></>he License.
  */
 
 package edu.unl.webautomator.core;
@@ -21,10 +21,10 @@ import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 import edu.unl.webautomator.core.configuration.WebAutomatorConfiguration;
 import edu.unl.webautomator.core.converter.WebTestCaseConverter;
 import edu.unl.webautomator.core.executor.WebEventExecutor;
+import edu.unl.webautomator.core.executor.WebTestCaseExecutor;
 import edu.unl.webautomator.core.extractor.WebEventExtractor;
 import edu.unl.webautomator.core.extractor.WebStateExtractor;
-import edu.unl.webautomator.core.model.WebEvent;
-import edu.unl.webautomator.core.model.WebState;
+import edu.unl.webautomator.core.model.*;
 import edu.unl.webautomator.core.platform.WebBrowser;
 import edu.unl.webautomator.core.platform.WebBrowserFactory;
 import edu.unl.webautomator.core.provider.WebEventInputProvider;
@@ -43,6 +43,7 @@ public class WebAutomatorBase implements WebAutomator {
   private final WebEventExtractor eventExtractor;
   private final WebEventInputProvider eventInputProvider;
   private final WebEventExecutor eventExecutor;
+  private final WebTestCaseExecutor testCaseExecutor;
 
 
   @Inject
@@ -55,6 +56,7 @@ public class WebAutomatorBase implements WebAutomator {
     this.eventExtractor = componentMaker.createEventExtractor(this);
     this.eventInputProvider = componentMaker.createEventInputProvider(this);
     this.eventExecutor = componentMaker.createEventExecutor(this);
+    this.testCaseExecutor = componentMaker.createTestCaseExecutor(this);
   }
 
   @Override
@@ -103,6 +105,11 @@ public class WebAutomatorBase implements WebAutomator {
   }
 
   @Override
+  public final WebTestCaseExecutor getTestCaseExecutor() {
+    return this.testCaseExecutor;
+  }
+
+  @Override
   public final WebState getState() {
     return this.stateExtractor.extractState();
   }
@@ -113,8 +120,13 @@ public class WebAutomatorBase implements WebAutomator {
   }
 
   @Override
-  public final void execute(final WebEvent webEvent) {
-    this.eventExecutor.execute(webEvent);
+  public final EventExecutionResult<WebEventElement> execute(final WebEvent webEvent) {
+    return this.eventExecutor.execute(webEvent);
+  }
+
+  @Override
+  public final TestCaseExecutionResult<WebState, WebEventElement> execute(final WebTestCase webTestCase) {
+    return this.testCaseExecutor.execute(webTestCase);
   }
 
   @Override

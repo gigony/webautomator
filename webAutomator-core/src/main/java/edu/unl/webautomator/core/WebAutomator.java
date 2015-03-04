@@ -20,10 +20,10 @@ import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 import edu.unl.webautomator.core.configuration.WebAutomatorConfiguration;
 import edu.unl.webautomator.core.converter.WebTestCaseConverter;
 import edu.unl.webautomator.core.executor.WebEventExecutor;
+import edu.unl.webautomator.core.executor.WebTestCaseExecutor;
 import edu.unl.webautomator.core.extractor.WebEventExtractor;
 import edu.unl.webautomator.core.extractor.WebStateExtractor;
-import edu.unl.webautomator.core.model.WebEvent;
-import edu.unl.webautomator.core.model.WebState;
+import edu.unl.webautomator.core.model.*;
 import edu.unl.webautomator.core.platform.WebBrowser;
 import edu.unl.webautomator.core.provider.WebEventInputProvider;
 import org.openqa.selenium.WebDriver;
@@ -51,12 +51,15 @@ public interface WebAutomator extends Automator {
 
   WebEventExecutor getEventExecutor();
 
+  WebTestCaseExecutor getTestCaseExecutor();
+
   WebState getState();
 
   WebState getState(String uri);
 
+  EventExecutionResult<WebEventElement> execute(WebEvent webEvent);
 
-  void execute(WebEvent webEvent);
+  TestCaseExecutionResult<WebState, WebEventElement> execute(WebTestCase webTestCase);
 
   void quit();
 

@@ -14,17 +14,20 @@
  *    limitations under the License.
  */
 
-package edu.unl.webautomator.core.converter;
+package edu.unl.webautomator.core.provider;
 
-import edu.unl.webautomator.core.model.TestCase;
+import edu.unl.webautomator.core.model.Event;
 
 /**
- * Created by gigony on 12/6/14.
+ * Created by gigony on 3/3/15.
  */
-public interface TestCaseConverter<E> {
-  TestCase<E> loadTestCase(String fileName, String fileType);
+public interface EventInputHandler<E, V> {
 
-  void saveTestCase(String fileName, TestCase<E> testCase);
-
-  boolean isSupported(String fileType);
+  /**
+   * Note: <i>element</i> can be <i>null</i>.
+   * @param event
+   * @param element
+   * @return
+   */
+  String getInput(E event, V element);
 }

@@ -19,5 +19,30 @@ package edu.unl.webautomator.core.provider;
 /**
  * Created by gigony on 12/6/14.
  */
-public interface EventInputProvider {
+
+import edu.unl.webautomator.core.model.Event;
+import edu.unl.webautomator.core.model.EventType;
+import edu.unl.webautomator.core.model.WebEventElement;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Procedure of event input argumentation
+ * <ol>
+ * <li> Check if an input string to the event exists. Finish if the event type does not require input string or the input string is not <i>null</i>.</li>
+ * <li> Execute <i>custom event input handlers</i> to get proper event input.</li>
+ * <li> Execute <i>type-based default event input handlers</i> if event input string was not filled.</li>
+ * </ol>
+ */
+public interface EventInputProvider<E, V> {
+
+  void addCustomEventInputHandler(EventType eventType, EventInputHandler<E, V> inputHandler);
+
+  void setDefaultEventInputHandler(String eventType, EventInputHandler<E, V> inputHandler);
+
+  List<TypeHandlerPair<EventType, EventInputHandler<E, V>>> getCustomEventInputHandler();
+
+  Map<String, EventInputHandler<E, V>> getDefaultEventInputHandler();
 }

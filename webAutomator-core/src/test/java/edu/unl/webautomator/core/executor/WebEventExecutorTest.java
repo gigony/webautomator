@@ -45,7 +45,6 @@ public class WebEventExecutorTest {
     System.out.println(webState.getWebDoc().getDocument().toString());
 
 
-
     automator.quit();
 
   }

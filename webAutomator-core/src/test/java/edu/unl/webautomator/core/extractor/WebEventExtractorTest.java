@@ -17,6 +17,7 @@ public class WebEventExtractorTest {
 
   /**
    * Test all default elements
+   *
    * @throws Exception
    */
   @Test
@@ -39,6 +40,7 @@ public class WebEventExtractorTest {
 
   /**
    * Test CSS Selector
+   *
    * @throws Exception
    */
   @Test
@@ -80,6 +82,7 @@ public class WebEventExtractorTest {
 
   /**
    * Test XPATH selector
+   *
    * @throws Exception
    */
   @Test

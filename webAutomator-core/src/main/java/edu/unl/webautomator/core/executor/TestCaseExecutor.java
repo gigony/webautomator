@@ -14,17 +14,13 @@
  *    limitations under the License.
  */
 
-package edu.unl.webautomator.core.converter;
+package edu.unl.webautomator.core.executor;
 
-import edu.unl.webautomator.core.model.TestCase;
+import edu.unl.webautomator.core.model.TestCaseExecutionResult;
 
 /**
- * Created by gigony on 12/6/14.
+ * Created by gigony on 1/24/15.
  */
-public interface TestCaseConverter<E> {
-  TestCase<E> loadTestCase(String fileName, String fileType);
-
-  void saveTestCase(String fileName, TestCase<E> testCase);
-
-  boolean isSupported(String fileType);
+public interface TestCaseExecutor<E> {
+  TestCaseExecutionResult execute(E testCase);
 }

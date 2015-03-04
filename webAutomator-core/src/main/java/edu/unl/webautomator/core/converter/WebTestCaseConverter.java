@@ -19,6 +19,7 @@ package edu.unl.webautomator.core.converter;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import edu.unl.webautomator.core.WebAutomator;
+import edu.unl.webautomator.core.model.TestCase;
 
 /**
  * Created by gigony on 12/6/14.
@@ -30,4 +31,19 @@ public class WebTestCaseConverter implements TestCaseConverter {
     public WebTestCaseConverter(@Assisted final WebAutomator automator) {
         this.webAutomator = automator;
     }
+
+  @Override
+  public final TestCase loadTestCase(final String fileName, final String fileType) {
+    return null;
+  }
+
+  @Override
+  public void saveTestCase(final String fileName, final TestCase testCase) {
+
+  }
+
+  @Override
+  public final boolean isSupported(final String fileType) {
+    return false;
+  }
 }

@@ -19,25 +19,511 @@ package edu.unl.webautomator.core.util;
 import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 import org.openqa.selenium.WebDriver;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by gigony on 1/8/15.
  */
 public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
+  private static Map<String, Integer> argMap;
+  {
+    argMap = new HashMap<String, Integer>();
+    argMap.put("shiftKeyDown", 0);
+    argMap.put("shiftKeyUp", 0);
+    argMap.put("metaKeyDown", 0);
+    argMap.put("metaKeyUp", 0);
+    argMap.put("altKeyDown", 0);
+    argMap.put("altKeyUp", 0);
+    argMap.put("controlKeyDown", 0);
+    argMap.put("controlKeyUp", 0);
+    argMap.put("getSpeed", 0);
+    argMap.put("getLog", 0);
+    argMap.put("deselectPopUp", 0);
+    argMap.put("chooseCancelOnNextConfirmation", 0);
+    argMap.put("chooseOkOnNextConfirmation", 0);
+    argMap.put("goBack", 0);
+    argMap.put("refresh", 0);
+    argMap.put("close", 0);
+    argMap.put("isAlertPresent", 0);
+    argMap.put("isPromptPresent", 0);
+    argMap.put("isConfirmationPresent", 0);
+    argMap.put("getAlert", 0);
+    argMap.put("getConfirmation", 0);
+    argMap.put("getPrompt", 0);
+    argMap.put("getLocation", 0);
+    argMap.put("getTitle", 0);
+    argMap.put("getBodyText", 0);
+    argMap.put("getAllButtons", 0);
+    argMap.put("getAllLinks", 0);
+    argMap.put("getAllFields", 0);
+    argMap.put("getMouseSpeed", 0);
+    argMap.put("windowFocus", 0);
+    argMap.put("windowMaximize", 0);
+    argMap.put("getAllWindowIds", 0);
+    argMap.put("getAllWindowNames", 0);
+    argMap.put("getAllWindowTitles", 0);
+    argMap.put("getHtmlSource", 0);
+    argMap.put("getCookie", 0);
+    argMap.put("deleteAllVisibleCookies", 0);
+    argMap.put("captureScreenshotToString", 0);
+    argMap.put("shutDownSeleniumServer", 0);
+    argMap.put("retrieveLastRemoteControlLogs", 0);
+
+    argMap.put("click", 1);
+    argMap.put("doubleClick", 1);
+    argMap.put("contextMenu", 1);
+    argMap.put("focus", 1);
+    argMap.put("mouseOver", 1);
+    argMap.put("mouseOut", 1);
+    argMap.put("mouseDown", 1);
+    argMap.put("mouseDownRight", 1);
+    argMap.put("mouseUp", 1);
+    argMap.put("mouseUpRight", 1);
+    argMap.put("mouseMove", 1);
+    argMap.put("setSpeed", 1);
+    argMap.put("check", 1);
+    argMap.put("uncheck", 1);
+    argMap.put("removeAllSelections", 1);
+    argMap.put("submit", 1);
+    argMap.put("open", 1);
+    argMap.put("selectWindow", 1);
+    argMap.put("selectPopUp", 1);
+    argMap.put("selectFrame", 1);
+    argMap.put("answerOnNextPrompt", 1);
+    argMap.put("getValue", 1);
+    argMap.put("getText", 1);
+    argMap.put("highlight", 1);
+    argMap.put("getEval", 1);
+    argMap.put("isChecked", 1);
+    argMap.put("getTable", 1);
+    argMap.put("getSelectedLabels", 1);
+    argMap.put("getSelectedLabel", 1);
+    argMap.put("getSelectedValues", 1);
+    argMap.put("getSelectedValue", 1);
+    argMap.put("getSelectedIndexes", 1);
+    argMap.put("getSelectedIndex", 1);
+    argMap.put("getSelectedIds", 1);
+    argMap.put("getSelectedId", 1);
+    argMap.put("isSomethingSelected", 1);
+    argMap.put("getSelectOptions", 1);
+    argMap.put("getAttribute", 1);
+    argMap.put("isTextPresent", 1);
+    argMap.put("isElementPresent", 1);
+    argMap.put("isVisible", 1);
+    argMap.put("isEditable", 1);
+    argMap.put("getAttributeFromAllWindows", 1);
+    argMap.put("setMouseSpeed", 1);
+    argMap.put("dragAndDropToObject", 1);
+    argMap.put("getElementIndex", 1);
+    argMap.put("getElementPositionLeft", 1);
+    argMap.put("getElementPositionTop", 1);
+    argMap.put("getElementWidth", 1);
+    argMap.put("getElementHeight", 1);
+    argMap.put("getCursorPosition", 1);
+    argMap.put("getExpression", 1);
+    argMap.put("getXpathCount", 1);
+    argMap.put("getCssCount", 1);
+    argMap.put("allowNativeXpath", 1);
+    argMap.put("ignoreAttributesWithoutValue", 1);
+    argMap.put("setTimeout", 1);
+    argMap.put("waitForPageToLoad", 1);
+    argMap.put("getCookieByName", 1);
+    argMap.put("isCookiePresent", 1);
+    argMap.put("setBrowserLogLevel", 1);
+    argMap.put("runScript", 1);
+    argMap.put("removeScript", 1);
+    argMap.put("useXpathLibrary", 1);
+    argMap.put("setContext", 1);
+    argMap.put("captureScreenshot", 1);
+    argMap.put("captureNetworkTraffic", 1);
+    argMap.put("captureEntirePageScreenshotToString", 1);
+    argMap.put("keyDownNative", 1);
+    argMap.put("keyUpNative", 1);
+    argMap.put("keyPressNative", 1);
+
+    argMap.put("clickAt", 2);
+    argMap.put("doubleClickAt", 2);
+    argMap.put("contextMenuAt", 2);
+    argMap.put("fireEvent", 2);
+    argMap.put("keyPress", 2);
+    argMap.put("keyDown", 2);
+    argMap.put("keyUp", 2);
+    argMap.put("mouseDownAt", 2);
+    argMap.put("mouseDownRightAt", 2);
+    argMap.put("mouseUpAt", 2);
+    argMap.put("mouseUpRightAt", 2);
+    argMap.put("mouseMoveAt", 2);
+    argMap.put("type", 2);
+    argMap.put("typeKeys", 2);
+    argMap.put("select", 2);
+    argMap.put("addSelection", 2);
+    argMap.put("removeSelection", 2);
+    argMap.put("open", 2);
+    argMap.put("openWindow", 2);
+    argMap.put("getWhetherThisFrameMatchFrameExpression", 2);
+    argMap.put("getWhetherThisWindowMatchWindowExpression", 2);
+    argMap.put("waitForPopUp", 2);
+    argMap.put("dragdrop", 2);
+    argMap.put("dragAndDrop", 2);
+    argMap.put("setCursorPosition", 2);
+    argMap.put("isOrdered", 2);
+    argMap.put("assignId", 2);
+    argMap.put("waitForCondition", 2);
+    argMap.put("waitForFrameToLoad", 2);
+    argMap.put("createCookie", 2);
+    argMap.put("deleteCookie", 2);
+    argMap.put("addLocationStrategy", 2);
+    argMap.put("captureEntirePageScreenshot", 2);
+    argMap.put("rollup", 2);
+    argMap.put("addScript", 2);
+    argMap.put("attachFile", 2);
+    argMap.put("addCustomRequestHeader", 2);
+  }
 
   public MyWebDriverBackedSelenium(final WebDriver baseDriver, final String baseUrl) {
     super(baseDriver, baseUrl);
   }
 
 
-  public final void doCommand(final String command, final String locator) {
-    commandProcessor.doCommand(command, new String[]{locator, });
+  public final String doCommand(final String command) {
+    return commandProcessor.doCommand(command, new String[]{});
   }
 
-  public final void doCommand(final String command, final String locator, final String input) {
-    if (input == null) {
-      this.doCommand(command, locator);
+  public final String doCommand(final String command, final String locator) {
+    return commandProcessor.doCommand(command, new String[]{locator, });
+  }
+
+  public final String doCommand(final String command, final String locator, final String input) {
+    Integer argCount = argMap.get(command);
+    if (argCount == null) {
+      throw new RuntimeException(String.format("Command '%s' is not supported!", command));
+    }
+
+    switch (argCount) {
+      case 0:
+        return this.doCommand(command);
+      case 1:
+        return this.doCommand(command, locator);
+      case 2:
+        return commandProcessor.doCommand(command, new String[]{locator, input});
+      default:
+        throw new RuntimeException("Do nothing!");
+    }
+  }
+
+  public static final int getArgCount(final String command) {
+    Integer result = argMap.get(command);
+    if (result == null) {
+      return 0;
     } else {
-      commandProcessor.doCommand(command, new String[]{locator, input});
+      return argMap.get(command);
     }
   }
 }
+
+/*
+
+void click(String locator)
+void doubleClick(String locator)
+void contextMenu(String locator)
+void clickAt(String locator, String coordString)
+void doubleClickAt(String locator, String coordString)
+void contextMenuAt(String locator, String coordString)
+void fireEvent(String locator, String eventName)
+void focus(String locator)
+void keyPress(String locator, String keySequence)
+void shiftKeyDown()
+void shiftKeyUp()
+void metaKeyDown()
+void metaKeyUp()
+void altKeyDown()
+void altKeyUp()
+void controlKeyDown()
+void controlKeyUp()
+void keyDown(String locator, String keySequence)
+void keyUp(String locator, String keySequence)
+void mouseOver(String locator)
+void mouseOut(String locator)
+void mouseDown(String locator)
+void mouseDownRight(String locator)
+void mouseDownAt(String locator, String coordString)
+void mouseDownRightAt(String locator, String coordString)
+void mouseUp(String locator)
+void mouseUpRight(String locator)
+void mouseUpAt(String locator, String coordString)
+void mouseUpRightAt(String locator, String coordString)
+void mouseMove(String locator)
+void mouseMoveAt(String locator, String coordString)
+void type(String locator, String value)
+void typeKeys(String locator, String value)
+void setSpeed(String value)
+String getSpeed()
+String getLog()
+void check(String locator)
+void uncheck(String locator)
+void select(String selectLocator, String optionLocator)
+void addSelection(String locator, String optionLocator)
+void removeSelection(String locator, String optionLocator)
+void removeAllSelections(String locator)
+void submit(String formLocator)
+void open(String url, String ignoreResponseCode)
+void open(String url)
+void openWindow(String url, String windowID)
+void selectWindow(String windowID)
+void selectPopUp(String windowID)
+void deselectPopUp()
+void selectFrame(String locator)
+boolean getWhetherThisFrameMatchFrameExpression(String currentFrameString, String target)
+boolean getWhetherThisWindowMatchWindowExpression(String currentWindowString, String target)
+void waitForPopUp(String windowID, String timeout)
+void chooseCancelOnNextConfirmation()
+void chooseOkOnNextConfirmation()
+void answerOnNextPrompt(String answer)
+void goBack()
+void refresh()
+void close()
+boolean isAlertPresent()
+boolean isPromptPresent()
+boolean isConfirmationPresent()
+String getAlert()
+String getConfirmation()
+String getPrompt()
+String getLocation()
+String getTitle()
+String getBodyText()
+String getValue(String locator)
+String getText(String locator)
+void highlight(String locator)
+String getEval(String script)
+boolean isChecked(String locator)
+String getTable(String tableCellAddress)
+String[] getSelectedLabels(String selectLocator)
+String getSelectedLabel(String selectLocator)
+String[] getSelectedValues(String selectLocator)
+String getSelectedValue(String selectLocator)
+String[] getSelectedIndexes(String selectLocator)
+String getSelectedIndex(String selectLocator)
+String[] getSelectedIds(String selectLocator)
+String getSelectedId(String selectLocator)
+boolean isSomethingSelected(String selectLocator)
+String[] getSelectOptions(String selectLocator)
+String getAttribute(String attributeLocator)
+boolean isTextPresent(String pattern)
+boolean isElementPresent(String locator)
+boolean isVisible(String locator)
+boolean isEditable(String locator)
+String[] getAllButtons()
+String[] getAllLinks()
+String[] getAllFields()
+String[] getAttributeFromAllWindows(String attributeName)
+void dragdrop(String locator, String movementsString)
+void setMouseSpeed(String pixels)
+Number getMouseSpeed()
+void dragAndDrop(String locator, String movementsString)
+void dragAndDropToObject(String locatorOfObjectToBeDragge
+void windowFocus()
+void windowMaximize()
+String[] getAllWindowIds()
+String[] getAllWindowNames()
+String[] getAllWindowTitles()
+String getHtmlSource()
+void setCursorPosition(String locator, String position)
+Number getElementIndex(String locator)
+boolean isOrdered(String locator1, String locator2)
+Number getElementPositionLeft(String locator)
+Number getElementPositionTop(String locator)
+Number getElementWidth(String locator)
+Number getElementHeight(String locator)
+Number getCursorPosition(String locator)
+String getExpression(String expression)
+Number getXpathCount(String xpath)
+Number getCssCount(String css)
+void assignId(String locator, String identifier)
+void allowNativeXpath(String allow)
+void ignoreAttributesWithoutValue(String ignore)
+void waitForCondition(String script, String timeout)
+void setTimeout(String timeout)
+void waitForPageToLoad(String timeout)
+void waitForFrameToLoad(String frameAddress, String timeout)
+String getCookie()
+String getCookieByName(String name)
+boolean isCookiePresent(String name)
+void createCookie(String nameValuePair, String optionsString)
+void deleteCookie(String name, String optionsString)
+void deleteAllVisibleCookies()
+void setBrowserLogLevel(String logLevel)
+void runScript(String script)
+void addLocationStrategy(String strategyName, String functionDefinition)
+void captureEntirePageScreenshot(String filename, String kwargs)
+void rollup(String rollupName, String kwargs)
+void addScript(String scriptContent, String scriptTagId)
+void removeScript(String scriptTagId)
+void useXpathLibrary(String libraryName)
+void setContext(String context)
+void attachFile(String fieldLocator, String fileLocator)
+void captureScreenshot(String filename)
+String captureScreenshotToString()
+String captureNetworkTraffic(String type)
+void addCustomRequestHeader(String key, String value)
+String captureEntirePageScreenshotToString(String kwargs)
+void shutDownSeleniumServer()
+String retrieveLastRemoteControlLogs()
+void keyDownNative(String keycode)
+void keyUpNative(String keycode)
+void keyPressNative(String keycode)
+ */
+
+
+/*
+void shiftKeyDown()
+void shiftKeyUp()
+void metaKeyDown()
+void metaKeyUp()
+void altKeyDown()
+void altKeyUp()
+void controlKeyDown()
+void controlKeyUp()
+String getSpeed()
+String getLog()
+void deselectPopUp()
+void chooseCancelOnNextConfirmation()
+void chooseOkOnNextConfirmation()
+void goBack()
+void refresh()
+void close()
+boolean isAlertPresent()
+boolean isPromptPresent()
+boolean isConfirmationPresent()
+String getAlert()
+String getConfirmation()
+String getPrompt()
+String getLocation()
+String getTitle()
+String getBodyText()
+String[] getAllButtons()
+String[] getAllLinks()
+String[] getAllFields()
+Number getMouseSpeed()
+void windowFocus()
+void windowMaximize()
+String[] getAllWindowIds()
+String[] getAllWindowNames()
+String[] getAllWindowTitles()
+String getHtmlSource()
+String getCookie()
+void deleteAllVisibleCookies()
+String captureScreenshotToString()
+void shutDownSeleniumServer()
+String retrieveLastRemoteControlLogs()
+
+void click(String locator)
+void doubleClick(String locator)
+void contextMenu(String locator)
+void focus(String locator)
+void mouseOver(String locator)
+void mouseOut(String locator)
+void mouseDown(String locator)
+void mouseDownRight(String locator)
+void mouseUp(String locator)
+void mouseUpRight(String locator)
+void mouseMove(String locator)
+void setSpeed(String value)
+void check(String locator)
+void uncheck(String locator)
+void removeAllSelections(String locator)
+void submit(String formLocator)
+void open(String url)
+void selectWindow(String windowID)
+void selectPopUp(String windowID)
+void selectFrame(String locator)
+void answerOnNextPrompt(String answer)
+String getValue(String locator)
+String getText(String locator)
+void highlight(String locator)
+String getEval(String script)
+boolean isChecked(String locator)
+String getTable(String tableCellAddress)
+String[] getSelectedLabels(String selectLocator)
+String getSelectedLabel(String selectLocator)
+String[] getSelectedValues(String selectLocator)
+String getSelectedValue(String selectLocator)
+String[] getSelectedIndexes(String selectLocator)
+String getSelectedIndex(String selectLocator)
+String[] getSelectedIds(String selectLocator)
+String getSelectedId(String selectLocator)
+boolean isSomethingSelected(String selectLocator)
+String[] getSelectOptions(String selectLocator)
+String getAttribute(String attributeLocator)
+boolean isTextPresent(String pattern)
+boolean isElementPresent(String locator)
+boolean isVisible(String locator)
+boolean isEditable(String locator)
+String[] getAttributeFromAllWindows(String attributeName)
+void setMouseSpeed(String pixels)
+void dragAndDropToObject(String locatorOfObjectToBeDragge
+Number getElementIndex(String locator)
+Number getElementPositionLeft(String locator)
+Number getElementPositionTop(String locator)
+Number getElementWidth(String locator)
+Number getElementHeight(String locator)
+Number getCursorPosition(String locator)
+String getExpression(String expression)
+Number getXpathCount(String xpath)
+Number getCssCount(String css)
+void allowNativeXpath(String allow)
+void ignoreAttributesWithoutValue(String ignore)
+void setTimeout(String timeout)
+void waitForPageToLoad(String timeout)
+String getCookieByName(String name)
+boolean isCookiePresent(String name)
+void setBrowserLogLevel(String logLevel)
+void runScript(String script)
+void removeScript(String scriptTagId)
+void useXpathLibrary(String libraryName)
+void setContext(String context)
+void captureScreenshot(String filename)
+String captureNetworkTraffic(String type)
+String captureEntirePageScreenshotToString(String kwargs)
+void keyDownNative(String keycode)
+void keyUpNative(String keycode)
+void keyPressNative(String keycode)
+
+void clickAt(String locator, String coordString)
+void doubleClickAt(String locator, String coordString)
+void contextMenuAt(String locator, String coordString)
+void fireEvent(String locator, String eventName)
+void keyPress(String locator, String keySequence)
+void keyDown(String locator, String keySequence)
+void keyUp(String locator, String keySequence)
+void mouseDownAt(String locator, String coordString)
+void mouseDownRightAt(String locator, String coordString)
+void mouseUpAt(String locator, String coordString)
+void mouseUpRightAt(String locator, String coordString)
+void mouseMoveAt(String locator, String coordString)
+void type(String locator, String value)
+void typeKeys(String locator, String value)
+void select(String selectLocator, String optionLocator)
+void addSelection(String locator, String optionLocator)
+void removeSelection(String locator, String optionLocator)
+void open(String url, String ignoreResponseCode)
+void openWindow(String url, String windowID)
+boolean getWhetherThisFrameMatchFrameExpression(String currentFrameString, String target)
+boolean getWhetherThisWindowMatchWindowExpression(String currentWindowString, String target)
+void waitForPopUp(String windowID, String timeout)
+void dragdrop(String locator, String movementsString)
+void dragAndDrop(String locator, String movementsString)
+void setCursorPosition(String locator, String position)
+boolean isOrdered(String locator1, String locator2)
+void assignId(String locator, String identifier)
+void waitForCondition(String script, String timeout)
+void waitForFrameToLoad(String frameAddress, String timeout)
+void createCookie(String nameValuePair, String optionsString)
+void deleteCookie(String name, String optionsString)
+void addLocationStrategy(String strategyName, String functionDefinition)
+void captureEntirePageScreenshot(String filename, String kwargs)
+void rollup(String rollupName, String kwargs)
+void addScript(String scriptContent, String scriptTagId)
+void attachFile(String fieldLocator, String fileLocator)
+void addCustomRequestHeader(String key, String value)
+ */

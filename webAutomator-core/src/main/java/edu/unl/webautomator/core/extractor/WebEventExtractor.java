@@ -22,20 +22,15 @@ import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 import edu.unl.webautomator.core.WebAutomator;
 import edu.unl.webautomator.core.configuration.WebEventTypes;
-import edu.unl.webautomator.core.model.WebDocument;
-import edu.unl.webautomator.core.model.WebEvent;
-import edu.unl.webautomator.core.model.WebEventType;
-import edu.unl.webautomator.core.model.WebState;
+import edu.unl.webautomator.core.model.*;
 import edu.unl.webautomator.core.util.JSoupHelper;
+import edu.unl.webautomator.core.util.SeleniumHelper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import us.codecraft.xsoup.Xsoup;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by gigony on 12/6/14.
@@ -75,10 +70,11 @@ public class WebEventExtractor implements EventExtractor {
     for (String eventTypeName : includingEventTypes.keySet()) {
       Collection<WebEventType> eventTypes = includingEventTypes.get(eventTypeName);
       for (WebEventType eventType : eventTypes) {
-        Elements elements = this.select(doc, eventType);
-        for (Element elem:elements) {
+        Elements elements = this.select(doc, eventType.getEventLocator());
+        for (Element elem : elements) {
           String uniqueId = JSoupHelper.getCssSelector(elem);
-          WebEvent event = new WebEvent(eventTypeName, frameId, uniqueId);
+          WebEventElement eventElement = new WebEventElement(eventTypeName, frameId, uniqueId);
+          WebEvent event = new WebEvent(eventElement);
           availableElements.put(eventTypeName, event);
         }
       }
@@ -88,10 +84,11 @@ public class WebEventExtractor implements EventExtractor {
       Collection<WebEventType> eventTypes = excludingEventTypes.get(eventTypeName);
       Collection<WebEvent> includedCollection = availableElements.get(eventTypeName);
       for (WebEventType eventType : eventTypes) {
-        Elements elements = this.select(doc, eventType);
-        for (Element elem:elements) {
+        Elements elements = this.select(doc, eventType.getEventLocator());
+        for (Element elem : elements) {
           String uniqueId = JSoupHelper.getCssSelector(elem);
-          WebEvent event = new WebEvent(eventTypeName, frameId, uniqueId);
+          WebEventElement eventElement = new WebEventElement(eventTypeName, frameId, uniqueId);
+          WebEvent event = new WebEvent(eventElement);
           includedCollection.remove(event);
         }
       }
@@ -100,7 +97,7 @@ public class WebEventExtractor implements EventExtractor {
     ArrayList<WebEvent> result = new ArrayList<WebEvent>(availableElements.values());
 
     Map<String, WebDocument> frames = webDoc.getFrames();
-    for (String id: frames.keySet()) {
+    for (String id : frames.keySet()) {
       WebDocument frame = frames.get(id);
       ArrayList<WebEvent> frameResult;
       if (frameId.equals("")) {
@@ -115,16 +112,39 @@ public class WebEventExtractor implements EventExtractor {
   }
 
 
+  public static Set<String> selectIdSet(final WebDocument webDoc, final String locator) {
+    Set<String> result = selectIdSet(webDoc.getDocument(), locator);
 
-  private Elements select(final Document doc, final WebEventType eventType) {
+    Map<String, WebDocument> frames = webDoc.getFrames();
+    for (String id : frames.keySet()) {
+      WebDocument frame = frames.get(id);
+      Set<String> frameResult;
+      frameResult = selectIdSet(frame, locator);
+      result.addAll(frameResult);
+    }
+    return result;
+  }
+
+  public static Set<String> selectIdSet(final Document doc, final String locator) {
+    Set<String> result = new HashSet<String>();
+
+    Elements elements = select(doc, locator);
+    for (Element elem : elements) {
+      String uniqueId = JSoupHelper.getCssSelector(elem);
+      result.add(uniqueId);
+    }
+    return result;
+  }
+
+  public static Elements select(final Document doc, final String locator) {
     Elements elements = null;
 
-    if (eventType.isCssLocator()) {
-      elements = doc.select(eventType.extractCssLocator());
-    } else if (eventType.isXPathLocator()) {
-      elements = Xsoup.select(doc, eventType.extractXPathLocator()).getElements();
+    if (SeleniumHelper.isCssLocator(locator)) {
+      elements = doc.select(SeleniumHelper.extractCssLocator(locator));
+    } else if (SeleniumHelper.isXPathLocator(locator)) {
+      elements = Xsoup.select(doc, SeleniumHelper.extractXPathLocator(locator)).getElements();
     } else {
-      throw new RuntimeException(String.format("'%s' should be a CSS locator or a XPATH locator"));
+      throw new RuntimeException(String.format("'%s' should be a CSS locator or a XPATH locator", locator));
     }
     return elements;
   }

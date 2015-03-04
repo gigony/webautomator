@@ -19,5 +19,18 @@ package edu.unl.webautomator.core.model;
 /**
  * Created by gigony on 12/6/14.
  */
-public interface TestCaseExecutionResult {
+public interface TestCaseExecutionResult<S, E> extends Iterable<S> {
+  void addState(S state);
+  void addState(int index, S state);
+  State getState(int index);
+  int size();
+  int getStateSize();
+  boolean isPassed();
+  EventExecutionResult<E> getFailureInducingEventInfo();
+  void setFailureInducingEventInfo(EventExecutionResult<E> result);
+
+  TestCase<E> getTestCase();
+  void setTestCase(TestCase<E> testCase);
+  ExecutionResult getResult();
+  void setResult(ExecutionResult result);
 }

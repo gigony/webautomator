@@ -143,6 +143,7 @@ public final class WebAutomatorPlugins {
             this.setPlugin("core.extractor.event", "edu.unl.webautomator.core.extractor.WebEventExtractor");
             this.setPlugin("core.provider.eventinput", "edu.unl.webautomator.core.provider.WebEventInputProvider");
             this.setPlugin("core.executor.event", "edu.unl.webautomator.core.executor.WebEventExecutor");
+            this.setPlugin("core.executor.testcase", "edu.unl.webautomator.core.executor.WebTestCaseExecutor");
         }
 
         public final WebAutomatorPlugins build() {

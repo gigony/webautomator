@@ -17,10 +17,11 @@
 package edu.unl.webautomator.core.executor;
 
 import edu.unl.webautomator.core.model.Event;
+import edu.unl.webautomator.core.model.EventExecutionResult;
 
 /**
  * Created by gigony on 12/6/14.
  */
-public interface EventExecutor {
-  void execute(Event event);
+public interface EventExecutor<E> {
+  EventExecutionResult<E> execute(Event<E> event);
 }

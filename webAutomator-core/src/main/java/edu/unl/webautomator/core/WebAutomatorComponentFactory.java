@@ -18,6 +18,7 @@ package edu.unl.webautomator.core;
 
 import edu.unl.webautomator.core.converter.WebTestCaseConverter;
 import edu.unl.webautomator.core.executor.WebEventExecutor;
+import edu.unl.webautomator.core.executor.WebTestCaseExecutor;
 import edu.unl.webautomator.core.extractor.WebEventExtractor;
 import edu.unl.webautomator.core.extractor.WebStateExtractor;
 import edu.unl.webautomator.core.provider.WebEventInputProvider;
@@ -36,4 +37,6 @@ public interface WebAutomatorComponentFactory {
   WebEventInputProvider createEventInputProvider(WebAutomator automator);
 
   WebEventExecutor createEventExecutor(WebAutomator automator);
+
+  WebTestCaseExecutor createTestCaseExecutor(WebAutomator automator);
 }

@@ -17,7 +17,6 @@
 package edu.unl.webautomator.core.platform.browser;
 
 import com.google.common.base.Preconditions;
-import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 import edu.unl.webautomator.core.configuration.WebAutomatorConfiguration;
 import edu.unl.webautomator.core.configuration.WebBrowserConfiguration;
 import edu.unl.webautomator.core.model.WebDocument;

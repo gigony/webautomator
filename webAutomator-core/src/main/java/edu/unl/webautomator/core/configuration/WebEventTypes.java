@@ -69,6 +69,8 @@ public class WebEventTypes {
       this.click("css=button");
       this.click("css=input[type=\"submit\"]");
       this.click("css=input[type=\"button\"]");
+      this.click("css=input[type=\"checkbox\"]");
+      this.click("css=input[type=\"radio\"]");
       this.type("css=input[type=\"text\"]");
       this.type("css=input[type=\"password\"]");
       this.select("css=select");

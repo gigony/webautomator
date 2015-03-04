@@ -37,4 +37,10 @@ public class WebState implements State {
   public final void setWebDoc(final WebDocument webDoc) {
     this.webDoc = webDoc;
   }
+
+  @Override
+  public final String toString() {
+    String result = this.webDoc.toJson();
+    return result;
+  }
 }

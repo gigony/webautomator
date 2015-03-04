@@ -14,17 +14,13 @@
  *    limitations under the License.
  */
 
-package edu.unl.webautomator.core.converter;
+package edu.unl.webautomator.core.provider;
 
-import edu.unl.webautomator.core.model.TestCase;
+import edu.unl.webautomator.core.model.WebEventElement;
+import org.openqa.selenium.WebElement;
 
 /**
- * Created by gigony on 12/6/14.
+ * Created by gigony on 3/3/15.
  */
-public interface TestCaseConverter<E> {
-  TestCase<E> loadTestCase(String fileName, String fileType);
-
-  void saveTestCase(String fileName, TestCase<E> testCase);
-
-  boolean isSupported(String fileType);
+public interface WebEventInputHandler extends EventInputHandler<WebEventElement, WebElement> {
 }

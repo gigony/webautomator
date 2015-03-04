@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by gigony on 12/18/14.
@@ -103,6 +104,7 @@ public class WebDocument {
     }
     this.frames.put(id, doc);
   }
+
 
 //  public final String toPageSourceWithFrameContent() {
 //    Element frameCollection = new Element(Tag.valueOf("collection"), "");

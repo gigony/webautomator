@@ -16,81 +16,213 @@
 
 package edu.unl.webautomator.core.model;
 
-
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Created by gigony on 12/6/14.
+ * Created by gigony on 1/12/15.
  */
-public class WebEvent implements Event {
-  private String eventType;
-  private String frameId;
-  private String id;
-  private String input; /** null if there is no input data for this event type **/
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY,
+  getterVisibility = JsonAutoDetect.Visibility.NONE,
+  setterVisibility = JsonAutoDetect.Visibility.NONE,
+  isGetterVisibility = JsonAutoDetect.Visibility.NONE)
+public class WebEvent implements Event<WebEventElement> {
+  private List<WebEventElement> preConditions;
+  private List<WebEventElement> actions;
+  private List<WebEventElement> postConditions;
 
-
-  public WebEvent(final String eventTypeName, final String uniqueId) {
-    this.eventType = eventTypeName;
-    this.frameId = "";
-    this.id = uniqueId;
-    this.input = null;
+  public WebEvent() {
+    this.preConditions = new ArrayList<WebEventElement>();
+    this.actions = new ArrayList<WebEventElement>();
+    this.postConditions = new ArrayList<WebEventElement>();
   }
 
-  public WebEvent(final String eventTypeName, final String frameId, final String uniqueId) {
-    this.eventType = eventTypeName;
-    this.frameId = frameId;
-    this.id = uniqueId;
-    this.input = null;
+  public WebEvent(final WebEventElement webElem) {
+    this.preConditions = new ArrayList<WebEventElement>();
+    this.actions = new ArrayList<WebEventElement>();
+    this.postConditions = new ArrayList<WebEventElement>();
+
+    this.actions.add(webElem);
   }
+
   @JsonCreator
-  public WebEvent(@JsonProperty("eventType") final String eventTypeName,
-                  @JsonProperty("frameId") final String frameId,
-                  @JsonProperty("id") final String uniqueId,
-                  @JsonProperty("input") final String input) {
-    this.eventType = eventTypeName;
-    this.frameId = frameId;
-    this.id = uniqueId;
-    this.input = input;
+  public WebEvent(@JsonProperty("preConditions") final List<WebEventElement> preConditions,
+                  @JsonProperty("actions") final List<WebEventElement> actions,
+                  @JsonProperty("postConditions") final List<WebEventElement> postConditions) {
+    this.preConditions = preConditions;
+    this.actions = actions;
+    this.postConditions = postConditions;
+  }
+
+
+  @Override
+  public final int size() {
+    int totalSize = this.getPreConditionSize() + this.getActionSize() + this.getPostConditionSize();
+    return totalSize;
   }
 
   @Override
-  public final String getEventType() {
-    return this.eventType;
-  }
+  public final WebEventElement get(final int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(String.format("index is out of bound (index: %d)", index));
+    }
 
-  public final String getFrameId() {
-    return this.frameId;
-  }
+    int modifiedIdx = index;
 
-  public final String getCssLocator() {
-    return "css=" + this.id;
+    int pivot = this.getPreConditionSize();
+    if (modifiedIdx < pivot) {
+      return this.getPreCondition(modifiedIdx);
+    } else {
+      modifiedIdx -= pivot;
+    }
+
+    pivot = this.getActionSize();
+    if (modifiedIdx < pivot) {
+      return this.getAction(modifiedIdx);
+    } else {
+      modifiedIdx -= pivot;
+    }
+
+    pivot = this.getPostConditionSize();
+    if (modifiedIdx < pivot) {
+      return this.getPostCondition(modifiedIdx);
+    } else {
+      throw new IndexOutOfBoundsException(String.format("index is out of bound (index: %d, size: %d)", index, this.size()));
+    }
   }
 
   @Override
-  public final String getId() {
-    return this.id;
+  public final void addPreCondition(final WebEventElement element) {
+    this.preConditions.add(element);
+
   }
+
   @Override
-  public final String getInput() {
-    return this.input;
+  public final void addAction(final WebEventElement element) {
+    this.actions.add(element);
+  }
+
+  @Override
+  public final void addPostCondition(final WebEventElement element) {
+    this.postConditions.add(element);
+  }
+
+  @Override
+  public final List<WebEventElement> getPreConditions() {
+    return this.preConditions;
+  }
+
+  @Override
+  public final WebEventElement getPreCondition(final int index) {
+    return this.preConditions.get(index);
+  }
+
+  @Override
+  public final WebEventElement getFirstPreCondition() {
+    if (this.preConditions.isEmpty()) {
+      return null;
+    }
+    return this.preConditions.get(0);
+  }
+
+  @Override
+  public final WebEventElement getLastPreCondition() {
+    if (this.preConditions.isEmpty()) {
+      return null;
+    }
+    return this.preConditions.get(this.preConditions.size() - 1);
+  }
+
+  @Override
+  public final int getPreConditionSize() {
+    return this.preConditions.size();
+  }
+
+  @Override
+  public final List<WebEventElement> getActions() {
+    return this.actions;
+  }
+
+  @Override
+  public final WebEventElement getAction(final int index) {
+    return this.actions.get(index);
+  }
+
+  @Override
+  public final WebEventElement getAction() {
+    return this.getAction(0);
+  }
+
+  @Override
+  public final WebEventElement getFirstAction() {
+    if (this.actions.isEmpty()) {
+      return null;
+    }
+    return this.actions.get(0);
+  }
+
+  @Override
+  public final WebEventElement getLastAction() {
+    if (this.actions.isEmpty()) {
+      return null;
+    }
+    return this.actions.get(this.actions.size() - 1);
+  }
+
+  @Override
+  public final int getActionSize() {
+    return this.actions.size();
+  }
+
+  @Override
+  public final List<WebEventElement> getPostConditions() {
+    return this.postConditions;
+  }
+
+  @Override
+  public final WebEventElement getPostCondition(final int index) {
+    return this.postConditions.get(index);
+  }
+
+  @Override
+  public final WebEventElement getFirstPostCondition() {
+    if (this.postConditions.isEmpty()) {
+      return null;
+    }
+    return this.postConditions.get(0);
+  }
+
+  @Override
+  public final WebEventElement getLastPostCondition() {
+    if (this.postConditions.isEmpty()) {
+      return null;
+    }
+    return this.postConditions.get(this.postConditions.size() - 1);
+  }
+
+  @Override
+  public final int getPostConditionSize() {
+    return this.postConditions.size();
   }
 
   @Override
   public final int hashCode() {
-    return Objects.hashCode(this.eventType, this.frameId, this.id, this.input);
+    return Objects.hashCode(this.preConditions, this.actions, this.postConditions);
   }
 
   @Override
   public final boolean equals(final Object obj) {
     if (obj instanceof WebEvent) {
       WebEvent that = (WebEvent) obj;
-      return Objects.equal(this.eventType, that.eventType)
-        && Objects.equal(this.frameId, that.frameId)
-        && Objects.equal(this.id, that.id)
-        && Objects.equal(this.input, that.input);
+      return Objects.equal(this.preConditions, that.preConditions)
+        && Objects.equal(this.actions, that.actions)
+        && Objects.equal(this.postConditions, that.postConditions);
     }
     return false;
   }
@@ -98,10 +230,9 @@ public class WebEvent implements Event {
   @Override
   public final String toString() {
     return MoreObjects.toStringHelper(this)
-      .add("eventType", this.eventType)
-      .add("frameId", this.frameId)
-      .add("id", this.id)
-      .add("input", this.input)
+      .add("preConditions", this.preConditions)
+      .add("actions", this.actions)
+      .add("postConditions", this.postConditions)
       .toString();
   }
 }

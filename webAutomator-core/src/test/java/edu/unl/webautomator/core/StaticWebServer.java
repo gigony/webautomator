@@ -1,7 +1,8 @@
 package edu.unl.webautomator.core;
 
 import com.google.common.collect.Maps;
-import edu.unl.webautomator.core.util.StringHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vertx.java.core.Handler;
 import org.vertx.java.core.Vertx;
 import org.vertx.java.core.VertxFactory;
@@ -16,6 +17,7 @@ import java.util.Map;
  * Created by gigony on 12/12/14.
  */
 public class StaticWebServer {
+  private static final Logger LOG = LoggerFactory.getLogger(StaticWebServer.class);
   private Vertx vertx;
   private HttpServer server;
   private String startPath = "";
@@ -33,7 +35,7 @@ public class StaticWebServer {
   }
 
 
-  public final void start() {
+  public final void start(final int port) {
 
 
     final String rootPath = this.startPath;
@@ -50,7 +52,8 @@ public class StaticWebServer {
           req.response().sendFile(file);
         }
       }
-    ).listen(8080, "localhost");
+    ).listen(port, "localhost");
+    LOG.debug("Started static web server [port: {}, root path: {}]", port, rootPath);
   }
 
   public final Vertx getVertx() {
@@ -62,7 +65,10 @@ public class StaticWebServer {
   }
 
   public static void start(final String path) {
-    int port = StringHelper.getPortNumFromUrl(path);
+    StaticWebServer.start(path, 8080);
+  }
+
+  public static void start(final String path, final int port) {
     if (portMap.containsKey(port)) {
       HttpServer httpServer = portMap.get(port);
       httpServer.close(); // close server if duplicate
@@ -70,7 +76,7 @@ public class StaticWebServer {
     }
 
     StaticWebServer server = new StaticWebServer(path);
-    server.start();
+    server.start(port);
 
     portMap.put(port, server.getServer());
   }

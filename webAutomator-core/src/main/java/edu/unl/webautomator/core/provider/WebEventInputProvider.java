@@ -16,17 +16,71 @@
 
 package edu.unl.webautomator.core.provider;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import edu.unl.webautomator.core.WebAutomator;
+import edu.unl.webautomator.core.model.Event;
+import edu.unl.webautomator.core.model.EventType;
+import edu.unl.webautomator.core.model.WebEventElement;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gigony on 12/6/14.
  */
-public class WebEventInputProvider implements EventInputProvider {
-    private WebAutomator webAutomator;
+public class WebEventInputProvider implements EventInputProvider<WebEventElement, WebElement> {
+  private WebAutomator webAutomator;
 
-    @Inject
-    public WebEventInputProvider(final WebAutomator automator) {
-        this.webAutomator = automator;
-    }
+  private List<TypeHandlerPair<EventType, EventInputHandler<WebEventElement, WebElement>>> customEventInputHandler;
+  private Map<String, EventInputHandler<WebEventElement, WebElement>> defaultEventInputHandler;
+
+  @Inject
+  public WebEventInputProvider(final WebAutomator automator) {
+    this.webAutomator = automator;
+    this.customEventInputHandler = Lists.newArrayList();
+    this.defaultEventInputHandler = Maps.newHashMap();
+  }
+
+  @Override
+  public final void addCustomEventInputHandler(final EventType eventType, final EventInputHandler<WebEventElement, WebElement> inputHandler) {
+    this.customEventInputHandler.add(new TypeHandlerPair<EventType, EventInputHandler<WebEventElement, WebElement>>(eventType, inputHandler));
+  }
+
+  @Override
+  public final void setDefaultEventInputHandler(final String eventType, final EventInputHandler<WebEventElement, WebElement> inputHandler) {
+    this.defaultEventInputHandler.put(eventType, inputHandler);
+  }
+
+  @Override
+  public final List<TypeHandlerPair<EventType, EventInputHandler<WebEventElement, WebElement>>> getCustomEventInputHandler() {
+    return this.customEventInputHandler;
+  }
+
+  @Override
+  public final Map<String, EventInputHandler<WebEventElement, WebElement>> getDefaultEventInputHandler() {
+    return this.defaultEventInputHandler;
+  }
+
+//  @Override
+//  public final void addEventInputHandler(final EventInputHandler<WebEventElement, WebElement> inputHandler) {
+//    this.customEventInputHandler.add(inputHandler);
+//  }
+//
+//  @Override
+//  public final void setDefaultEventInputHandler(final String eventType, final EventInputHandler<WebEventElement, WebElement> inputHandler) {
+//    this.defaultEventInputHandler.put(eventType, inputHandler);
+//  }
+//
+//  @Override
+//  public final String getEventInputFor(final Event<WebEventElement> event) {
+//    for(EventInputHandler<WebEventElement,WebElement> )
+//  }
+//
+//  @Override
+//  public final String getEventInputFor(final WebElement element) {
+//    return null;
+//  }
 }

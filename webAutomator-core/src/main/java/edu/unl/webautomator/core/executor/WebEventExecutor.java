@@ -19,15 +19,26 @@ package edu.unl.webautomator.core.executor;
 
 import com.google.inject.Inject;
 import edu.unl.webautomator.core.WebAutomator;
-import edu.unl.webautomator.core.model.Event;
-import edu.unl.webautomator.core.model.WebEvent;
+import edu.unl.webautomator.core.extractor.WebEventExtractor;
+import edu.unl.webautomator.core.model.*;
 import edu.unl.webautomator.core.platform.WebBrowser;
+import edu.unl.webautomator.core.provider.EventInputHandler;
+import edu.unl.webautomator.core.provider.TypeHandlerPair;
+import edu.unl.webautomator.core.provider.WebEventInputProvider;
 import edu.unl.webautomator.core.util.MyWebDriverBackedSelenium;
+import edu.unl.webautomator.core.util.SeleniumHelper;
+import org.jsoup.nodes.Document;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by gigony on 12/6/14.
  */
-public class WebEventExecutor implements EventExecutor {
+public class WebEventExecutor implements EventExecutor<WebEventElement> {
   private WebAutomator webAutomator;
 
 
@@ -38,18 +49,130 @@ public class WebEventExecutor implements EventExecutor {
   }
 
   @Override
-  public final void execute(final Event e) {
+  public final EventExecutionResult<WebEventElement> execute(final Event<WebEventElement> e) {
+    return this.execute(e, null);
+  }
+
+
+  public final EventExecutionResult<WebEventElement> execute(final Event<WebEventElement> e, final WebState state) {
     WebBrowser webBrowser = this.webAutomator.getWebBrowser();
+    WebEventInputProvider eventInputProvider = this.webAutomator.getEventInputProvider();
     MyWebDriverBackedSelenium selenium = webBrowser.getSelenium();
-    WebEvent event = (WebEvent) e;
 
+    for (WebEventElement elem : e.getPreConditions()) {
+      WebEventExecutionResult executionResult = this.execute(webBrowser, selenium, elem, eventInputProvider, state);
+      if (!executionResult.isPassed()) {
+        executionResult.setFailedEvent(e);
+        executionResult.setCauseMessage(String.format("Failed to verify a precondition (%s) in an event (%s) exception: %s", elem, e, executionResult.getThrowable().getMessage()));
+        return executionResult;
+      }
+    }
+
+    for (WebEventElement elem : e.getActions()) {
+      WebEventExecutionResult executionResult = this.execute(webBrowser, selenium, elem, eventInputProvider, state);
+      if (!executionResult.isPassed()) {
+        executionResult.setFailedEvent(e);
+        executionResult.setCauseMessage(String.format("Failed to execute an action (%s) in an event (%s) exception: %s", elem, e, executionResult.getThrowable().getMessage()));
+        return executionResult;
+      }
+    }
+
+    for (WebEventElement elem : e.getPostConditions()) {
+      WebEventExecutionResult executionResult = this.execute(webBrowser, selenium, elem, eventInputProvider, state);
+      if (!executionResult.isPassed()) {
+        executionResult.setFailedEvent(e);
+        executionResult.setCauseMessage(String.format("Failed to verify a postcondition (%s) in an event (%s) exception: %s", elem, e, executionResult.getThrowable().getMessage()));
+        return executionResult;
+      }
+    }
+
+    return new WebEventExecutionResult();
+  }
+
+
+  public final EventExecutionResult execute(final WebEventElement eventElem, final WebState state) {
+    WebBrowser webBrowser = this.webAutomator.getWebBrowser();
+    WebEventInputProvider eventInputProvider = this.webAutomator.getEventInputProvider();
+    MyWebDriverBackedSelenium selenium = webBrowser.getSelenium();
+    return this.execute(webBrowser, selenium, eventElem, eventInputProvider, state);
+  }
+
+  private WebEventExecutionResult execute(final WebBrowser webBrowser, final MyWebDriverBackedSelenium selenium, final WebEventElement elem, final WebEventInputProvider eventInputProvider, final WebState state) {
     String oldFrameId = webBrowser.getFrameId();
+    WebEventElement eventElem = (WebEventElement) elem;
 
-    String frameId = event.getFrameId();
+    String frameId = eventElem.getFrameId();
     webBrowser.moveToAbsoluteFrame(frameId);
 
-    selenium.doCommand(event.getEventType(), event.getCssLocator(), event.getInput());
+    try {
+      String input = eventElem.getInput();
 
-    webBrowser.moveToAbsoluteFrame(oldFrameId);
+      if (state != null) {
+        By locator = SeleniumHelper.convertStringLocatorToBy(eventElem.getCssLocator());
+        WebElement webElement = webBrowser.getWebDriver().findElement(locator);
+        input = this.getAugmentedInput(eventElem, eventInputProvider, webElement, state);
+      }
+      selenium.doCommand(eventElem.getEventType(), eventElem.getCssLocator(), input);
+
+    } catch (Throwable t) {
+      return new WebEventExecutionResult(false, null, null, elem, "", t);
+    } finally {
+      webBrowser.moveToAbsoluteFrame(oldFrameId);
+    }
+    return new WebEventExecutionResult();
+  }
+
+  private String getAugmentedInput(final WebEventElement eventElem, final WebEventInputProvider eventInputProvider, final WebElement webElement, final WebState state) {
+    String eventType = eventElem.getEventType();
+    String eventId = eventElem.getId();
+    String input = eventElem.getInput();
+    int argCount = MyWebDriverBackedSelenium.getArgCount(eventType);
+
+    // command should require input (argCount == 2)     format: command (locator, input)
+    if (argCount == 2 && input == null) {
+      String frameId = eventElem.getFrameId();
+
+      Document document = state.getWebDoc().getFrame(frameId).getDocument();
+
+      // it first uses custom input handler
+      List<TypeHandlerPair<EventType, EventInputHandler<WebEventElement, WebElement>>> customInputHandler = eventInputProvider.getCustomEventInputHandler();
+      for (TypeHandlerPair<EventType, EventInputHandler<WebEventElement, WebElement>> pair : customInputHandler) {
+        String targetEventType = pair.getKey().getEventTypeName();
+        if (!eventType.equals(targetEventType)) {
+          continue;
+        }
+
+        Set<String> idSet = WebEventExtractor.selectIdSet(document, pair.getKey().getEventLocator());
+        if (idSet.contains(idSet)) {
+          EventInputHandler<WebEventElement, WebElement> handler = pair.getValue();
+          input = handler.getInput(eventElem, webElement);
+
+          if (input != null) {
+            return input;
+          }
+        }
+      }
+
+      // or, try to use default Input handler
+      Map<String, EventInputHandler<WebEventElement, WebElement>> defaultInputHandler = eventInputProvider.getDefaultEventInputHandler();
+      for (String targetEventType : defaultInputHandler.keySet()) {
+        if (!eventType.equals(targetEventType)) {
+          continue;
+        }
+
+        EventInputHandler<WebEventElement, WebElement> handler = defaultInputHandler.get(targetEventType);
+        input = handler.getInput(eventElem, webElement);
+        if (input != null) {
+          return input;
+        }
+      }
+
+      if (input == null) {
+        throw new RuntimeException("Event input is null!");
+      }
+
+    }
+
+    return input;
   }
 }

@@ -19,5 +19,16 @@ package edu.unl.webautomator.core.model;
 /**
  * Created by gigony on 12/6/14.
  */
-public interface TestCase {
+public interface TestCase<E> extends Iterable<Event<E>> {
+
+  int size();
+
+  void add(Event<E> event);
+
+  void remove(int index);
+
+  Event<E> get(int index);
+
+  void set(int index, Event<E> event);
+
 }
