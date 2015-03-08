@@ -33,15 +33,25 @@ public final class IOHelper {
 
   public static String getResourceAsString(final String path) {
     try {
-      InputStream stream = new BufferedInputStream(new FileInputStream(new File(ClassLoader.getSystemResource(path).toURI().getPath())));
-      String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
-      return content;
-    } catch (IOException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e.getMessage());
+      File file = new File(ClassLoader.getSystemResource(path).toURI().getPath());
+      return getFileContentAsString(file);
     } catch (URISyntaxException e) {
       e.printStackTrace();
       throw new RuntimeException(e.getMessage());
     }
+  }
+
+  public static String getFileContentAsString(final File file) {
+    System.out.println("######" + file.getAbsolutePath());
+    InputStream stream = null;
+    String content = null;
+    try {
+      stream = new BufferedInputStream(new FileInputStream(file));
+      content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e.getMessage());
+    }
+    return content;
   }
 }

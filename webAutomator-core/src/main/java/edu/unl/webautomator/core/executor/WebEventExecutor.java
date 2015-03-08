@@ -31,6 +31,7 @@ import org.jsoup.nodes.Document;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,12 +60,14 @@ public class WebEventExecutor implements EventExecutor<WebEventElement> {
     WebEventInputProvider eventInputProvider = this.webAutomator.getEventInputProvider();
     MyWebDriverBackedSelenium selenium = webBrowser.getSelenium();
 
-    for (WebEventElement elem : e.getPreConditions()) {
-      WebEventExecutionResult executionResult = this.execute(webBrowser, selenium, elem, eventInputProvider, state);
-      if (!executionResult.isPassed()) {
-        executionResult.setFailedEvent(e);
-        executionResult.setCauseMessage(String.format("Failed to verify a precondition (%s) in an event (%s) exception: %s", elem, e, executionResult.getThrowable().getMessage()));
-        return executionResult;
+    if (e.getPreConditions() != null) {
+      for (WebEventElement elem : e.getPreConditions()) {
+        WebEventExecutionResult executionResult = this.execute(webBrowser, selenium, elem, eventInputProvider, state);
+        if (!executionResult.isPassed()) {
+          executionResult.setFailedEvent(e);
+          executionResult.setCauseMessage(String.format("Failed to verify a precondition (%s) in an event (%s) exception: %s", elem, e, executionResult.getThrowable().getMessage()));
+          return executionResult;
+        }
       }
     }
 
@@ -77,12 +80,14 @@ public class WebEventExecutor implements EventExecutor<WebEventElement> {
       }
     }
 
-    for (WebEventElement elem : e.getPostConditions()) {
-      WebEventExecutionResult executionResult = this.execute(webBrowser, selenium, elem, eventInputProvider, state);
-      if (!executionResult.isPassed()) {
-        executionResult.setFailedEvent(e);
-        executionResult.setCauseMessage(String.format("Failed to verify a postcondition (%s) in an event (%s) exception: %s", elem, e, executionResult.getThrowable().getMessage()));
-        return executionResult;
+    if (e.getPostConditions() != null) {
+      for (WebEventElement elem : e.getPostConditions()) {
+        WebEventExecutionResult executionResult = this.execute(webBrowser, selenium, elem, eventInputProvider, state);
+        if (!executionResult.isPassed()) {
+          executionResult.setFailedEvent(e);
+          executionResult.setCauseMessage(String.format("Failed to verify a postcondition (%s) in an event (%s) exception: %s", elem, e, executionResult.getThrowable().getMessage()));
+          return executionResult;
+        }
       }
     }
 
@@ -99,21 +104,32 @@ public class WebEventExecutor implements EventExecutor<WebEventElement> {
 
   private WebEventExecutionResult execute(final WebBrowser webBrowser, final MyWebDriverBackedSelenium selenium, final WebEventElement elem, final WebEventInputProvider eventInputProvider, final WebState state) {
     String oldFrameId = webBrowser.getFrameId();
-    WebEventElement eventElem = (WebEventElement) elem;
+    WebEventElement eventElem = elem;
 
     String frameId = eventElem.getFrameId();
-    webBrowser.moveToAbsoluteFrame(frameId);
+
+    if (frameId != null) {
+      webBrowser.moveToAbsoluteFrame(frameId);
+    } else {
+      frameId = oldFrameId;
+    }
 
     try {
-      String input = eventElem.getInput();
-
       if (state != null) {
-        By locator = SeleniumHelper.convertStringLocatorToBy(eventElem.getTarget());
-        WebElement webElement = MyWebDriverBackedSelenium.isLocationBasedInputAction(eventElem.getEventType()) ?
-          webBrowser.getWebDriver().findElement(locator) : null;
-        input = this.getAugmentedInput(eventElem, eventInputProvider, webElement, state);
+        if (!MyWebDriverBackedSelenium.requireInput(eventElem)) {
+          if (MyWebDriverBackedSelenium.isLocationBasedInputAction(eventElem.getEventType())) {
+            // assume that first argument is a locator
+            By locator = SeleniumHelper.convertStringLocatorToBy(eventElem.getArgs().get(0));
+            WebElement webElement = webBrowser.getWebDriver().findElement(locator);
+            String input = this.getAugmentedInput(frameId, eventElem, eventInputProvider, webElement, state);
+            eventElem.addArg(input);
+          }
+        }
       }
-      selenium.doCommand(eventElem.getEventType(), eventElem.getTarget(), input);
+      selenium.doCommand(eventElem);
+
+      // change internal framestack if eventtype is 'selectFrame'
+      this.changeFrame(eventElem, webBrowser);
 
     } catch (Throwable t) {
       return new WebEventExecutionResult(false, null, null, elem, "", t);
@@ -123,15 +139,23 @@ public class WebEventExecutor implements EventExecutor<WebEventElement> {
     return new WebEventExecutionResult();
   }
 
-  private String getAugmentedInput(final WebEventElement eventElem, final WebEventInputProvider eventInputProvider, final WebElement webElement, final WebState state) {
+  private void changeFrame(final WebEventElement eventElem, final WebBrowser webBrowser) {
+    if (!eventElem.equals("selectFrame")) {
+      return;
+    }
+    String frameSelector = eventElem.getArgs().get(0);
+
+    webBrowser.changeFrameStack(frameSelector);
+  }
+
+  private String getAugmentedInput(final String frameId, final WebEventElement eventElem, final WebEventInputProvider eventInputProvider, final WebElement webElement, final WebState state) {
     String eventType = eventElem.getEventType();
-    String eventId = eventElem.getTarget();
-    String input = eventElem.getInput();
+    String input = null;
+
     int argCount = MyWebDriverBackedSelenium.getArgCount(eventType);
 
     // command should require input (argCount == 2)     format: command (locator, input)
-    if (argCount == 2 && input == null) {
-      String frameId = eventElem.getFrameId();
+    if (argCount == 2) {
 
       Document document = state.getWebDoc().getFrame(frameId).getDocument();
 

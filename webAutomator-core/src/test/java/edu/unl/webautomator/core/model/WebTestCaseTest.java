@@ -28,12 +28,12 @@ public class WebTestCaseTest {
   public final void  testJsonExport() {
     WebTestCase testcase = new WebTestCase("http://localhost:8080");
 
-    testcase.add(new WebEvent(new WebEventElement("open", "", "/page1.html", null)));
-    testcase.add(new WebEvent(new WebEventElement("type", "", "css=#name", null)));
-    testcase.add(new WebEvent(new WebEventElement("click", "", "css=#yes_drives", null)));
-    testcase.add(new WebEvent(new WebEventElement("click", "", "css=#any_time", null)));
-    testcase.add(new WebEvent(new WebEventElement("type", "", "css=#mobile_number", null)));
-    testcase.add(new WebEvent(new WebEventElement("click", "", "css=#submit", null)));
+    testcase.add(new WebEvent(new WebEventElement("open", null, "/page1.html", null)));
+    testcase.add(new WebEvent(new WebEventElement("type", null, "css=#name", null)));
+    testcase.add(new WebEvent(new WebEventElement("click", null, "css=#yes_drives", null)));
+    testcase.add(new WebEvent(new WebEventElement("click", null, "css=#any_time", null)));
+    testcase.add(new WebEvent(new WebEventElement("type", null, "css=#mobile_number", null)));
+    testcase.add(new WebEvent(new WebEventElement("click", null, "css=#submit", null)));
     JacksonHelper.printObjectToJson(testcase);
 
 

@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import edu.unl.webautomator.core.QTE;
 import edu.unl.webautomator.core.StaticWebServer;
 import edu.unl.webautomator.core.WebAutomator;
+import edu.unl.webautomator.core.model.TestCase;
 import edu.unl.webautomator.core.model.WebEvent;
 import edu.unl.webautomator.core.model.WebEventElement;
 import edu.unl.webautomator.core.model.WebTestCase;
@@ -65,7 +66,15 @@ public class WebTestCaseConverterTest {
   public final void testLoadHtmlTestCase() throws Exception {
     String fileName = ClassLoader.getSystemResource("fixture/testcases/sampleTestCase.html").toURI().getPath();
     WebTestCase testCase = new WebTestCaseConverter(null).loadTestCase(fileName, "html");
+    JacksonHelper.printObjectToJson(testCase);
+  }
 
+  @Test
+  public final void testSaveHtmlTestCase() throws Exception {
+    String fileName = ClassLoader.getSystemResource("fixture/testcases/sampleTestCase.html").toURI().getPath();
+    WebTestCase testCase = new WebTestCaseConverter(null).loadTestCase(fileName, "html");
+    JacksonHelper.printObjectToJson(testCase);
+    new WebTestCaseConverter(null).saveTestCase("test.html", "html", testCase);
   }
 
   @Test

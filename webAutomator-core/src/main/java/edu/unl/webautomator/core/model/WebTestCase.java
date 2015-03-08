@@ -31,22 +31,30 @@ import java.util.List;
   getterVisibility = JsonAutoDetect.Visibility.NONE,
   setterVisibility = JsonAutoDetect.Visibility.NONE,
   isGetterVisibility = JsonAutoDetect.Visibility.NONE)
-public class WebTestCase implements TestCase<WebEvent> {
+public class WebTestCase implements TestCase<WebEvent>, Iterable<WebEvent> {
+  private String title = "";
   private String baseUrl = "";
   private WebEvent prefixEvent = new WebEvent();
   private List<WebEvent> testCase = new ArrayList<WebEvent>();
 
 
   @JsonCreator
-  public WebTestCase(@JsonProperty("baseUrl") final String baseUrl,
+  public WebTestCase(@JsonProperty("title") final String title,
+                     @JsonProperty("baseUrl") final String baseUrl,
                      @JsonProperty("prefixEvent") final WebEvent prefixEvent,
                      @JsonProperty("testCase") final List<WebEvent> testCase) {
+    this.title = title;
     this.baseUrl = baseUrl;
     this.prefixEvent = prefixEvent;
     this.testCase = testCase;
   }
 
   public WebTestCase(final String baseUrl) {
+    this.baseUrl = baseUrl;
+  }
+
+  public WebTestCase(final String title, final String baseUrl) {
+    this.title = title;
     this.baseUrl = baseUrl;
   }
 
@@ -60,7 +68,7 @@ public class WebTestCase implements TestCase<WebEvent> {
   }
 
   @Override
-  public final void setPrefix(final WebEvent event) {
+  public final void setPrefixEvent(final WebEvent event) {
     this.prefixEvent = event;
   }
 
@@ -85,7 +93,15 @@ public class WebTestCase implements TestCase<WebEvent> {
   }
 
   public final Iterator<WebEvent> iterator() {
-    return this.testCase.iterator();
+    return new WebTestCaseIterator(this);
+  }
+
+  public final String getTitle() {
+    return this.title;
+  }
+
+  public final void setTitle(final String title) {
+    this.title = title;
   }
 
   public final void setBaseUrl(final String baseUrl) {
@@ -94,5 +110,34 @@ public class WebTestCase implements TestCase<WebEvent> {
 
   public final String getBaseUrl() {
     return this.baseUrl;
+  }
+
+
+  private class WebTestCaseIterator implements Iterator<WebEvent> {
+    private WebTestCase webTestCase;
+    private int index;
+    private int totalSize;
+    public WebTestCaseIterator(final WebTestCase webTestCase) {
+      this.webTestCase = webTestCase;
+      this.index = webTestCase.getPrefixEvent() != null && webTestCase.getPrefixEvent().size() > 0 ? -1 : 0;
+      this.totalSize = webTestCase.size();
+    }
+
+    @Override
+    public boolean hasNext() {
+      return this.index < this.totalSize;
+    }
+
+    @Override
+    public WebEvent next() {
+      WebEvent result;
+      if (this.index == -1) {
+        result = this.webTestCase.getPrefixEvent();
+      } else {
+        result = this.webTestCase.get(this.index);
+      }
+      this.index++;
+      return result;
+    }
   }
 }

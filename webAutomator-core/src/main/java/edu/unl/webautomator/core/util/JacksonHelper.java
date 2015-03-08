@@ -17,6 +17,7 @@
 package edu.unl.webautomator.core.util;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -42,6 +43,7 @@ public final class JacksonHelper {
   private JacksonHelper() {
     this.mapper.registerModule(new GuavaModule());
     this.mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+    this.mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     //http://wiki.fasterxml.com/JacksonFAQ#Deserializing_Abstract_types
 //    Version version = new Version(1, 0, 0, "SNAPSHOT", "edu.unl", "qte"); // maven/OSGi style version
 //    SimpleModule module = new SimpleModule("MyModuleName", version);

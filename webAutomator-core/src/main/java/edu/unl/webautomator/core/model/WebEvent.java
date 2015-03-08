@@ -23,6 +23,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -32,21 +33,21 @@ import java.util.List;
   getterVisibility = JsonAutoDetect.Visibility.NONE,
   setterVisibility = JsonAutoDetect.Visibility.NONE,
   isGetterVisibility = JsonAutoDetect.Visibility.NONE)
-public class WebEvent implements Event<WebEventElement> {
+public class WebEvent implements Event<WebEventElement>, Iterable<WebEventElement> {
   private List<WebEventElement> preConditions;
   private List<WebEventElement> actions;
   private List<WebEventElement> postConditions;
 
   public WebEvent() {
-    this.preConditions = new ArrayList<WebEventElement>();
+//    this.preConditions = new ArrayList<WebEventElement>();
     this.actions = new ArrayList<WebEventElement>();
-    this.postConditions = new ArrayList<WebEventElement>();
+//    this.postConditions = new ArrayList<WebEventElement>();
   }
 
   public WebEvent(final WebEventElement webElem) {
-    this.preConditions = new ArrayList<WebEventElement>();
+//    this.preConditions = new ArrayList<WebEventElement>();
     this.actions = new ArrayList<WebEventElement>();
-    this.postConditions = new ArrayList<WebEventElement>();
+//    this.postConditions = new ArrayList<WebEventElement>();
 
     this.actions.add(webElem);
   }
@@ -99,6 +100,9 @@ public class WebEvent implements Event<WebEventElement> {
 
   @Override
   public final WebEvent addPreCondition(final WebEventElement element) {
+    if (this.preConditions == null) {
+      this.preConditions = new ArrayList<WebEventElement>();
+    }
     this.preConditions.add(element);
     return this;
   }
@@ -111,6 +115,9 @@ public class WebEvent implements Event<WebEventElement> {
 
   @Override
   public final WebEvent addPostCondition(final WebEventElement element) {
+    if (this.postConditions == null) {
+      this.postConditions = new ArrayList<WebEventElement>();
+    }
     this.postConditions.add(element);
     return this;
   }
@@ -127,7 +134,7 @@ public class WebEvent implements Event<WebEventElement> {
 
   @Override
   public final WebEventElement getFirstPreCondition() {
-    if (this.preConditions.isEmpty()) {
+    if (this.preConditions == null || this.preConditions.isEmpty()) {
       return null;
     }
     return this.preConditions.get(0);
@@ -143,7 +150,7 @@ public class WebEvent implements Event<WebEventElement> {
 
   @Override
   public final int getPreConditionSize() {
-    return this.preConditions.size();
+    return this.preConditions != null ? this.preConditions.size() : 0;
   }
 
   @Override
@@ -194,7 +201,7 @@ public class WebEvent implements Event<WebEventElement> {
 
   @Override
   public final WebEventElement getFirstPostCondition() {
-    if (this.postConditions.isEmpty()) {
+    if (this.postConditions == null || this.postConditions.isEmpty()) {
       return null;
     }
     return this.postConditions.get(0);
@@ -210,7 +217,7 @@ public class WebEvent implements Event<WebEventElement> {
 
   @Override
   public final int getPostConditionSize() {
-    return this.postConditions.size();
+    return this.postConditions != null ? this.postConditions.size() : 0;
   }
 
   @Override
@@ -236,5 +243,34 @@ public class WebEvent implements Event<WebEventElement> {
       .add("actions", this.actions)
       .add("postConditions", this.postConditions)
       .toString();
+  }
+
+  @Override
+  public final Iterator<WebEventElement> iterator() {
+    return new WebEventIterator(this);
+  }
+
+  private class WebEventIterator implements Iterator<WebEventElement> {
+    private WebEvent webEvent;
+    private int totSize;
+    private int index;
+
+    public WebEventIterator(final WebEvent webEvent) {
+      this.webEvent = webEvent;
+      this.index = 0;
+      this.totSize = webEvent.size();
+    }
+
+    @Override
+    public boolean hasNext() {
+      return this.index < this.totSize;
+    }
+
+    @Override
+    public WebEventElement next() {
+      WebEventElement result = this.webEvent.get(this.index);
+      this.index++;
+      return result;
+    }
   }
 }

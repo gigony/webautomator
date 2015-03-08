@@ -34,6 +34,10 @@ public interface Event<E> {
 
   Event<E> addPostCondition(E element);
 
+  /**
+   * This may return null;
+   * @return
+   */
   List<E> getPreConditions();
 
   E getPreCondition(int index);
@@ -56,6 +60,10 @@ public interface Event<E> {
 
   int getActionSize();
 
+  /**
+   * This may return null;
+   * @return
+   */
   List<E> getPostConditions();
 
   E getPostCondition(int index);

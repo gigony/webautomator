@@ -48,6 +48,8 @@ public interface WebBrowser {
 
   String getFrameId();
 
+  void changeFrameStack(String frameSelector);
+
   void moveToDefaultFrame();
 
   void moveToRelativeFrame(String frameId);

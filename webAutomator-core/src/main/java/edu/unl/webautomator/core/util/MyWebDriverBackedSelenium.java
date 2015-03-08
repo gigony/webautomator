@@ -19,11 +19,11 @@ package edu.unl.webautomator.core.util;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.Sets;
 import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
+import edu.unl.webautomator.core.model.WebEventElement;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,7 +33,7 @@ import java.util.Set;
 public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
   private static final Logger LOG = LoggerFactory.getLogger(MyWebDriverBackedSelenium.class);
   private static Map<String, String[]> apis;
-  private static Map<String, Integer> argMap;
+  //  private static Map<String, Integer> argMap;
   private static Set<String> locationBasedInputActionSet;
   private static Set<String> locationBasedActionSet;
 
@@ -58,7 +58,7 @@ public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
       "mouseMove", "mouseMoveAt", "type", "typeKeys", "check", "uncheck", "select", "addSelection", "removeSelection",
       "removeAllSelections", "submit", "selectFrame", "dragdrop", "dragAndDrop", "setCursorPosition", "assignId");
 
-    argMap = new HashMap<String, Integer>();
+   /* argMap = new HashMap<String, Integer>();
     argMap.put("shiftKeyDown", 0);
     argMap.put("shiftKeyUp", 0);
     argMap.put("metaKeyDown", 0);
@@ -207,50 +207,104 @@ public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
     argMap.put("rollup", 2);
     argMap.put("addScript", 2);
     argMap.put("attachFile", 2);
-    argMap.put("addCustomRequestHeader", 2);
+    argMap.put("addCustomRequestHeader", 2);*/
   }
 
   public MyWebDriverBackedSelenium(final WebDriver baseDriver, final String baseUrl) {
     super(baseDriver, baseUrl);
   }
 
+  public final String doCommand(final WebEventElement elem) {
+    String result = null;
+    String command = elem.getEventType();
 
-  public final String doCommand(final String command) {
-    return commandProcessor.doCommand(command, new String[]{});
-  }
+    //TODO implement STORE/ASSERT/VERIFY/WAITFOR command
+    if (this.isStoreCommand(command)) {
 
-  public final String doCommand(final String command, final String locator) {
-    return commandProcessor.doCommand(command, new String[]{locator, });
-  }
+    } else if (this.isAssertCommand(command)) {
 
-  public final String doCommand(final String command, final String locator, final String input) {
-    Integer argCount = argMap.get(command);
-    if (argCount == null) {
-      throw new RuntimeException(String.format("Command '%s' is not supported!", command));
+    } else if (this.isAssertNotCommand(command)) {
+
+    } else if (this.isVerifyCommand(command)) {
+
+    } else if (this.isVerifyNotCommand(command)) {
+
+    } else if (this.isWaitForCommand(command)) {
+
+    } else if (this.isWaitForNotCommand(command)) {
+
+    } else {
+      commandProcessor.doCommand(command, elem.getArgs().toArray(new String[0]));
     }
-
-    switch (argCount) {
-      case 0:
-        return this.doCommand(command);
-      case 1:
-        return this.doCommand(command, locator);
-      case 2:
-        return commandProcessor.doCommand(command, new String[]{locator, input});
-      default:
-        throw new RuntimeException("Do nothing!");
-    }
+    return result;
   }
+
+  private boolean isStoreCommand(final String command) {
+    return false;
+  }
+
+  private boolean isAssertCommand(final String command) {
+    return false;
+  }
+
+  private boolean isAssertNotCommand(final String command) {
+    return false;
+  }
+
+  private boolean isVerifyCommand(final String command) {
+    return false;
+  }
+
+  private boolean isVerifyNotCommand(final String command) {
+    return false;
+  }
+
+  private boolean isWaitForCommand(final String command) {
+    return false;
+  }
+
+  private boolean isWaitForNotCommand(final String command) {
+
+    return false;
+  }
+
+
+//  public final String doCommand(final String command) {
+//    return commandProcessor.doCommand(command, new String[]{});
+//  }
+//
+//  public final String doCommand(final String command, final String locator) {
+//    return commandProcessor.doCommand(command, new String[]{locator, });
+//  }
+//
+//  public final String doCommand(final String command, final String locator, final String input) {
+//    Integer argCount = argMap.get(command);
+//    if (argCount == null) {
+//      throw new RuntimeException(String.format("Command '%s' is not supported!", command));
+//    }
+//
+//    switch (argCount) {
+//      case 0:
+//        return this.doCommand(command);
+//      case 1:
+//        return this.doCommand(command, locator);
+//      case 2:
+//        return commandProcessor.doCommand(command, new String[]{locator, input});
+//      default:
+//        throw new RuntimeException("Do nothing!");
+//    }
+//  }
 
   public static final boolean exists(final String apiName) {
     return apis.containsKey(apiName);
   }
 
   public static final int getArgCount(final String command) {
-    Integer result = argMap.get(command);
+    String[] result = apis.get(command);
     if (result == null) {
-      return 0;
+      throw new RuntimeException(String.format("Event type '%s' does not exist!", command));
     } else {
-      return argMap.get(command);
+      return result.length;
     }
   }
 
@@ -262,6 +316,15 @@ public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
     return locationBasedActionSet.contains(eventType);
   }
 
+  public static boolean requireInput(final WebEventElement eventElem) {
+    String command = eventElem.getEventType();
+    if (!exists(command)) {
+      return false;
+    }
+
+    int argFullSize = getArgCount(command);
+    return eventElem.getArgSize() != argFullSize;
+  }
 }
 
 /*

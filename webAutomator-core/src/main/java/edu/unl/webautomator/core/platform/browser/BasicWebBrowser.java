@@ -103,7 +103,11 @@ public abstract class BasicWebBrowser implements WebBrowser {
 
   @Override
   public final String getFrameId() {
-    Iterator<String> iterator = this.frameStack.descendingIterator();
+    return this.getFrameId(this.frameStack);
+  }
+
+  public static final String getFrameId(final LinkedList<String> frameStack) {
+    Iterator<String> iterator = frameStack.descendingIterator();
     StringBuffer buf = new StringBuffer();
     String frameName;
 
@@ -119,6 +123,45 @@ public abstract class BasicWebBrowser implements WebBrowser {
     }
 
     return buf.toString();
+  }
+
+  @Override
+  public final void changeFrameStack(final String frameSelector) {
+    String locator = frameSelector;
+
+    if (locator == null || locator.equals("") || locator.equals("null")) {
+      this.frameStack.clear();
+    }
+
+    if ("relative=top".equals(locator)) {
+      this.frameStack.clear();
+      return;
+    }
+
+    if ("relative=up".equals(locator)) {
+      if (!this.frameStack.isEmpty()) {
+        this.frameStack.pop();
+      }
+      return;
+    }
+
+    if (locator.startsWith("index=")) {
+      try {
+        locator = locator.substring("index=".length());
+        this.frameStack.push(locator);
+        return;
+      } catch (NumberFormatException e) {
+        throw new RuntimeException(String.format("locator(locator) is incorrect in 'selectFrame' command", locator));
+      }
+    }
+
+    if (locator.startsWith("id=")) {
+      locator = locator.substring("id=".length());
+    } else if (locator.startsWith("name=")) {
+      locator = locator.substring("name=".length());
+    }
+
+    this.frameStack.push(locator);
   }
 
   @Override

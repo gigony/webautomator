@@ -56,6 +56,7 @@
   "setTimeout": ["timeout"],
   "store": ["expression", "variableName"],
   "submit": ["formLocator"],
+  "type": ["locator", "value"],
   "typeKeys": ["locator", "value"],
   "uncheck": ["locator"],
   "sendKeys": ["locator", "value"],

@@ -22,6 +22,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import edu.unl.webautomator.core.util.MyWebDriverBackedSelenium;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by gigony on 12/6/14.
@@ -33,39 +37,46 @@ import com.google.common.base.Objects;
 public class WebEventElement implements EventElement {
   private String eventType;
   private String frameId;
-  private String target;
-  private String input; /** null if there is no input data for this event type **/
+  private List<String> args = new ArrayList<String>();
 
   public WebEventElement(final String eventTypeName, final String uniqueId) {
-    this.eventType = eventTypeName;
-    this.frameId = "";
-    this.target = uniqueId;
-    this.input = null;
+    this(eventTypeName, null, uniqueId, null);
+
   }
 
   public WebEventElement(final String eventTypeName, final String frameId, final String uniqueId) {
+    this(eventTypeName, frameId, uniqueId, null);
+  }
+
+  public WebEventElement(final String eventTypeName, final String frameId, final String target, final String input) {
     this.eventType = eventTypeName;
     this.frameId = frameId;
-    this.target = uniqueId;
-    this.input = null;
+    int argSize = MyWebDriverBackedSelenium.getArgCount(eventTypeName);
+    if (argSize >= 1) {
+      if (target != null) {
+        this.args.add(target);
+      } else {
+        throw new RuntimeException(String.format("First argument of an event '%s' should not null!", eventTypeName));
+      }
+    }
+
+    if (argSize >= 2 && input != null) {
+      this.args.add(input);
+    }
   }
 
   /**
-   *
    * @param eventTypeName
    * @param frameId
-   * @param target
-   * @param input null if there is no input (e.g., click)
+   * @param args
    */
   @JsonCreator
   public WebEventElement(@JsonProperty("eventType") final String eventTypeName,
                          @JsonProperty("frameId") final String frameId,
-                         @JsonProperty("target") final String target,
-                         @JsonProperty("input") final String input) {
+                         @JsonProperty("args") final List<String> args) {
     this.eventType = eventTypeName;
     this.frameId = frameId;
-    this.target = target;
-    this.input = input;
+    this.args = args;
   }
 
   @Override
@@ -73,22 +84,35 @@ public class WebEventElement implements EventElement {
     return this.eventType;
   }
 
+  public final void setEventType(final String eventType) {
+    this.eventType = eventType;
+  }
+
   public final String getFrameId() {
     return this.frameId;
   }
 
-  @Override
-  public final String getTarget() {
-    return this.target;
+  public final void setFrameId(final String frameId) {
+    this.frameId = frameId;
   }
-  @Override
-  public final String getInput() {
-    return this.input;
+
+  public final List<String> getArgs() {
+    return this.args;
+  }
+
+  public final int getArgSize() {
+    return this.args.size();
+  }
+
+  public final void addArg(final String value) {
+    if (value != null) {
+      this.args.add(value);
+    }
   }
 
   @Override
   public final int hashCode() {
-    return Objects.hashCode(this.eventType, this.frameId, this.target, this.input);
+    return Objects.hashCode(this.eventType, this.frameId, this.args);
   }
 
   @Override
@@ -97,8 +121,7 @@ public class WebEventElement implements EventElement {
       WebEventElement that = (WebEventElement) obj;
       return Objects.equal(this.eventType, that.eventType)
         && Objects.equal(this.frameId, that.frameId)
-        && Objects.equal(this.target, that.target)
-        && Objects.equal(this.input, that.input);
+        && Objects.equal(this.args, that.args);
     }
     return false;
   }
@@ -108,8 +131,9 @@ public class WebEventElement implements EventElement {
     return MoreObjects.toStringHelper(this)
       .add("eventType", this.eventType)
       .add("frameId", this.frameId)
-      .add("target", this.target)
-      .add("input", this.input)
+      .add("args", this.args)
       .toString();
   }
+
+
 }

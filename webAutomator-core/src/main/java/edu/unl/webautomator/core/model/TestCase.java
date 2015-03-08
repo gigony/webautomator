@@ -23,7 +23,7 @@ public interface TestCase<E> extends Iterable<E> {
 
   int size();
 
-  void setPrefix(E event);
+  void setPrefixEvent(E event);
 
   void add(E event);
 

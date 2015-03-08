@@ -24,15 +24,20 @@ import com.google.inject.assistedinject.Assisted;
 import edu.unl.webautomator.core.WebAutomator;
 import edu.unl.webautomator.core.exception.UnsupportedTestCaseException;
 import edu.unl.webautomator.core.model.*;
+import edu.unl.webautomator.core.platform.browser.BasicWebBrowser;
+import edu.unl.webautomator.core.util.IOHelper;
 import edu.unl.webautomator.core.util.JSoupHelper;
 import edu.unl.webautomator.core.util.JacksonHelper;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -66,7 +71,8 @@ public class WebTestCaseConverter implements TestCaseConverter<WebEvent> {
       mapper.registerModule(module);
 
 //      try {
-      result = JacksonHelper.loadObjectFromJsonFile(file, WebTestCase.class);
+      //result = JacksonHelper.loadObjectFromJsonFile(file, WebTestCase.class);
+      result = JacksonHelper.loadObjectFromJsonString(IOHelper.getFileContentAsString(file), WebTestCase.class);
       //mapper.readValue(file, WebTestCase.class);
 //      } catch (IOException e) {
 //        e.printStackTrace();
@@ -85,6 +91,8 @@ public class WebTestCaseConverter implements TestCaseConverter<WebEvent> {
 
   private WebTestCase getHtmlTestCase(final File file) throws Exception {
     Document doc = JSoupHelper.parse(file);
+
+
     Element baseUrlElem = doc.select("link").get(0);
     if (!baseUrlElem.attr("rel").equals("selenium.base")) {
       throw new RuntimeException("does not have 'selenium.base' attribute");
@@ -94,6 +102,7 @@ public class WebTestCaseConverter implements TestCaseConverter<WebEvent> {
 
     // get raw information
     String baseUrl = baseUrlElem.attr("href");
+    String title = doc.select("title").get(0).text();
     Elements eventItems = doc.select("body>table>tbody>tr");
     for (Element eventItem : eventItems) {
       Elements eventElems = eventItem.select("td");
@@ -104,40 +113,114 @@ public class WebTestCaseConverter implements TestCaseConverter<WebEvent> {
       String command = eventElems.get(0).text();
       String target = eventElems.get(1).text();
       String input = eventElems.get(2).text();
-
-      webEventElements.add(new WebEventElement(command, "", target, input));
+      webEventElements.add(new WebEventElement(command, null, target, input));
     }
 
-    WebTestCase result = new WebTestCase(baseUrl);
+
+    // refactoring actions
+    // frame reference: com.thoughtworks.selenium.webdriven.Windows
+
+    WebTestCase result = new WebTestCase(title, baseUrl);
     int elemSize = webEventElements.size();
-
     WebEvent event = new WebEvent();
+    LinkedList<String> frameStack = new LinkedList<String>();
 
-    boolean isFirstOpenCmd = true;
+
+    boolean isPrefixCmd = true;
     for (int i = 0; i < elemSize; i++) {
       WebEventElement elem = webEventElements.get(i);
+      String command = elem.getEventType();
+      String currFrameId = BasicWebBrowser.getFrameId(frameStack);
 
-      if ("open".equals(elem.getEventType())) {
-        event.addAction(elem);
-        isFirstOpenCmd = false;
-        result.setPrefix(event);
-        event = new WebEvent();
+//    uncomment next line if you want to set frameId for each event
+//      elem.setFrameId(currFrameId);
+
+      elem.setFrameId(null);
+
+      if ("open".equals(command)) {
+        frameStack.clear();
+      }
+
+      if (isPrefixCmd) {
+        if ("open".equals(command)) {
+          event.addAction(elem);
+          isPrefixCmd = false;
+          // regard prefix commands until 'open' command as a prefix event of a test case
+          result.setPrefixEvent(event);
+        } else {
+          event.addAction(elem); // will be added as a prefix event of a test case
+        }
         continue;
       }
 
-      if (isFirstOpenCmd) {
-        event.addAction(elem);
+      if (command.startsWith("assert") || command.startsWith("verify")) {
+        event.addPostCondition(elem);
       } else {
-        System.out.println(); //
+
+        if (event.getActionSize() > 0) {
+          event = new WebEvent();
+          result.add(event);
+        }
 
 
+        if (command.startsWith("waitFor") || command.equals("selectFrame")) {
+          // set as a precondition
+          if (command.equals("selectFrame")) {
+            this.changeFrame(frameStack, elem.getArgs().get(0));
+            elem.setFrameId(null);
+          }
+          if (event.getActionSize() == 0 && event.getPostConditionSize() == 0) {
+            event.addPreCondition(elem);
+          } else {
+            event = new WebEvent();
+            result.add(event);
+            event.addPreCondition(elem);
+          }
+        } else {
+          event.addAction(elem);
+        }
       }
-
     }
-
 
     return result;
 
+  }
+
+  private void changeFrame(final LinkedList<String> frameStack, final String target) {
+    String locator = target;
+    if (target == null || target.equals("") || target.equals("null")) {
+      frameStack.clear();
+    }
+
+    if ("relative=top".equals(locator)) {
+      frameStack.clear();
+      return;
+    }
+
+    if ("relative=up".equals(locator)) {
+      if (!frameStack.isEmpty()) {
+        frameStack.pop();
+      }
+      return;
+    }
+
+    if (locator.startsWith("index=")) {
+      try {
+        locator = locator.substring("index=".length());
+        frameStack.push(locator);
+        return;
+      } catch (NumberFormatException e) {
+        throw new RuntimeException(String.format("locator(locator) is incorrect in 'selectFrame' command", locator));
+      }
+    }
+
+    if (locator.startsWith("id=")) {
+      locator = locator.substring("id=".length());
+    } else if (locator.startsWith("name=")) {
+      locator = locator.substring("name=".length());
+    }
+
+    frameStack.push(locator);
   }
 
   @Override
@@ -146,7 +229,68 @@ public class WebTestCaseConverter implements TestCaseConverter<WebEvent> {
     String format = fileType.toLowerCase();
     if ("json".equals(fileType)) {
       JacksonHelper.saveObjectToJsonFile(file, testCase);
+    } else if ("html".equals(fileType)) {
+      this.writeHtml(file, (WebTestCase) testCase);
     }
+  }
+
+  private void writeHtml(final File file, final WebTestCase testCase) {
+//    StringEscapeUtils.escapeHtml4(
+    String title = StringEscapeUtils.escapeHtml4(testCase.getTitle());
+    String baseUrl = StringEscapeUtils.escapeHtml4(testCase.getBaseUrl());
+
+
+    StringBuffer contentBuf = new StringBuffer();
+
+    for (WebEvent event : testCase) {
+      for (WebEventElement eventElem : event) {
+        int elemSize = eventElem.getArgSize();
+        String command = eventElem.getEventType();
+        String target = elemSize >= 1 ? StringEscapeUtils.escapeHtml4(eventElem.getArgs().get(0)) : "";
+        String input = elemSize >= 2 ? StringEscapeUtils.escapeHtml4(eventElem.getArgs().get(1)) : "";
+        String body = String.format("<tr>\n"
+          + "\t<td>%s</td>\n"
+          + "\t<td>%s</td>\n"
+          + "\t<td>%s</td>\n"
+          + "</tr>\n", command, target, input);
+        contentBuf.append(body);
+      }
+    }
+
+    StringBuffer buf = new StringBuffer();
+    buf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+      + "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+      + "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n"
+      + "<head profile=\"http://selenium-ide.openqa.org/profiles/test-case\">\n"
+      + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n"
+      + "<link rel=\"selenium.base\" href=\"");
+    buf.append(baseUrl);
+    buf.append("\" />\n"
+      + "<title>");
+    buf.append(title);
+    buf.append("</title>\n"
+      + "</head>\n"
+      + "<body>\n"
+      + "<table cellpadding=\"1\" cellspacing=\"1\" border=\"1\">\n"
+      + "<thead>\n"
+      + "<tr><td rowspan=\"1\" colspan=\"3\">");
+    buf.append(title);
+    buf.append("</td></tr>\n"
+      + "</thead><tbody>\n");
+    buf.append(contentBuf.toString());
+    buf.append("</tbody></table>\n"
+      + "</body>\n"
+      + "</html>\n");
+
+    PrintWriter pw = null;
+    try {
+      pw = new PrintWriter(file);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e.getMessage());
+    }
+    pw.print(buf.toString());
+    pw.close();
   }
 
   @Override

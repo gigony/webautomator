@@ -16,11 +16,13 @@
 
 package edu.unl.webautomator.core.model;
 
+import java.util.List;
+
 /**
  * Created by gigony on 12/6/14.
  */
 public interface EventElement {
   String getEventType();
-  String getTarget();
-  String getInput();
+
+  List<String> getArgs();
 }

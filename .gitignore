@@ -2,6 +2,7 @@ build/
 temp/
 *.log
 *.json
+*.html
 
 # Created by https://www.gitignore.io
 
