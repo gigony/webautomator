@@ -23,8 +23,6 @@ import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -39,13 +37,13 @@ public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
   private static Set<String> locationBasedInputActionSet;
   private static Set<String> locationBasedActionSet;
 
-  static{
+  static {
 
 //    try {
 //      File apiFile = new File(ClassLoader.getSystemResource("seleniumAPI.json").toURI());
-      String apiDoc = IOHelper.getResourceAsString("seleniumAPI.json");
-      apis = JacksonHelper.loadObjectFromJsonString(apiDoc, new TypeReference<Map<String, String[]>>() {
-      });
+    String apiDoc = IOHelper.getResourceAsString("seleniumAPI.json");
+    apis = JacksonHelper.loadObjectFromJsonString(apiDoc, new TypeReference<Map<String, String[]>>() {
+    });
 //    } catch (URISyntaxException e) {
 //      e.printStackTrace();
 //      LOG.error(e.getMessage());

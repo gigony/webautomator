@@ -32,7 +32,6 @@ import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -40,7 +39,7 @@ import java.util.Set;
 /**
  * Created by gigony on 12/6/14.
  */
-public class WebTestCaseConverter implements TestCaseConverter<WebEventElement> {
+public class WebTestCaseConverter implements TestCaseConverter<WebEvent> {
   private WebAutomator webAutomator;
   private static Set<String> supportedFormats = Sets.newHashSet("json", "html");
 
@@ -66,12 +65,13 @@ public class WebTestCaseConverter implements TestCaseConverter<WebEventElement> 
       module.addAbstractTypeMapping(Event.class, WebEvent.class);
       mapper.registerModule(module);
 
-      try {
-        result = mapper.readValue(file, WebTestCase.class);
-      } catch (IOException e) {
-        e.printStackTrace();
-        throw new UnsupportedTestCaseException(String.format("Cannot read test case object from %s", fileName));
-      }
+//      try {
+      result = JacksonHelper.loadObjectFromJsonFile(file, WebTestCase.class);
+      //mapper.readValue(file, WebTestCase.class);
+//      } catch (IOException e) {
+//        e.printStackTrace();
+//        throw new UnsupportedTestCaseException(String.format("Cannot read test case object from %s", fileName));
+//      }
     } else if ("html".equals(format)) {
       try {
         result = this.getHtmlTestCase(file);
@@ -95,7 +95,7 @@ public class WebTestCaseConverter implements TestCaseConverter<WebEventElement> 
     // get raw information
     String baseUrl = baseUrlElem.attr("href");
     Elements eventItems = doc.select("body>table>tbody>tr");
-    for (Element eventItem: eventItems) {
+    for (Element eventItem : eventItems) {
       Elements eventElems = eventItem.select("td");
       if (eventElems.size() != 3) {
         throw new RuntimeException("does not have triple");
@@ -128,9 +128,7 @@ public class WebTestCaseConverter implements TestCaseConverter<WebEventElement> 
       if (isFirstOpenCmd) {
         event.addAction(elem);
       } else {
-
-
-
+        System.out.println(); //
 
 
       }
@@ -138,13 +136,12 @@ public class WebTestCaseConverter implements TestCaseConverter<WebEventElement> 
     }
 
 
-
     return result;
 
   }
 
   @Override
-  public final void saveTestCase(final String fileName, final String fileType, final TestCase<WebEventElement> testCase) {
+  public final void saveTestCase(final String fileName, final String fileType, final TestCase<WebEvent> testCase) {
     File file = new File(fileName);
     String format = fileType.toLowerCase();
     if ("json".equals(fileType)) {

@@ -31,20 +31,21 @@ import java.util.List;
   getterVisibility = JsonAutoDetect.Visibility.NONE,
   setterVisibility = JsonAutoDetect.Visibility.NONE,
   isGetterVisibility = JsonAutoDetect.Visibility.NONE)
-public class WebTestCase implements TestCase<WebEventElement> {
+public class WebTestCase implements TestCase<WebEvent> {
   private String baseUrl = "";
-  private Event<WebEventElement> prefixEvent = new WebEvent();
-  private List<Event<WebEventElement>> testCase = new ArrayList<Event<WebEventElement>>();
+  private WebEvent prefixEvent = new WebEvent();
+  private List<WebEvent> testCase = new ArrayList<WebEvent>();
 
 
   @JsonCreator
   public WebTestCase(@JsonProperty("baseUrl") final String baseUrl,
-                     @JsonProperty("prefixEvent") final Event<WebEventElement> prefixEvent,
-                     @JsonProperty("testCase") final List<Event<WebEventElement>> testCase) {
+                     @JsonProperty("prefixEvent") final WebEvent prefixEvent,
+                     @JsonProperty("testCase") final List<WebEvent> testCase) {
     this.baseUrl = baseUrl;
     this.prefixEvent = prefixEvent;
     this.testCase = testCase;
   }
+
   public WebTestCase(final String baseUrl) {
     this.baseUrl = baseUrl;
   }
@@ -54,17 +55,17 @@ public class WebTestCase implements TestCase<WebEventElement> {
     return this.testCase.size();
   }
 
-  public final Event<WebEventElement> getPrefixEvent() {
+  public final WebEvent getPrefixEvent() {
     return this.prefixEvent;
   }
 
   @Override
-  public final void setPrefix(final Event<WebEventElement> event) {
+  public final void setPrefix(final WebEvent event) {
     this.prefixEvent = event;
   }
 
   @Override
-  public final void add(final Event<WebEventElement> event) {
+  public final void add(final WebEvent event) {
     this.testCase.add(event);
   }
 
@@ -74,21 +75,18 @@ public class WebTestCase implements TestCase<WebEventElement> {
   }
 
   @Override
-  public final Event<WebEventElement> get(final int index) {
+  public final WebEvent get(final int index) {
     return this.testCase.get(index);
   }
 
   @Override
-  public final void set(final int index, final Event<WebEventElement> event) {
+  public final void set(final int index, final WebEvent event) {
     this.testCase.set(index, event);
   }
 
-
-  @Override
-  public final Iterator<Event<WebEventElement>> iterator() {
+  public final Iterator<WebEvent> iterator() {
     return this.testCase.iterator();
   }
-
 
   public final void setBaseUrl(final String baseUrl) {
     this.baseUrl = baseUrl;

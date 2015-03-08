@@ -63,7 +63,7 @@ public class WebTestCaseExecutor implements TestCaseExecutor<WebTestCase> {
 
 
     int eventIndex = 0;
-    for (Event<WebEventElement> e : testCase) {
+    for (WebEvent e : testCase) {
       eventIndex++;
       eventExecutionResult = eventExecutor.execute(e, result.getState(eventIndex - 1));
       webState = stateExtractor.extractState();

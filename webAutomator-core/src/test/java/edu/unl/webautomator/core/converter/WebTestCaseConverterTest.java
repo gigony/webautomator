@@ -29,6 +29,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class WebTestCaseConverterTest {
@@ -85,5 +86,13 @@ public class WebTestCaseConverterTest {
     JacksonHelper.printObjectToJson(test2);
     System.out.println(test.getClass().getTypeName());
     System.out.println(test3.get("a")[0] + " " + test3.get("c")[0]);
+
+    ArrayList<String> test4 = new ArrayList<String>();
+    test4.add("c");
+    test4.add("d");
+    JacksonHelper.printObjectToJson(test4);
+    test4 = JacksonHelper.loadObjectFromJsonString("[ \"a\", \"b\", \"c\" ]", new TypeReference<ArrayList<String>>() {
+    });
+    JacksonHelper.printObjectToJson(test4);
   }
 }
