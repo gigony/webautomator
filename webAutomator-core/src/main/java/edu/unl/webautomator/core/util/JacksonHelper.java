@@ -17,6 +17,7 @@
 package edu.unl.webautomator.core.util;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
@@ -41,6 +42,20 @@ public final class JacksonHelper {
   private JacksonHelper() {
     this.mapper.registerModule(new GuavaModule());
     this.mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+    //http://wiki.fasterxml.com/JacksonFAQ#Deserializing_Abstract_types
+//    Version version = new Version(1, 0, 0, "SNAPSHOT", "edu.unl", "qte"); // maven/OSGi style version
+//    SimpleModule module = new SimpleModule("MyModuleName", version);
+//    module.addAbstractTypeMapping(Event.class, WebEvent.class);
+//    his.mapper.registerModule(module);
+//
+//    SimpleAbstractTypeResolver abstractTypes = new SimpleAbstractTypeResolver();
+//    abstractTypes.addMapping(Event.class, WebEvent.class);
+//    DeserializerFactory df = this.mapper.getDeserializationContext().getFactory().withAbstractTypeResolver(abstractTypes);
+//    this.mapper.get ((DefaultDeserializationContext) this.mapper.getDeserializationContext()).with(df);
+
+
+//    DeserializerFactory df = mapper._deserializationContext._factory.withAbstractTypeResolver(resolver);
+
   }
 
   public static ObjectMapper getObjectMapper() {
@@ -65,6 +80,15 @@ public final class JacksonHelper {
     return null;
   }
 
+  public static <T> T loadObjectFromJsonFile(final File file, final TypeReference typeRef) {
+    try {
+      return SingletonHolder.INSTANCE.mapper.readValue(file, typeRef);
+    } catch (Exception e) {
+      LOG.error("Failed to load object from Json file({}): {}", file.toString(), e.getMessage());
+    }
+    return null;
+  }
+
   public static String saveObjectToJsonString(final Object obj) {
     try {
       return SingletonHolder.INSTANCE.mapper.writeValueAsString(obj);
@@ -77,6 +101,15 @@ public final class JacksonHelper {
   public static <T> T loadObjectFromJsonString(final String jsonStr, final Class<T> klass) {
     try {
       return SingletonHolder.INSTANCE.mapper.readValue(jsonStr, klass);
+    } catch (Exception e) {
+      LOG.error("Failed to load object from Json string({}): {}", jsonStr, e.getMessage());
+    }
+    return null;
+  }
+
+  public static <T> T loadObjectFromJsonString(final String jsonStr, final TypeReference typeRef) {
+    try {
+      return SingletonHolder.INSTANCE.mapper.readValue(jsonStr, typeRef);
     } catch (Exception e) {
       LOG.error("Failed to load object from Json string({}): {}", jsonStr, e.getMessage());
     }

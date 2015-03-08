@@ -18,13 +18,15 @@ package edu.unl.webautomator.core.converter;
 
 import edu.unl.webautomator.core.model.TestCase;
 
+import java.io.FileNotFoundException;
+
 /**
  * Created by gigony on 12/6/14.
  */
 public interface TestCaseConverter<E> {
-  TestCase<E> loadTestCase(String fileName, String fileType);
+  TestCase<E> loadTestCase(String fileName, String fileType) throws FileNotFoundException;
 
-  void saveTestCase(String fileName, TestCase<E> testCase);
+  void saveTestCase(String fileName, String fileType, TestCase<E> testCase);
 
   boolean isSupported(String fileType);
 }

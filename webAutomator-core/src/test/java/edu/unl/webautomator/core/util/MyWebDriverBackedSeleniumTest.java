@@ -14,23 +14,17 @@
  *    limitations under the License.
  */
 
-package edu.unl.webautomator.core.model;
+package edu.unl.webautomator.core.util;
 
-/**
- * Created by gigony on 12/6/14.
- */
-public interface TestCase<E> extends Iterable<Event<E>> {
 
-  int size();
+import org.junit.Assert;
+import org.junit.Test;
 
-  void setPrefix(Event<E> event);
+public class MyWebDriverBackedSeleniumTest {
 
-  void add(Event<E> event);
-
-  void remove(int index);
-
-  Event<E> get(int index);
-
-  void set(int index, Event<E> event);
-
+  @Test
+  public final void testExist() throws Exception {
+    Assert.assertEquals(true, MyWebDriverBackedSelenium.exists("click"));
+    Assert.assertEquals(false, MyWebDriverBackedSelenium.exists("clickButton"));
+  }
 }

@@ -21,6 +21,6 @@ package edu.unl.webautomator.core.model;
  */
 public interface EventElement {
   String getEventType();
-  String getId();
+  String getTarget();
   String getInput();
 }

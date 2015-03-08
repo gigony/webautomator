@@ -116,7 +116,7 @@ public class WebBrowserConfiguration {
 
         public WebBrowserConfigurationBuilder() {
             this.browserConfiguration = new WebBrowserConfiguration();
-            this.browserConfiguration.browserType = WebBrowserType.CHROME;
+            this.browserConfiguration.browserType = WebBrowserType.PHANTOMJS;
             this.browserConfiguration.proxyConfiguration = WebProxyConfiguration.noProxy();
             this.webDriverBinaryPaths = Maps.newLinkedHashMap();
         }

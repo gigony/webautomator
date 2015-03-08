@@ -27,6 +27,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Deque;
 import java.util.Iterator;
@@ -36,6 +38,7 @@ import java.util.LinkedList;
  * Created by gigony on 12/9/14.
  */
 public abstract class BasicWebBrowser implements WebBrowser {
+  private static final Logger LOG = LoggerFactory.getLogger(BasicWebBrowser.class);
   private WebAutomatorConfiguration configuration;
 
   private WebDriver webDriver;
@@ -55,14 +58,24 @@ public abstract class BasicWebBrowser implements WebBrowser {
 
   protected final void setWebDriver(final WebDriver driver) {
     this.webDriver = driver;
-    this.selenium = new MyWebDriverBackedSelenium(driver, "http://");
   }
 
   public final WebDriver getWebDriver() {
     return this.webDriver;
   }
 
+  @Override
   public final MyWebDriverBackedSelenium getSelenium() {
+    if (this.selenium  == null) {
+      LOG.warn("There is no 'base url'. 'http://' will be used for the base url.");
+      this.selenium = new MyWebDriverBackedSelenium(this.webDriver, "http://");
+    }
+    return this.selenium;
+  }
+
+  @Override
+  public final MyWebDriverBackedSelenium setBaseUrlWithSelenium(final String baseUrl) {
+    this.selenium = new MyWebDriverBackedSelenium(this.webDriver, baseUrl);
     return this.selenium;
   }
 

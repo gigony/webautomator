@@ -39,18 +39,33 @@ public class WebTestCaseExecutor implements TestCaseExecutor<WebTestCase> {
     WebEventExecutor eventExecutor = this.webAutomator.getEventExecutor();
     WebStateExtractor stateExtractor = this.webAutomator.getStateExtractor();
 
-    WebDriverBackedSelenium selenium = this.webAutomator.createSelenium(testCase.getUrl());
+    WebDriverBackedSelenium selenium = this.webAutomator.createSelenium(testCase.getBaseUrl());
 
     WebTestCaseExecutionResult result = new WebTestCaseExecutionResult(testCase);
 
-    // add an initial state
-    WebState webState = stateExtractor.extractState(testCase.getUrl());
-    result.addState(webState);
+
+    WebState webState = null;
+
+    // execute prefix event
+    EventExecutionResult<WebEventElement> eventExecutionResult = eventExecutor.execute(testCase.getPrefixEvent(), webState);
+    if (!eventExecutionResult.isPassed()) {
+      result.setFailureInducingEventInfo(eventExecutionResult);
+      result.setResult((ExecutionResult.FAILED));
+    }
+
+    // add an initial state after prefix event execution.
+    if (testCase.getPrefixEvent().size() > 0) {
+      result.addState(stateExtractor.extractState());
+    } else {
+      // just fill first state
+      result.addState(null);
+    }
+
 
     int eventIndex = 0;
     for (Event<WebEventElement> e : testCase) {
       eventIndex++;
-      EventExecutionResult<WebEventElement> eventExecutionResult = eventExecutor.execute(e, result.getState(eventIndex - 1));
+      eventExecutionResult = eventExecutor.execute(e, result.getState(eventIndex - 1));
       webState = stateExtractor.extractState();
       result.addState(webState);
         if (!eventExecutionResult.isPassed()) {

@@ -98,19 +98,21 @@ public class WebEvent implements Event<WebEventElement> {
   }
 
   @Override
-  public final void addPreCondition(final WebEventElement element) {
+  public final WebEvent addPreCondition(final WebEventElement element) {
     this.preConditions.add(element);
-
+    return this;
   }
 
   @Override
-  public final void addAction(final WebEventElement element) {
+  public final WebEvent addAction(final WebEventElement element) {
     this.actions.add(element);
+    return this;
   }
 
   @Override
-  public final void addPostCondition(final WebEventElement element) {
+  public final WebEvent addPostCondition(final WebEventElement element) {
     this.postConditions.add(element);
+    return this;
   }
 
   @Override

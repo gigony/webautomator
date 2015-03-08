@@ -22,6 +22,10 @@ import com.google.common.collect.Sets;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -60,6 +64,12 @@ public final class JSoupHelper {
   public static Document parse(final String html) {
     Document dom = Jsoup.parse(html);
     stripText(dom);
+    return dom;
+  }
+
+  public static Document parse(final File file) throws IOException {
+    String html = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
+    Document dom = Jsoup.parse(html);
     return dom;
   }
 
@@ -422,6 +432,7 @@ public final class JSoupHelper {
    * Remove unnecessary text nodes from a given node and its child nodes.
    * This is necessary because output htmls from a Document object seem to not
    * match with original html when many serialization/deserialization operations are performed.
+   *
    * @param node Document object
    * @return
    */

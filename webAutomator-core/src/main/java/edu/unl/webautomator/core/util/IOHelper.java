@@ -33,8 +33,7 @@ public final class IOHelper {
 
   public static String getResourceAsString(final String path) {
     try {
-      System.out.println(new File(ClassLoader.getSystemResource("").toURI()).getAbsolutePath());
-      InputStream stream = new BufferedInputStream(new FileInputStream(new File(ClassLoader.getSystemResource("").toURI().getPath(), path)));
+      InputStream stream = new BufferedInputStream(new FileInputStream(new File(ClassLoader.getSystemResource(path).toURI().getPath())));
       String content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
       return content;
     } catch (IOException e) {

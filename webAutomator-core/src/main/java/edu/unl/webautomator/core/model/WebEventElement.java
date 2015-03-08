@@ -33,21 +33,20 @@ import com.google.common.base.Objects;
 public class WebEventElement implements EventElement {
   private String eventType;
   private String frameId;
-  private String id;
+  private String target;
   private String input; /** null if there is no input data for this event type **/
-
 
   public WebEventElement(final String eventTypeName, final String uniqueId) {
     this.eventType = eventTypeName;
     this.frameId = "";
-    this.id = uniqueId;
+    this.target = uniqueId;
     this.input = null;
   }
 
   public WebEventElement(final String eventTypeName, final String frameId, final String uniqueId) {
     this.eventType = eventTypeName;
     this.frameId = frameId;
-    this.id = uniqueId;
+    this.target = uniqueId;
     this.input = null;
   }
 
@@ -55,17 +54,17 @@ public class WebEventElement implements EventElement {
    *
    * @param eventTypeName
    * @param frameId
-   * @param uniqueId
+   * @param target
    * @param input null if there is no input (e.g., click)
    */
   @JsonCreator
   public WebEventElement(@JsonProperty("eventType") final String eventTypeName,
                          @JsonProperty("frameId") final String frameId,
-                         @JsonProperty("id") final String uniqueId,
+                         @JsonProperty("target") final String target,
                          @JsonProperty("input") final String input) {
     this.eventType = eventTypeName;
     this.frameId = frameId;
-    this.id = uniqueId;
+    this.target = target;
     this.input = input;
   }
 
@@ -78,13 +77,9 @@ public class WebEventElement implements EventElement {
     return this.frameId;
   }
 
-  public final String getCssLocator() {
-    return "css=" + this.id;
-  }
-
   @Override
-  public final String getId() {
-    return this.id;
+  public final String getTarget() {
+    return this.target;
   }
   @Override
   public final String getInput() {
@@ -93,7 +88,7 @@ public class WebEventElement implements EventElement {
 
   @Override
   public final int hashCode() {
-    return Objects.hashCode(this.eventType, this.frameId, this.id, this.input);
+    return Objects.hashCode(this.eventType, this.frameId, this.target, this.input);
   }
 
   @Override
@@ -102,7 +97,7 @@ public class WebEventElement implements EventElement {
       WebEventElement that = (WebEventElement) obj;
       return Objects.equal(this.eventType, that.eventType)
         && Objects.equal(this.frameId, that.frameId)
-        && Objects.equal(this.id, that.id)
+        && Objects.equal(this.target, that.target)
         && Objects.equal(this.input, that.input);
     }
     return false;
@@ -113,7 +108,7 @@ public class WebEventElement implements EventElement {
     return MoreObjects.toStringHelper(this)
       .add("eventType", this.eventType)
       .add("frameId", this.frameId)
-      .add("id", this.id)
+      .add("target", this.target)
       .add("input", this.input)
       .toString();
   }

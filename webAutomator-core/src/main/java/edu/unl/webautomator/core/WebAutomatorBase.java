@@ -76,7 +76,7 @@ public class WebAutomatorBase implements WebAutomator {
 
   @Override
   public final WebDriverBackedSelenium createSelenium(final String baseUrl) {
-    return new WebDriverBackedSelenium(this.getWebDriver(), baseUrl);
+    return this.webBrowser.setBaseUrlWithSelenium(baseUrl);
   }
 
   @Override

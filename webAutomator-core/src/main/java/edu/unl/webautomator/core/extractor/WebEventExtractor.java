@@ -72,7 +72,7 @@ public class WebEventExtractor implements EventExtractor {
       for (WebEventType eventType : eventTypes) {
         Elements elements = this.select(doc, eventType.getEventLocator());
         for (Element elem : elements) {
-          String uniqueId = JSoupHelper.getCssSelector(elem);
+          String uniqueId = "css=" + JSoupHelper.getCssSelector(elem);
           WebEventElement eventElement = new WebEventElement(eventTypeName, frameId, uniqueId);
           WebEvent event = new WebEvent(eventElement);
           availableElements.put(eventTypeName, event);
@@ -86,7 +86,7 @@ public class WebEventExtractor implements EventExtractor {
       for (WebEventType eventType : eventTypes) {
         Elements elements = this.select(doc, eventType.getEventLocator());
         for (Element elem : elements) {
-          String uniqueId = JSoupHelper.getCssSelector(elem);
+          String uniqueId = "css=" + JSoupHelper.getCssSelector(elem);
           WebEventElement eventElement = new WebEventElement(eventTypeName, frameId, uniqueId);
           WebEvent event = new WebEvent(eventElement);
           includedCollection.remove(event);
@@ -130,7 +130,7 @@ public class WebEventExtractor implements EventExtractor {
 
     Elements elements = select(doc, locator);
     for (Element elem : elements) {
-      String uniqueId = JSoupHelper.getCssSelector(elem);
+      String uniqueId = "css=" + JSoupHelper.getCssSelector(elem);
       result.add(uniqueId);
     }
     return result;

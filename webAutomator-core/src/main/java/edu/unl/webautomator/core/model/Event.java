@@ -21,31 +21,48 @@ import java.util.List;
 /**
  * Created by gigony on 1/12/15.
  */
+// @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 public interface Event<E> {
 
   int size();
+
   E get(int index);
 
-  void addPreCondition(E element);
-  void addAction(E element);
-  void addPostCondition(E element);
+  Event<E> addPreCondition(E element);
+
+  Event<E> addAction(E element);
+
+  Event<E> addPostCondition(E element);
 
   List<E> getPreConditions();
+
   E getPreCondition(int index);
+
   E getFirstPreCondition();
+
   E getLastPreCondition();
+
   int getPreConditionSize();
 
   List<E> getActions();
+
   E getAction(int index);
+
   E getAction();
+
   E getFirstAction();
+
   E getLastAction();
+
   int getActionSize();
 
   List<E> getPostConditions();
+
   E getPostCondition(int index);
+
   E getFirstPostCondition();
+
   E getLastPostCondition();
+
   int getPostConditionSize();
 }

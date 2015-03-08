@@ -17,6 +17,8 @@
 package edu.unl.webautomator.core.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,16 +32,35 @@ import java.util.List;
   setterVisibility = JsonAutoDetect.Visibility.NONE,
   isGetterVisibility = JsonAutoDetect.Visibility.NONE)
 public class WebTestCase implements TestCase<WebEventElement> {
-  private String url = "";
+  private String baseUrl = "";
+  private Event<WebEventElement> prefixEvent = new WebEvent();
   private List<Event<WebEventElement>> testCase = new ArrayList<Event<WebEventElement>>();
 
-  public WebTestCase(final String url) {
-    this.url = url;
+
+  @JsonCreator
+  public WebTestCase(@JsonProperty("baseUrl") final String baseUrl,
+                     @JsonProperty("prefixEvent") final Event<WebEventElement> prefixEvent,
+                     @JsonProperty("testCase") final List<Event<WebEventElement>> testCase) {
+    this.baseUrl = baseUrl;
+    this.prefixEvent = prefixEvent;
+    this.testCase = testCase;
+  }
+  public WebTestCase(final String baseUrl) {
+    this.baseUrl = baseUrl;
   }
 
   @Override
   public final int size() {
     return this.testCase.size();
+  }
+
+  public final Event<WebEventElement> getPrefixEvent() {
+    return this.prefixEvent;
+  }
+
+  @Override
+  public final void setPrefix(final Event<WebEventElement> event) {
+    this.prefixEvent = event;
   }
 
   @Override
@@ -69,11 +90,11 @@ public class WebTestCase implements TestCase<WebEventElement> {
   }
 
 
-  public final void setUrl(final String url) {
-    this.url = url;
+  public final void setBaseUrl(final String baseUrl) {
+    this.baseUrl = baseUrl;
   }
 
-  public final String getUrl() {
-    return this.url;
+  public final String getBaseUrl() {
+    return this.baseUrl;
   }
 }

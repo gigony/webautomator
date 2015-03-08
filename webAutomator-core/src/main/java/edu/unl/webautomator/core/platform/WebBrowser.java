@@ -29,6 +29,8 @@ public interface WebBrowser {
 
   MyWebDriverBackedSelenium getSelenium();
 
+  MyWebDriverBackedSelenium setBaseUrlWithSelenium(String baseUrl);
+
 
   // Functions from WebDriver
 

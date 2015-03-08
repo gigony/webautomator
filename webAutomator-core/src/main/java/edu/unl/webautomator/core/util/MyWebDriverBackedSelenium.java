@@ -16,18 +16,50 @@
 
 package edu.unl.webautomator.core.util;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.collect.Sets;
 import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by gigony on 1/8/15.
  */
 public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
+  private static final Logger LOG = LoggerFactory.getLogger(MyWebDriverBackedSelenium.class);
+  private static Map<String, String[]> apis;
   private static Map<String, Integer> argMap;
-  {
+  private static Set<String> locationBasedInputActionSet;
+  private static Set<String> locationBasedActionSet;
+
+  static{
+
+//    try {
+//      File apiFile = new File(ClassLoader.getSystemResource("seleniumAPI.json").toURI());
+      String apiDoc = IOHelper.getResourceAsString("seleniumAPI.json");
+      apis = JacksonHelper.loadObjectFromJsonString(apiDoc, new TypeReference<Map<String, String[]>>() {
+      });
+//    } catch (URISyntaxException e) {
+//      e.printStackTrace();
+//      LOG.error(e.getMessage());
+//    }
+
+    locationBasedInputActionSet = Sets.newHashSet("clickAt", "doubleClickAt", "contextMenuAt", "fireEvent", "keyPress", "keyDown",
+      "keyUp", "mouseDownAt", "mouseDownRightAt", "mouseUpAt", "mouseUpRightAt", "mouseMoveAt", "type", "typeKeys",
+      "select", "addSelection", "removeSelection", "dragdrop", "dragAndDrop", "setCursorPosition", "assignId");
+    locationBasedActionSet = Sets.newHashSet("click", "doubleClick", "contextMenu", "clickAt", "doubleClickAt",
+      "contextMenuAt", "fireEvent", "focus", "keyPress", "keyDown", "keyUp", "mouseOver", "mouseOut", "mouseDown",
+      "mouseDownRight", "mouseDownAt", "mouseDownRightAt", "mouseUp", "mouseUpRight", "mouseUpAt", "mouseUpRightAt",
+      "mouseMove", "mouseMoveAt", "type", "typeKeys", "check", "uncheck", "select", "addSelection", "removeSelection",
+      "removeAllSelections", "submit", "selectFrame", "dragdrop", "dragAndDrop", "setCursorPosition", "assignId");
+
     argMap = new HashMap<String, Integer>();
     argMap.put("shiftKeyDown", 0);
     argMap.put("shiftKeyUp", 0);
@@ -159,7 +191,6 @@ public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
     argMap.put("select", 2);
     argMap.put("addSelection", 2);
     argMap.put("removeSelection", 2);
-    argMap.put("open", 2);
     argMap.put("openWindow", 2);
     argMap.put("getWhetherThisFrameMatchFrameExpression", 2);
     argMap.put("getWhetherThisWindowMatchWindowExpression", 2);
@@ -212,6 +243,10 @@ public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
     }
   }
 
+  public static final boolean exists(final String apiName) {
+    return apis.containsKey(apiName);
+  }
+
   public static final int getArgCount(final String command) {
     Integer result = argMap.get(command);
     if (result == null) {
@@ -220,6 +255,15 @@ public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
       return argMap.get(command);
     }
   }
+
+  public static boolean isLocationBasedInputAction(final String eventType) {
+    return locationBasedInputActionSet.contains(eventType);
+  }
+
+  public static boolean isLocationBasedAction(final String eventType) {
+    return locationBasedActionSet.contains(eventType);
+  }
+
 }
 
 /*
@@ -526,4 +570,65 @@ void rollup(String rollupName, String kwargs)
 void addScript(String scriptContent, String scriptTagId)
 void attachFile(String fieldLocator, String fileLocator)
 void addCustomRequestHeader(String key, String value)
+ */
+
+// testCase.js
+/*
+ommand.prototype.getDefinition = function() {
+	if (this.command == null) return null;
+	var commandName = this.command.replace(/AndWait$/, '');
+	var api = Command.loadAPI();
+	var r = /^(assert|verify|store|waitFor)(.*)$/.exec(commandName);
+	if (r) {
+		var suffix = r[2];
+		var prefix = "";
+		if ((r = /^(.*)NotPresent$/.exec(suffix)) != null) {
+			suffix = r[1] + "Present";
+			prefix = "!";
+		} else if ((r = /^Not(.*)$/.exec(suffix)) != null) {
+			suffix = r[1];
+			prefix = "!";
+		}
+		var booleanAccessor = api[prefix + "is" + suffix];
+		if (booleanAccessor) {
+			return booleanAccessor;
+		}
+		var accessor = api[prefix + "get" + suffix];
+		if (accessor) {
+			return accessor;
+		}
+	}
+	return api[commandName];
+}
+
+CommandDefinition.getAlternative = function(command, alternative) {
+  if (command == null) return '';
+  var alt = alternative;
+  var r = /^(.*?)(AndWait)?$/.exec(command);
+  var commandName = r[1];
+  var prefix = '';
+  var suffix = r[2] ? r[2] : '';
+  var negate = false;
+  r = /^(assert|verify|store|waitFor)(.*)$/.exec(commandName);
+  if (r) {
+    prefix = r[1];
+    var commandName = r[2];
+    if ((r = /^(.*)NotPresent$/.exec(commandName)) != null) {
+      negate = true;
+    } else if ((r = /^Not(.*)$/.exec(commandName)) != null) {
+      negate = true;
+    }
+    if (negate) {
+      if (alt.match(/Present$/)) {
+        alt = alt.replace(/Present$/, 'NotPresent');
+      } else {
+        prefix += 'Not';
+      }
+    }
+  }
+
+  return prefix + (prefix.length > 0 ? alt.charAt(0).toUpperCase() : alt.charAt(0).toLowerCase()) + alt.substr(1) + suffix;
+};
+
+
  */

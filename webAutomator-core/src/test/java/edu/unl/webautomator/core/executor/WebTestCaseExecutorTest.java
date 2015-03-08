@@ -50,13 +50,15 @@ public class WebTestCaseExecutorTest {
 
     WebAutomator automator = QTE.webAutomator(config);
 
-    WebTestCase testcase = new WebTestCase("http://localhost:8080/page1.html");
+    WebTestCase testcase = new WebTestCase("http://localhost:8080");
 
-    testcase.add(new WebEvent(new WebEventElement("type", "", "#name", null)));
-    testcase.add(new WebEvent(new WebEventElement("click", "", "#yes_drives", null)));
-    testcase.add(new WebEvent(new WebEventElement("click", "", "#any_time", null)));
-    testcase.add(new WebEvent(new WebEventElement("type", "", "#mobile_number", null)));
-    testcase.add(new WebEvent(new WebEventElement("click", "", "#submit", null)));
+    testcase.add(new WebEvent(new WebEventElement("open", "", "/page1.html", null)));
+    testcase.add(new WebEvent(new WebEventElement("type", "", "css=#name", null)));
+    testcase.add(new WebEvent(new WebEventElement("click", "", "css=#yes_drives", null)));
+    testcase.add(new WebEvent(new WebEventElement("click", "", "css=#any_time", null)));
+    testcase.add(new WebEvent(new WebEventElement("type", "", "css=#mobile_number", null)));
+    testcase.add(new WebEvent(new WebEventElement("click", "", "css=#submit", null)));
+
 
     automator.getEventInputProvider().setDefaultEventInputHandler("type", new WebEventInputHandler() {
       @Override

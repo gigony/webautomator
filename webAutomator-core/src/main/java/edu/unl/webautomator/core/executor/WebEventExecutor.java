@@ -108,11 +108,12 @@ public class WebEventExecutor implements EventExecutor<WebEventElement> {
       String input = eventElem.getInput();
 
       if (state != null) {
-        By locator = SeleniumHelper.convertStringLocatorToBy(eventElem.getCssLocator());
-        WebElement webElement = webBrowser.getWebDriver().findElement(locator);
+        By locator = SeleniumHelper.convertStringLocatorToBy(eventElem.getTarget());
+        WebElement webElement = MyWebDriverBackedSelenium.isLocationBasedInputAction(eventElem.getEventType()) ?
+          webBrowser.getWebDriver().findElement(locator) : null;
         input = this.getAugmentedInput(eventElem, eventInputProvider, webElement, state);
       }
-      selenium.doCommand(eventElem.getEventType(), eventElem.getCssLocator(), input);
+      selenium.doCommand(eventElem.getEventType(), eventElem.getTarget(), input);
 
     } catch (Throwable t) {
       return new WebEventExecutionResult(false, null, null, elem, "", t);
@@ -124,7 +125,7 @@ public class WebEventExecutor implements EventExecutor<WebEventElement> {
 
   private String getAugmentedInput(final WebEventElement eventElem, final WebEventInputProvider eventInputProvider, final WebElement webElement, final WebState state) {
     String eventType = eventElem.getEventType();
-    String eventId = eventElem.getId();
+    String eventId = eventElem.getTarget();
     String input = eventElem.getInput();
     int argCount = MyWebDriverBackedSelenium.getArgCount(eventType);
 
