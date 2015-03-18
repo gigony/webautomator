@@ -42,7 +42,7 @@ public final class IOHelper {
   }
 
   public static String getFileContentAsString(final File file) {
-    System.out.println("######" + file.getAbsolutePath());
+    //System.out.println("######" + file.getAbsolutePath());
     InputStream stream = null;
     String content = null;
     try {

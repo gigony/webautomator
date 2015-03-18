@@ -90,6 +90,8 @@ public class WebTestCaseConverter implements TestCaseConverter<WebEvent> {
   }
 
   private WebTestCase getHtmlTestCase(final File file) throws Exception {
+    // get configured time out (default: 30000)
+    long timeOut = this.webAutomator != null ? this.webAutomator.getConfiguration().getPageLoadTimeOut(): 30000;
     Document doc = JSoupHelper.parse(file);
 
 
@@ -113,7 +115,20 @@ public class WebTestCaseConverter implements TestCaseConverter<WebEvent> {
       String command = eventElems.get(0).text();
       String target = eventElems.get(1).text();
       String input = eventElems.get(2).text();
-      webEventElements.add(new WebEventElement(command, null, target, input));
+
+      if (command.endsWith("AndWait")) {
+        webEventElements.add(new WebEventElement(command.substring(0, command.length() - 7), null, target, input));
+
+        // append a wait command
+        try {
+          int localTimeOut = Integer.parseInt(target);
+          webEventElements.add(new WebEventElement("waitForPageToLoad", null, target, null));
+        } catch (NumberFormatException e) {
+          webEventElements.add(new WebEventElement("waitForPageToLoad", null, String.valueOf(timeOut), null));
+        }
+      } else {
+        webEventElements.add(new WebEventElement(command, null, target, input));
+      }
     }
 
 
@@ -153,7 +168,7 @@ public class WebTestCaseConverter implements TestCaseConverter<WebEvent> {
         continue;
       }
 
-      if (command.startsWith("assert") || command.startsWith("verify")) {
+      if (command.startsWith("assert") || command.startsWith("verify") || command.endsWith("waitForPageToLoad")) {
         event.addPostCondition(elem);
       } else {
 
@@ -161,7 +176,6 @@ public class WebTestCaseConverter implements TestCaseConverter<WebEvent> {
           event = new WebEvent();
           result.add(event);
         }
-
 
         if (command.startsWith("waitFor") || command.equals("selectFrame")) {
           // set as a precondition

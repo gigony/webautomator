@@ -71,7 +71,7 @@ public class WebTestCaseConverterTest {
 
   @Test
   public final void testSaveHtmlTestCase() throws Exception {
-    String fileName = ClassLoader.getSystemResource("fixture/testcases/sampleTestCase.html").toURI().getPath();
+    String fileName = ClassLoader.getSystemResource("fixture/testcases/sampleTestCase3.html").toURI().getPath();
     WebTestCase testCase = new WebTestCaseConverter(null).loadTestCase(fileName, "html");
     JacksonHelper.printObjectToJson(testCase);
     new WebTestCaseConverter(null).saveTestCase("test.html", "html", testCase);
