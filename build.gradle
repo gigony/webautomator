@@ -19,7 +19,7 @@ plugins {
 
 subprojects {
   apply plugin: "java"
-  apply plugin: "checkstyle"
+//  apply plugin: "checkstyle"
   apply plugin: "idea"
 
   //apply plugin: "application"

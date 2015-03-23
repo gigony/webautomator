@@ -19,13 +19,11 @@ package edu.unl.webautomator.core.model;
 import edu.unl.webautomator.core.util.JacksonHelper;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class WebTestCaseTest {
 
 
   @Test
-  public final void  testJsonExport() {
+  public final void testJsonExport() {
     WebTestCase testcase = new WebTestCase("http://localhost:8080");
 
     testcase.add(new WebEvent(new WebEventElement("open", null, "/page1.html", null)));

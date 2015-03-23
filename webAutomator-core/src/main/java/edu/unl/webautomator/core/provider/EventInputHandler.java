@@ -16,8 +16,6 @@
 
 package edu.unl.webautomator.core.provider;
 
-import edu.unl.webautomator.core.model.Event;
-
 /**
  * Created by gigony on 3/3/15.
  */
@@ -25,6 +23,7 @@ public interface EventInputHandler<E, V> {
 
   /**
    * Note: <i>element</i> can be <i>null</i>.
+   *
    * @param event
    * @param element
    * @return

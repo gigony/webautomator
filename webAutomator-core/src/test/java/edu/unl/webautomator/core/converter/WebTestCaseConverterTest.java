@@ -20,7 +20,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import edu.unl.webautomator.core.QTE;
 import edu.unl.webautomator.core.StaticWebServer;
 import edu.unl.webautomator.core.WebAutomator;
-import edu.unl.webautomator.core.model.TestCase;
 import edu.unl.webautomator.core.model.WebEvent;
 import edu.unl.webautomator.core.model.WebEventElement;
 import edu.unl.webautomator.core.model.WebTestCase;
@@ -56,7 +55,7 @@ public class WebTestCaseConverterTest {
   @Test
   public final void testLoadTestCase() throws Exception {
     StaticWebServer.start("/fixture/homepage/");
-    WebAutomator automator = QTE.webAutomator(WebBrowserType.FIREFOX);
+    WebAutomator automator = QTE.webAutomator(WebBrowserType.PHANTOMJS);
     WebTestCase testCase = new WebTestCaseConverter(null).loadTestCase("test.json", "json");
     automator.execute(testCase);
     automator.quit();

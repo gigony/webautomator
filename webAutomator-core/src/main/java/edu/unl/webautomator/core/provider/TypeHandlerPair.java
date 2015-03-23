@@ -25,7 +25,7 @@ public class TypeHandlerPair<K, V> {
   private K key;
   private V value;
 
-  public TypeHandlerPair(K key, V value) {
+  public TypeHandlerPair(final K key, final V value) {
     this.key = key;
     this.value = value;
   }

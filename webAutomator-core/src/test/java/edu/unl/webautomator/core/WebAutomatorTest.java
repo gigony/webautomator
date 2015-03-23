@@ -11,7 +11,7 @@ import org.openqa.selenium.WebDriver;
 
 public class WebAutomatorTest {
 
-  @Test
+
   public final void openChromeBrowserTest() {
 
     StaticWebServer.start("/fixture/frames/");
@@ -79,7 +79,7 @@ public class WebAutomatorTest {
 
   }
 
-  @Test
+
   public final void openFireFoxBrowserTest() {
 
     WebAutomator automator = QTE.webAutomator(WebBrowserType.FIREFOX);
@@ -105,8 +105,7 @@ public class WebAutomatorTest {
     System.out.println(json3);
 
 
-
-        char[] htmlArr = json2.toCharArray();
+    char[] htmlArr = json2.toCharArray();
     char[] targetArr = json3.toCharArray();
     int len = Math.min(htmlArr.length, targetArr.length);
     for (int i = 0; i < len; i++) {
@@ -120,7 +119,6 @@ public class WebAutomatorTest {
 //    System.out.println(dom.getDocument().outputSettings().syntax().name());
 //    System.out.println(dom2.getDocument().outputSettings().syntax().name());
 //    System.out.println(dom3.getDocument().outputSettings().syntax().name());
-
 
 
 //    Document dom = JSoupHelper.getDomFromFrameContentString(html);

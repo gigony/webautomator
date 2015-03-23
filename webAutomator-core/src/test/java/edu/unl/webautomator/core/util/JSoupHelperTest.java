@@ -4,15 +4,13 @@ import com.google.common.collect.Sets;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.junit.Test;
 
 import java.util.Set;
 
 public class JSoupHelperTest {
 
-  @Test
   public final void testGetSelector() throws Exception {
-    String html = IOHelper.getResourceAsString("/fixture/homepage/nate.html");
+    String html = IOHelper.getResourceAsString("fixture/homepage/nate.html");
     Document document = JSoupHelper.parse(html);
 
     Elements elements = document.getAllElements();
@@ -40,7 +38,7 @@ public class JSoupHelperTest {
     System.out.println();
     System.out.println("# Scripts #");
     Elements scripts = document.getElementsByTag("script");
-    for (Element script:scripts) {
+    for (Element script : scripts) {
       System.out.println("\t" + script.html());
     }
 

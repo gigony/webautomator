@@ -1,73 +1,179 @@
-{"addLocationStrategy": ["strategyName", "functionDefinition"],
-  "addScript": ["scriptContent", "scriptTagId"],
-  "addSelection": ["locator", "optionLocator"],
+{
+  "addLocationStrategy": [
+    "strategyName",
+    "functionDefinition"
+  ],
+  "addScript": [
+    "scriptContent",
+    "scriptTagId"
+  ],
+  "addSelection": [
+    "locator",
+    "optionLocator"
+  ],
   "allowNativeXpath": ["allow"],
   "answerOnNextPrompt": ["answer"],
-  "assignId": ["locator", "identifier"],
-  "captureEntirePageScreenshot": ["filename", "kwargs"],
+  "assignId": [
+    "locator",
+    "identifier"
+  ],
+  "captureEntirePageScreenshot": [
+    "filename",
+    "kwargs"
+  ],
   "check": ["locator"],
   "click": ["locator"],
-  "clickAt": ["locator", "coordString"],
+  "clickAt": [
+    "locator",
+    "coordString"
+  ],
   "contextMenu": ["locator"],
-  "contextMenuAt": ["locator", "coordString"],
-  "createCookie": ["nameValuePair", "optionsString"],
-  "deleteCookie": ["name", "optionsString"],
+  "contextMenuAt": [
+    "locator",
+    "coordString"
+  ],
+  "createCookie": [
+    "nameValuePair",
+    "optionsString"
+  ],
+  "deleteCookie": [
+    "name",
+    "optionsString"
+  ],
   "doubleClick": ["locator"],
-  "doubleClickAt": ["locator", "coordString"],
-  "dragAndDrop": ["locator", "movementsString"],
-  "dragAndDropToObject": ["locatorOfObjectToBeDragged", "locatorOfDragDestinationObject"],
-  "dragdrop": ["locator", "movementsString"],
+  "doubleClickAt": [
+    "locator",
+    "coordString"
+  ],
+  "dragAndDrop": [
+    "locator",
+    "movementsString"
+  ],
+  "dragAndDropToObject": [
+    "locatorOfObjectToBeDragged",
+    "locatorOfDragDestinationObject"
+  ],
+  "dragdrop": [
+    "locator",
+    "movementsString"
+  ],
   "echo": ["message"],
-  "fireEvent": ["locator", "eventName"],
+  "fireEvent": [
+    "locator",
+    "eventName"
+  ],
   "focus": ["locator"],
   "highlight": ["locator"],
   "ignoreAttributesWithoutValue": ["ignore"],
-  "keyDown": ["locator", "keySequence"],
-  "keyPress": ["locator", "keySequence"],
-  "keyUp": ["locator", "keySequence"],
+  "keyDown": [
+    "locator",
+    "keySequence"
+  ],
+  "keyPress": [
+    "locator",
+    "keySequence"
+  ],
+  "keyUp": [
+    "locator",
+    "keySequence"
+  ],
   "mouseDown": ["locator"],
-  "mouseDownAt": ["locator", "coordString"],
+  "mouseDownAt": [
+    "locator",
+    "coordString"
+  ],
   "mouseDownRight": ["locator"],
-  "mouseDownRightAt": ["locator", "coordString"],
+  "mouseDownRightAt": [
+    "locator",
+    "coordString"
+  ],
   "mouseMove": ["locator"],
-  "mouseMoveAt": ["locator", "coordString"],
+  "mouseMoveAt": [
+    "locator",
+    "coordString"
+  ],
   "mouseOut": ["locator"],
   "mouseOver": ["locator"],
   "mouseUp": ["locator"],
-  "mouseUpAt": ["locator", "coordString"],
+  "mouseUpAt": [
+    "locator",
+    "coordString"
+  ],
   "mouseUpRight": ["locator"],
-  "mouseUpRightAt": ["locator", "coordString"],
+  "mouseUpRightAt": [
+    "locator",
+    "coordString"
+  ],
   "open": ["url"],
-  "openWindow": ["url", "windowID"],
+  "openWindow": [
+    "url",
+    "windowID"
+  ],
   "pause": ["waitTime"],
   "removeAllSelections": ["locator"],
   "removeScript": ["scriptTagId"],
-  "removeSelection": ["locator", "optionLocator"],
-  "rollup": ["rollupName", "kwargs"],
+  "removeSelection": [
+    "locator",
+    "optionLocator"
+  ],
+  "rollup": [
+    "rollupName",
+    "kwargs"
+  ],
   "runScript": ["script"],
-  "select": ["selectLocator", "optionLocator"],
+  "select": [
+    "selectLocator",
+    "optionLocator"
+  ],
   "selectFrame": ["locator"],
   "selectPopUp": ["windowID"],
   "selectWindow": ["windowID"],
   "setBrowserLogLevel": ["logLevel"],
-  "setCursorPosition": ["locator", "position"],
+  "setCursorPosition": [
+    "locator",
+    "position"
+  ],
   "setMouseSpeed": ["pixels"],
   "setSpeed": ["value"],
   "setTimeout": ["timeout"],
-  "store": ["expression", "variableName"],
+  "store": [
+    "expression",
+    "variableName"
+  ],
   "submit": ["formLocator"],
-  "type": ["locator", "value"],
-  "typeKeys": ["locator", "value"],
+  "type": [
+    "locator",
+    "value"
+  ],
+  "typeKeys": [
+    "locator",
+    "value"
+  ],
   "uncheck": ["locator"],
-  "sendKeys": ["locator", "value"],
+  "sendKeys": [
+    "locator",
+    "value"
+  ],
   "useXpathLibrary": ["libraryName"],
-  "waitForCondition": ["script", "timeout"],
-  "waitForFrameToLoad": ["frameAddress", "timeout"],
+  "waitForCondition": [
+    "script",
+    "timeout"
+  ],
+  "waitForFrameToLoad": [
+    "frameAddress",
+    "timeout"
+  ],
   "waitForPageToLoad": ["timeout"],
-  "waitForPopUp": ["windowID", "timeout"],
+  "waitForPopUp": [
+    "windowID",
+    "timeout"
+  ],
   "assertErrorOnNext": ["message"],
   "assertFailureOnNext": ["message"],
-  "assertSelected": ["selectLocator", "optionLocator"],
+  "assertSelected": [
+    "selectLocator",
+    "optionLocator"
+  ],
   "storeAlert": ["variableName"],
   "storeAllButtons": ["variableName"],
   "storeAllFields": ["variableName"],
@@ -89,7 +195,10 @@
   "storePromptPresent": ["variableName"],
   "assertNotErrorOnNext": ["message"],
   "assertNotFailureOnNext": ["message"],
-  "assertNotSelected": ["selectLocator", "optionLocator"],
+  "assertNotSelected": [
+    "selectLocator",
+    "optionLocator"
+  ],
   "assertAlert": ["pattern"],
   "assertNotAlert": ["pattern"],
   "assertAllButtons": ["pattern"],
@@ -104,34 +213,100 @@
   "assertNotAllWindowNames": ["pattern"],
   "assertAllWindowTitles": ["pattern"],
   "assertNotAllWindowTitles": ["pattern"],
-  "assertAttribute": ["attributeLocator", "pattern"],
-  "assertNotAttribute": ["attributeLocator", "pattern"],
-  "assertAttributeFromAllWindows": ["attributeName", "pattern"],
-  "assertNotAttributeFromAllWindows": ["attributeName", "pattern"],
+  "assertAttribute": [
+    "attributeLocator",
+    "pattern"
+  ],
+  "assertNotAttribute": [
+    "attributeLocator",
+    "pattern"
+  ],
+  "assertAttributeFromAllWindows": [
+    "attributeName",
+    "pattern"
+  ],
+  "assertNotAttributeFromAllWindows": [
+    "attributeName",
+    "pattern"
+  ],
   "assertBodyText": ["pattern"],
   "assertNotBodyText": ["pattern"],
   "assertConfirmation": ["pattern"],
   "assertNotConfirmation": ["pattern"],
   "assertCookie": ["pattern"],
   "assertNotCookie": ["pattern"],
-  "assertCookieByName": ["name", "pattern"],
-  "assertNotCookieByName": ["name", "pattern"],
-  "assertCursorPosition": ["locator", "pattern"],
-  "assertNotCursorPosition": ["locator", "pattern"],
-  "assertElementHeight": ["locator", "pattern"],
-  "assertNotElementHeight": ["locator", "pattern"],
-  "assertElementIndex": ["locator", "pattern"],
-  "assertNotElementIndex": ["locator", "pattern"],
-  "assertElementPositionLeft": ["locator", "pattern"],
-  "assertNotElementPositionLeft": ["locator", "pattern"],
-  "assertElementPositionTop": ["locator", "pattern"],
-  "assertNotElementPositionTop": ["locator", "pattern"],
-  "assertElementWidth": ["locator", "pattern"],
-  "assertNotElementWidth": ["locator", "pattern"],
-  "assertEval": ["script", "pattern"],
-  "assertNotEval": ["script", "pattern"],
-  "assertExpression": ["expression", "pattern"],
-  "assertNotExpression": ["expression", "pattern"],
+  "assertCookieByName": [
+    "name",
+    "pattern"
+  ],
+  "assertNotCookieByName": [
+    "name",
+    "pattern"
+  ],
+  "assertCursorPosition": [
+    "locator",
+    "pattern"
+  ],
+  "assertNotCursorPosition": [
+    "locator",
+    "pattern"
+  ],
+  "assertElementHeight": [
+    "locator",
+    "pattern"
+  ],
+  "assertNotElementHeight": [
+    "locator",
+    "pattern"
+  ],
+  "assertElementIndex": [
+    "locator",
+    "pattern"
+  ],
+  "assertNotElementIndex": [
+    "locator",
+    "pattern"
+  ],
+  "assertElementPositionLeft": [
+    "locator",
+    "pattern"
+  ],
+  "assertNotElementPositionLeft": [
+    "locator",
+    "pattern"
+  ],
+  "assertElementPositionTop": [
+    "locator",
+    "pattern"
+  ],
+  "assertNotElementPositionTop": [
+    "locator",
+    "pattern"
+  ],
+  "assertElementWidth": [
+    "locator",
+    "pattern"
+  ],
+  "assertNotElementWidth": [
+    "locator",
+    "pattern"
+  ],
+  "assertEval": [
+    "script",
+    "pattern"
+  ],
+  "assertNotEval": [
+    "script",
+    "pattern"
+  ],
+  "assertExpression": [
+    "expression",
+    "pattern"
+  ],
+  "assertNotExpression": [
+    "expression",
+    "pattern"
+  ],
   "assertHtmlSource": ["pattern"],
   "assertNotHtmlSource": ["pattern"],
   "assertLocation": ["pattern"],
@@ -140,40 +315,130 @@
   "assertNotMouseSpeed": ["pattern"],
   "assertPrompt": ["pattern"],
   "assertNotPrompt": ["pattern"],
-  "assertSelectedId": ["selectLocator", "pattern"],
-  "assertNotSelectedId": ["selectLocator", "pattern"],
-  "assertSelectedIds": ["selectLocator", "pattern"],
-  "assertNotSelectedIds": ["selectLocator", "pattern"],
-  "assertSelectedIndex": ["selectLocator", "pattern"],
-  "assertNotSelectedIndex": ["selectLocator", "pattern"],
-  "assertSelectedIndexes": ["selectLocator", "pattern"],
-  "assertNotSelectedIndexes": ["selectLocator", "pattern"],
-  "assertSelectedLabel": ["selectLocator", "pattern"],
-  "assertNotSelectedLabel": ["selectLocator", "pattern"],
-  "assertSelectedLabels": ["selectLocator", "pattern"],
-  "assertNotSelectedLabels": ["selectLocator", "pattern"],
-  "assertSelectedValue": ["selectLocator", "pattern"],
-  "assertNotSelectedValue": ["selectLocator", "pattern"],
-  "assertSelectedValues": ["selectLocator", "pattern"],
-  "assertNotSelectedValues": ["selectLocator", "pattern"],
-  "assertSelectOptions": ["selectLocator", "pattern"],
-  "assertNotSelectOptions": ["selectLocator", "pattern"],
+  "assertSelectedId": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertNotSelectedId": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertSelectedIds": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertNotSelectedIds": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertSelectedIndex": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertNotSelectedIndex": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertSelectedIndexes": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertNotSelectedIndexes": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertSelectedLabel": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertNotSelectedLabel": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertSelectedLabels": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertNotSelectedLabels": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertSelectedValue": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertNotSelectedValue": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertSelectedValues": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertNotSelectedValues": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertSelectOptions": [
+    "selectLocator",
+    "pattern"
+  ],
+  "assertNotSelectOptions": [
+    "selectLocator",
+    "pattern"
+  ],
   "assertSpeed": ["pattern"],
   "assertNotSpeed": ["pattern"],
-  "assertTable": ["tableCellAddress", "pattern"],
-  "assertNotTable": ["tableCellAddress", "pattern"],
-  "assertText": ["locator", "pattern"],
-  "assertNotText": ["locator", "pattern"],
+  "assertTable": [
+    "tableCellAddress",
+    "pattern"
+  ],
+  "assertNotTable": [
+    "tableCellAddress",
+    "pattern"
+  ],
+  "assertText": [
+    "locator",
+    "pattern"
+  ],
+  "assertNotText": [
+    "locator",
+    "pattern"
+  ],
   "assertTitle": ["pattern"],
   "assertNotTitle": ["pattern"],
-  "assertValue": ["locator", "pattern"],
-  "assertNotValue": ["locator", "pattern"],
-  "assertWhetherThisFrameMatchFrameExpression": ["currentFrameString", "target"],
-  "assertNotWhetherThisFrameMatchFrameExpression": ["currentFrameString", "target"],
-  "assertWhetherThisWindowMatchWindowExpression": ["currentWindowString", "target"],
-  "assertNotWhetherThisWindowMatchWindowExpression": ["currentWindowString", "target"],
-  "assertXpathCount": ["xpath", "pattern"],
-  "assertNotXpathCount": ["xpath", "pattern"],
+  "assertValue": [
+    "locator",
+    "pattern"
+  ],
+  "assertNotValue": [
+    "locator",
+    "pattern"
+  ],
+  "assertWhetherThisFrameMatchFrameExpression": [
+    "currentFrameString",
+    "target"
+  ],
+  "assertNotWhetherThisFrameMatchFrameExpression": [
+    "currentFrameString",
+    "target"
+  ],
+  "assertWhetherThisWindowMatchWindowExpression": [
+    "currentWindowString",
+    "target"
+  ],
+  "assertNotWhetherThisWindowMatchWindowExpression": [
+    "currentWindowString",
+    "target"
+  ],
+  "assertXpathCount": [
+    "xpath",
+    "pattern"
+  ],
+  "assertNotXpathCount": [
+    "xpath",
+    "pattern"
+  ],
   "assertAlertPresent": [],
   "assertAlertNotPresent": [],
   "assertChecked": ["locator"],
@@ -186,8 +451,14 @@
   "assertNotEditable": ["locator"],
   "assertElementPresent": ["locator"],
   "assertElementNotPresent": ["locator"],
-  "assertOrdered": ["locator1", "locator2"],
-  "assertNotOrdered": ["locator1", "locator2"],
+  "assertOrdered": [
+    "locator1",
+    "locator2"
+  ],
+  "assertNotOrdered": [
+    "locator1",
+    "locator2"
+  ],
   "assertPromptPresent": [],
   "assertPromptNotPresent": [],
   "assertSomethingSelected": ["selectLocator"],
@@ -200,8 +471,14 @@
   "verifyNotErrorOnNext": ["message"],
   "verifyFailureOnNext": ["message"],
   "verifyNotFailureOnNext": ["message"],
-  "verifySelected": ["selectLocator", "optionLocator"],
-  "verifyNotSelected": ["selectLocator", "optionLocator"],
+  "verifySelected": [
+    "selectLocator",
+    "optionLocator"
+  ],
+  "verifyNotSelected": [
+    "selectLocator",
+    "optionLocator"
+  ],
   "verifyAlert": ["pattern"],
   "verifyNotAlert": ["pattern"],
   "verifyAllButtons": ["pattern"],
@@ -216,34 +493,100 @@
   "verifyNotAllWindowNames": ["pattern"],
   "verifyAllWindowTitles": ["pattern"],
   "verifyNotAllWindowTitles": ["pattern"],
-  "verifyAttribute": ["attributeLocator", "pattern"],
-  "verifyNotAttribute": ["attributeLocator", "pattern"],
-  "verifyAttributeFromAllWindows": ["attributeName", "pattern"],
-  "verifyNotAttributeFromAllWindows": ["attributeName", "pattern"],
+  "verifyAttribute": [
+    "attributeLocator",
+    "pattern"
+  ],
+  "verifyNotAttribute": [
+    "attributeLocator",
+    "pattern"
+  ],
+  "verifyAttributeFromAllWindows": [
+    "attributeName",
+    "pattern"
+  ],
+  "verifyNotAttributeFromAllWindows": [
+    "attributeName",
+    "pattern"
+  ],
   "verifyBodyText": ["pattern"],
   "verifyNotBodyText": ["pattern"],
   "verifyConfirmation": ["pattern"],
   "verifyNotConfirmation": ["pattern"],
   "verifyCookie": ["pattern"],
   "verifyNotCookie": ["pattern"],
-  "verifyCookieByName": ["name", "pattern"],
-  "verifyNotCookieByName": ["name", "pattern"],
-  "verifyCursorPosition": ["locator", "pattern"],
-  "verifyNotCursorPosition": ["locator", "pattern"],
-  "verifyElementHeight": ["locator", "pattern"],
-  "verifyNotElementHeight": ["locator", "pattern"],
-  "verifyElementIndex": ["locator", "pattern"],
-  "verifyNotElementIndex": ["locator", "pattern"],
-  "verifyElementPositionLeft": ["locator", "pattern"],
-  "verifyNotElementPositionLeft": ["locator", "pattern"],
-  "verifyElementPositionTop": ["locator", "pattern"],
-  "verifyNotElementPositionTop": ["locator", "pattern"],
-  "verifyElementWidth": ["locator", "pattern"],
-  "verifyNotElementWidth": ["locator", "pattern"],
-  "verifyEval": ["script", "pattern"],
-  "verifyNotEval": ["script", "pattern"],
-  "verifyExpression": ["expression", "pattern"],
-  "verifyNotExpression": ["expression", "pattern"],
+  "verifyCookieByName": [
+    "name",
+    "pattern"
+  ],
+  "verifyNotCookieByName": [
+    "name",
+    "pattern"
+  ],
+  "verifyCursorPosition": [
+    "locator",
+    "pattern"
+  ],
+  "verifyNotCursorPosition": [
+    "locator",
+    "pattern"
+  ],
+  "verifyElementHeight": [
+    "locator",
+    "pattern"
+  ],
+  "verifyNotElementHeight": [
+    "locator",
+    "pattern"
+  ],
+  "verifyElementIndex": [
+    "locator",
+    "pattern"
+  ],
+  "verifyNotElementIndex": [
+    "locator",
+    "pattern"
+  ],
+  "verifyElementPositionLeft": [
+    "locator",
+    "pattern"
+  ],
+  "verifyNotElementPositionLeft": [
+    "locator",
+    "pattern"
+  ],
+  "verifyElementPositionTop": [
+    "locator",
+    "pattern"
+  ],
+  "verifyNotElementPositionTop": [
+    "locator",
+    "pattern"
+  ],
+  "verifyElementWidth": [
+    "locator",
+    "pattern"
+  ],
+  "verifyNotElementWidth": [
+    "locator",
+    "pattern"
+  ],
+  "verifyEval": [
+    "script",
+    "pattern"
+  ],
+  "verifyNotEval": [
+    "script",
+    "pattern"
+  ],
+  "verifyExpression": [
+    "expression",
+    "pattern"
+  ],
+  "verifyNotExpression": [
+    "expression",
+    "pattern"
+  ],
   "verifyHtmlSource": ["pattern"],
   "verifyNotHtmlSource": ["pattern"],
   "verifyLocation": ["pattern"],
@@ -252,40 +595,130 @@
   "verifyNotMouseSpeed": ["pattern"],
   "verifyPrompt": ["pattern"],
   "verifyNotPrompt": ["pattern"],
-  "verifySelectedId": ["selectLocator", "pattern"],
-  "verifyNotSelectedId": ["selectLocator", "pattern"],
-  "verifySelectedIds": ["selectLocator", "pattern"],
-  "verifyNotSelectedIds": ["selectLocator", "pattern"],
-  "verifySelectedIndex": ["selectLocator", "pattern"],
-  "verifyNotSelectedIndex": ["selectLocator", "pattern"],
-  "verifySelectedIndexes": ["selectLocator", "pattern"],
-  "verifyNotSelectedIndexes": ["selectLocator", "pattern"],
-  "verifySelectedLabel": ["selectLocator", "pattern"],
-  "verifyNotSelectedLabel": ["selectLocator", "pattern"],
-  "verifySelectedLabels": ["selectLocator", "pattern"],
-  "verifyNotSelectedLabels": ["selectLocator", "pattern"],
-  "verifySelectedValue": ["selectLocator", "pattern"],
-  "verifyNotSelectedValue": ["selectLocator", "pattern"],
-  "verifySelectedValues": ["selectLocator", "pattern"],
-  "verifyNotSelectedValues": ["selectLocator", "pattern"],
-  "verifySelectOptions": ["selectLocator", "pattern"],
-  "verifyNotSelectOptions": ["selectLocator", "pattern"],
+  "verifySelectedId": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifyNotSelectedId": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifySelectedIds": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifyNotSelectedIds": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifySelectedIndex": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifyNotSelectedIndex": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifySelectedIndexes": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifyNotSelectedIndexes": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifySelectedLabel": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifyNotSelectedLabel": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifySelectedLabels": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifyNotSelectedLabels": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifySelectedValue": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifyNotSelectedValue": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifySelectedValues": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifyNotSelectedValues": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifySelectOptions": [
+    "selectLocator",
+    "pattern"
+  ],
+  "verifyNotSelectOptions": [
+    "selectLocator",
+    "pattern"
+  ],
   "verifySpeed": ["pattern"],
   "verifyNotSpeed": ["pattern"],
-  "verifyTable": ["tableCellAddress", "pattern"],
-  "verifyNotTable": ["tableCellAddress", "pattern"],
-  "verifyText": ["locator", "pattern"],
-  "verifyNotText": ["locator", "pattern"],
+  "verifyTable": [
+    "tableCellAddress",
+    "pattern"
+  ],
+  "verifyNotTable": [
+    "tableCellAddress",
+    "pattern"
+  ],
+  "verifyText": [
+    "locator",
+    "pattern"
+  ],
+  "verifyNotText": [
+    "locator",
+    "pattern"
+  ],
   "verifyTitle": ["pattern"],
   "verifyNotTitle": ["pattern"],
-  "verifyValue": ["locator", "pattern"],
-  "verifyNotValue": ["locator", "pattern"],
-  "verifyWhetherThisFrameMatchFrameExpression": ["currentFrameString", "target"],
-  "verifyNotWhetherThisFrameMatchFrameExpression": ["currentFrameString", "target"],
-  "verifyWhetherThisWindowMatchWindowExpression": ["currentWindowString", "target"],
-  "verifyNotWhetherThisWindowMatchWindowExpression": ["currentWindowString", "target"],
-  "verifyXpathCount": ["xpath", "pattern"],
-  "verifyNotXpathCount": ["xpath", "pattern"],
+  "verifyValue": [
+    "locator",
+    "pattern"
+  ],
+  "verifyNotValue": [
+    "locator",
+    "pattern"
+  ],
+  "verifyWhetherThisFrameMatchFrameExpression": [
+    "currentFrameString",
+    "target"
+  ],
+  "verifyNotWhetherThisFrameMatchFrameExpression": [
+    "currentFrameString",
+    "target"
+  ],
+  "verifyWhetherThisWindowMatchWindowExpression": [
+    "currentWindowString",
+    "target"
+  ],
+  "verifyNotWhetherThisWindowMatchWindowExpression": [
+    "currentWindowString",
+    "target"
+  ],
+  "verifyXpathCount": [
+    "xpath",
+    "pattern"
+  ],
+  "verifyNotXpathCount": [
+    "xpath",
+    "pattern"
+  ],
   "verifyAlertPresent": [],
   "verifyAlertNotPresent": [],
   "verifyChecked": ["locator"],
@@ -298,8 +731,14 @@
   "verifyNotEditable": ["locator"],
   "verifyElementPresent": ["locator"],
   "verifyElementNotPresent": ["locator"],
-  "verifyOrdered": ["locator1", "locator2"],
-  "verifyNotOrdered": ["locator1", "locator2"],
+  "verifyOrdered": [
+    "locator1",
+    "locator2"
+  ],
+  "verifyNotOrdered": [
+    "locator1",
+    "locator2"
+  ],
   "verifyPromptPresent": [],
   "verifyPromptNotPresent": [],
   "verifySomethingSelected": ["selectLocator"],
@@ -312,8 +751,14 @@
   "waitForNotErrorOnNext": ["message"],
   "waitForFailureOnNext": ["message"],
   "waitForNotFailureOnNext": ["message"],
-  "waitForSelected": ["selectLocator", "optionLocator"],
-  "waitForNotSelected": ["selectLocator", "optionLocator"],
+  "waitForSelected": [
+    "selectLocator",
+    "optionLocator"
+  ],
+  "waitForNotSelected": [
+    "selectLocator",
+    "optionLocator"
+  ],
   "waitForAlert": ["pattern"],
   "waitForNotAlert": ["pattern"],
   "waitForAllButtons": ["pattern"],
@@ -328,34 +773,100 @@
   "waitForNotAllWindowNames": ["pattern"],
   "waitForAllWindowTitles": ["pattern"],
   "waitForNotAllWindowTitles": ["pattern"],
-  "waitForAttribute": ["attributeLocator", "pattern"],
-  "waitForNotAttribute": ["attributeLocator", "pattern"],
-  "waitForAttributeFromAllWindows": ["attributeName", "pattern"],
-  "waitForNotAttributeFromAllWindows": ["attributeName", "pattern"],
+  "waitForAttribute": [
+    "attributeLocator",
+    "pattern"
+  ],
+  "waitForNotAttribute": [
+    "attributeLocator",
+    "pattern"
+  ],
+  "waitForAttributeFromAllWindows": [
+    "attributeName",
+    "pattern"
+  ],
+  "waitForNotAttributeFromAllWindows": [
+    "attributeName",
+    "pattern"
+  ],
   "waitForBodyText": ["pattern"],
   "waitForNotBodyText": ["pattern"],
   "waitForConfirmation": ["pattern"],
   "waitForNotConfirmation": ["pattern"],
   "waitForCookie": ["pattern"],
   "waitForNotCookie": ["pattern"],
-  "waitForCookieByName": ["name", "pattern"],
-  "waitForNotCookieByName": ["name", "pattern"],
-  "waitForCursorPosition": ["locator", "pattern"],
-  "waitForNotCursorPosition": ["locator", "pattern"],
-  "waitForElementHeight": ["locator", "pattern"],
-  "waitForNotElementHeight": ["locator", "pattern"],
-  "waitForElementIndex": ["locator", "pattern"],
-  "waitForNotElementIndex": ["locator", "pattern"],
-  "waitForElementPositionLeft": ["locator", "pattern"],
-  "waitForNotElementPositionLeft": ["locator", "pattern"],
-  "waitForElementPositionTop": ["locator", "pattern"],
-  "waitForNotElementPositionTop": ["locator", "pattern"],
-  "waitForElementWidth": ["locator", "pattern"],
-  "waitForNotElementWidth": ["locator", "pattern"],
-  "waitForEval": ["script", "pattern"],
-  "waitForNotEval": ["script", "pattern"],
-  "waitForExpression": ["expression", "pattern"],
-  "waitForNotExpression": ["expression", "pattern"],
+  "waitForCookieByName": [
+    "name",
+    "pattern"
+  ],
+  "waitForNotCookieByName": [
+    "name",
+    "pattern"
+  ],
+  "waitForCursorPosition": [
+    "locator",
+    "pattern"
+  ],
+  "waitForNotCursorPosition": [
+    "locator",
+    "pattern"
+  ],
+  "waitForElementHeight": [
+    "locator",
+    "pattern"
+  ],
+  "waitForNotElementHeight": [
+    "locator",
+    "pattern"
+  ],
+  "waitForElementIndex": [
+    "locator",
+    "pattern"
+  ],
+  "waitForNotElementIndex": [
+    "locator",
+    "pattern"
+  ],
+  "waitForElementPositionLeft": [
+    "locator",
+    "pattern"
+  ],
+  "waitForNotElementPositionLeft": [
+    "locator",
+    "pattern"
+  ],
+  "waitForElementPositionTop": [
+    "locator",
+    "pattern"
+  ],
+  "waitForNotElementPositionTop": [
+    "locator",
+    "pattern"
+  ],
+  "waitForElementWidth": [
+    "locator",
+    "pattern"
+  ],
+  "waitForNotElementWidth": [
+    "locator",
+    "pattern"
+  ],
+  "waitForEval": [
+    "script",
+    "pattern"
+  ],
+  "waitForNotEval": [
+    "script",
+    "pattern"
+  ],
+  "waitForExpression": [
+    "expression",
+    "pattern"
+  ],
+  "waitForNotExpression": [
+    "expression",
+    "pattern"
+  ],
   "waitForHtmlSource": ["pattern"],
   "waitForNotHtmlSource": ["pattern"],
   "waitForLocation": ["pattern"],
@@ -364,40 +875,130 @@
   "waitForNotMouseSpeed": ["pattern"],
   "waitForPrompt": ["pattern"],
   "waitForNotPrompt": ["pattern"],
-  "waitForSelectedId": ["selectLocator", "pattern"],
-  "waitForNotSelectedId": ["selectLocator", "pattern"],
-  "waitForSelectedIds": ["selectLocator", "pattern"],
-  "waitForNotSelectedIds": ["selectLocator", "pattern"],
-  "waitForSelectedIndex": ["selectLocator", "pattern"],
-  "waitForNotSelectedIndex": ["selectLocator", "pattern"],
-  "waitForSelectedIndexes": ["selectLocator", "pattern"],
-  "waitForNotSelectedIndexes": ["selectLocator", "pattern"],
-  "waitForSelectedLabel": ["selectLocator", "pattern"],
-  "waitForNotSelectedLabel": ["selectLocator", "pattern"],
-  "waitForSelectedLabels": ["selectLocator", "pattern"],
-  "waitForNotSelectedLabels": ["selectLocator", "pattern"],
-  "waitForSelectedValue": ["selectLocator", "pattern"],
-  "waitForNotSelectedValue": ["selectLocator", "pattern"],
-  "waitForSelectedValues": ["selectLocator", "pattern"],
-  "waitForNotSelectedValues": ["selectLocator", "pattern"],
-  "waitForSelectOptions": ["selectLocator", "pattern"],
-  "waitForNotSelectOptions": ["selectLocator", "pattern"],
+  "waitForSelectedId": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForNotSelectedId": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForSelectedIds": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForNotSelectedIds": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForSelectedIndex": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForNotSelectedIndex": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForSelectedIndexes": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForNotSelectedIndexes": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForSelectedLabel": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForNotSelectedLabel": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForSelectedLabels": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForNotSelectedLabels": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForSelectedValue": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForNotSelectedValue": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForSelectedValues": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForNotSelectedValues": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForSelectOptions": [
+    "selectLocator",
+    "pattern"
+  ],
+  "waitForNotSelectOptions": [
+    "selectLocator",
+    "pattern"
+  ],
   "waitForSpeed": ["pattern"],
   "waitForNotSpeed": ["pattern"],
-  "waitForTable": ["tableCellAddress", "pattern"],
-  "waitForNotTable": ["tableCellAddress", "pattern"],
-  "waitForText": ["locator", "pattern"],
-  "waitForNotText": ["locator", "pattern"],
+  "waitForTable": [
+    "tableCellAddress",
+    "pattern"
+  ],
+  "waitForNotTable": [
+    "tableCellAddress",
+    "pattern"
+  ],
+  "waitForText": [
+    "locator",
+    "pattern"
+  ],
+  "waitForNotText": [
+    "locator",
+    "pattern"
+  ],
   "waitForTitle": ["pattern"],
   "waitForNotTitle": ["pattern"],
-  "waitForValue": ["locator", "pattern"],
-  "waitForNotValue": ["locator", "pattern"],
-  "waitForWhetherThisFrameMatchFrameExpression": ["currentFrameString", "target"],
-  "waitForNotWhetherThisFrameMatchFrameExpression": ["currentFrameString", "target"],
-  "waitForWhetherThisWindowMatchWindowExpression": ["currentWindowString", "target"],
-  "waitForNotWhetherThisWindowMatchWindowExpression": ["currentWindowString", "target"],
-  "waitForXpathCount": ["xpath", "pattern"],
-  "waitForNotXpathCount": ["xpath", "pattern"],
+  "waitForValue": [
+    "locator",
+    "pattern"
+  ],
+  "waitForNotValue": [
+    "locator",
+    "pattern"
+  ],
+  "waitForWhetherThisFrameMatchFrameExpression": [
+    "currentFrameString",
+    "target"
+  ],
+  "waitForNotWhetherThisFrameMatchFrameExpression": [
+    "currentFrameString",
+    "target"
+  ],
+  "waitForWhetherThisWindowMatchWindowExpression": [
+    "currentWindowString",
+    "target"
+  ],
+  "waitForNotWhetherThisWindowMatchWindowExpression": [
+    "currentWindowString",
+    "target"
+  ],
+  "waitForXpathCount": [
+    "xpath",
+    "pattern"
+  ],
+  "waitForNotXpathCount": [
+    "xpath",
+    "pattern"
+  ],
   "waitForAlertPresent": [],
   "waitForAlertNotPresent": [],
   "waitForChecked": ["locator"],
@@ -410,8 +1011,14 @@
   "waitForNotEditable": ["locator"],
   "waitForElementPresent": ["locator"],
   "waitForElementNotPresent": ["locator"],
-  "waitForOrdered": ["locator1", "locator2"],
-  "waitForNotOrdered": ["locator1", "locator2"],
+  "waitForOrdered": [
+    "locator1",
+    "locator2"
+  ],
+  "waitForNotOrdered": [
+    "locator1",
+    "locator2"
+  ],
   "waitForPromptPresent": [],
   "waitForPromptNotPresent": [],
   "waitForSomethingSelected": ["selectLocator"],
@@ -419,4 +1026,5 @@
   "waitForTextPresent": ["pattern"],
   "waitForTextNotPresent": ["pattern"],
   "waitForVisible": ["locator"],
-  "waitForNotVisible": ["locator"]}
+  "waitForNotVisible": ["locator"]
+}

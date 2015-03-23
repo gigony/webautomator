@@ -24,23 +24,23 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
  * Created by gigony on 12/9/14.
  */
 public class IExplorerWebBrowser extends BasicWebBrowser {
-    public IExplorerWebBrowser(final WebAutomatorConfiguration configuration) {
-      super(configuration);
+  public IExplorerWebBrowser(final WebAutomatorConfiguration configuration) {
+    super(configuration);
 
+  }
+
+  @Override
+  protected final void configureWebBrowser(final WebBrowserConfiguration browserConfiguration) {
+    InternetExplorerDriver iExplorerDriver = new InternetExplorerDriver();
+
+    setWebDriver(iExplorerDriver);
+  }
+
+  @Override
+  protected final void moveToParentFrameImpl() {
+    this.getWebDriver().switchTo().parentFrame();
+    if (!getFrameStack().isEmpty()) {
+      getFrameStack().pop();
     }
-
-    @Override
-    protected final void configureWebBrowser(final WebBrowserConfiguration browserConfiguration) {
-        InternetExplorerDriver iExplorerDriver = new InternetExplorerDriver();
-
-        setWebDriver(iExplorerDriver);
-    }
-
-    @Override
-    protected final void moveToParentFrameImpl() {
-        this.getWebDriver().switchTo().parentFrame();
-        if (!getFrameStack().isEmpty()) {
-            getFrameStack().pop();
-        }
-    }
+  }
 }

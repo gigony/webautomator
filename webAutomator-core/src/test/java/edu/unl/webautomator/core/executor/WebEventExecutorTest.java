@@ -20,7 +20,7 @@ public class WebEventExecutorTest {
     StaticWebServer.start("/fixture/components/");
 
     WebAutomatorConfiguration config = WebAutomatorConfiguration.builder()
-      .setWebBrowserConfiguration(WebBrowserConfiguration.builder(WebBrowserType.FIREFOX)
+      .setWebBrowserConfiguration(WebBrowserConfiguration.builder(WebBrowserType.PHANTOMJS)
 //        .setWebDriverBinaryPath("/Users/gigony/Development/Repository/github/webautomator/webautomator-core/build/webdrivers/chromedriver")
         .build())
       .setWebEventTypes(WebEventTypes.builder()

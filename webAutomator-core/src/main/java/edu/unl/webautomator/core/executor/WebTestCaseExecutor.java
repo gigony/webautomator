@@ -68,11 +68,11 @@ public class WebTestCaseExecutor implements TestCaseExecutor<WebTestCase> {
       eventExecutionResult = eventExecutor.execute(e, result.getState(eventIndex - 1));
       webState = stateExtractor.extractState();
       result.addState(webState);
-        if (!eventExecutionResult.isPassed()) {
-          result.setFailureInducingEventInfo(eventExecutionResult);
-          result.setResult(ExecutionResult.FAILED);
-          break;
-        }
+      if (!eventExecutionResult.isPassed()) {
+        result.setFailureInducingEventInfo(eventExecutionResult);
+        result.setResult(ExecutionResult.FAILED);
+        break;
+      }
     }
 
     return result;

@@ -20,10 +20,7 @@ package edu.unl.webautomator.core.provider;
  * Created by gigony on 12/6/14.
  */
 
-import edu.unl.webautomator.core.model.Event;
 import edu.unl.webautomator.core.model.EventType;
-import edu.unl.webautomator.core.model.WebEventElement;
-import org.openqa.selenium.WebElement;
 
 import java.util.List;
 import java.util.Map;

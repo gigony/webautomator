@@ -117,6 +117,7 @@ public class WebTestCase implements TestCase<WebEvent>, Iterable<WebEvent> {
     private WebTestCase webTestCase;
     private int index;
     private int totalSize;
+
     public WebTestCaseIterator(final WebTestCase webTestCase) {
       this.webTestCase = webTestCase;
       this.index = webTestCase.getPrefixEvent() != null && webTestCase.getPrefixEvent().size() > 0 ? -1 : 0;

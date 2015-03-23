@@ -20,7 +20,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import edu.unl.webautomator.core.WebAutomator;
-import edu.unl.webautomator.core.model.Event;
 import edu.unl.webautomator.core.model.EventType;
 import edu.unl.webautomator.core.model.WebEventElement;
 import org.openqa.selenium.WebElement;

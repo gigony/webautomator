@@ -23,14 +23,12 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import edu.unl.webautomator.core.util.JSoupHelper;
 import edu.unl.webautomator.core.util.JacksonHelper;
-
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by gigony on 12/18/14.

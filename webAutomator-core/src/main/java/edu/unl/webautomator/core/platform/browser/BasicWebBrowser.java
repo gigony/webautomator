@@ -66,7 +66,7 @@ public abstract class BasicWebBrowser implements WebBrowser {
 
   @Override
   public final MyWebDriverBackedSelenium getSelenium() {
-    if (this.selenium  == null) {
+    if (this.selenium == null) {
       LOG.warn("There is no 'base url'. 'http://' will be used for the base url.");
       this.selenium = new MyWebDriverBackedSelenium(this.webDriver, "http://");
     }
@@ -96,9 +96,9 @@ public abstract class BasicWebBrowser implements WebBrowser {
 
   @Override
   public final void open(final String uri, final long timeout) {
-    this.webDriver.get(uri);
-    this.selenium.waitForPageToLoad(String.valueOf(timeout));
-    this.frameStack.clear();
+    this.getFrameStack().clear();
+    this.getWebDriver().get(uri);
+    this.getSelenium().waitForPageToLoad(String.valueOf(timeout));
   }
 
   @Override

@@ -240,32 +240,32 @@ public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
   }
 
   private boolean isStoreCommand(final String command) {
-    return false;
+    return command.startsWith("store");
   }
 
   private boolean isAssertCommand(final String command) {
-    return false;
+    return command.startsWith("assert");
   }
 
   private boolean isAssertNotCommand(final String command) {
-    return false;
+    return command.startsWith("assertNot");
   }
 
   private boolean isVerifyCommand(final String command) {
-    return false;
+    return command.startsWith("verify");
   }
 
   private boolean isVerifyNotCommand(final String command) {
-    return false;
+    return command.startsWith("verifyNot");
   }
 
   private boolean isWaitForCommand(final String command) {
-    return false;
+    return command.startsWith("waitFor");
   }
 
   private boolean isWaitForNotCommand(final String command) {
 
-    return false;
+    return command.startsWith("waitForNot");
   }
 
 

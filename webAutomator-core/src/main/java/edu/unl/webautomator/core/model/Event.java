@@ -36,6 +36,7 @@ public interface Event<E> {
 
   /**
    * This may return null;
+   *
    * @return
    */
   List<E> getPreConditions();
@@ -62,6 +63,7 @@ public interface Event<E> {
 
   /**
    * This may return null;
+   *
    * @return
    */
   List<E> getPostConditions();

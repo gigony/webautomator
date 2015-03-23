@@ -185,9 +185,9 @@ public class WebAutomatorConfiguration {
       return this;
     }
 
-    public final WebAutomatorConfigurationBuilder setIgnoringFrameIds(final String ... frameIds) {
+    public final WebAutomatorConfigurationBuilder setIgnoringFrameIds(final String... frameIds) {
       Set<String> frameIdSet = Sets.newHashSet();
-      for (String frameId:frameIds) {
+      for (String frameId : frameIds) {
         frameIdSet.add(frameId);
       }
       this.config.ignoringFrameIds = ImmutableSet.copyOf(frameIdSet);

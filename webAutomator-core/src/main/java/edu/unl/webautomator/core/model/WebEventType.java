@@ -31,7 +31,7 @@ public class WebEventType implements EventType {
 
   @JsonCreator
   public WebEventType(@JsonProperty("eventTypeName") final String eTypeName,
-                   @JsonProperty("eventLocator") final String locator) {
+                      @JsonProperty("eventLocator") final String locator) {
     this.eventTypeName = eTypeName;
     this.eventLocator = locator;
   }

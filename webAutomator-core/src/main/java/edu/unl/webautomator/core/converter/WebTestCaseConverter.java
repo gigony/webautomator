@@ -91,7 +91,7 @@ public class WebTestCaseConverter implements TestCaseConverter<WebEvent> {
 
   private WebTestCase getHtmlTestCase(final File file) throws Exception {
     // get configured time out (default: 30000)
-    long timeOut = this.webAutomator != null ? this.webAutomator.getConfiguration().getPageLoadTimeOut(): 30000;
+    long timeOut = this.webAutomator != null ? this.webAutomator.getConfiguration().getPageLoadTimeOut() : 30000;
     Document doc = JSoupHelper.parse(file);
 
 
