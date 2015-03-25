@@ -1,9 +1,10 @@
 build/
 temp/
 *.log
-*.json
-*.html
-
+/*.html
+/*.json
+webautomator-core/*.html
+webautomator-core/*.json
 # Created by https://www.gitignore.io
 
 ### Eclipse ###
