@@ -7,12 +7,27 @@ A framework for Web testing automation (in development).
 
 ### Requirements
 
-- [Java SE](http://www.oracle.com/technetwork/java/javase/overview)
+- [Java SE](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 - [Gradle](http://www.gradle.org)
+- [PhantomJS](http://phantomjs.org/)
+- [FireFox](https://www.mozilla.org/en-US/firefox/new/)
 
-### Installation
+#### Prerequisite for OSX
+- [Homebrew](http://brew.sh/) 
+  - `ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+- [PhantomJS](http://phantomjs.org/)
+  - `brew install phantomjs`
+- [Gradle](http://www.gradle.org)
+  - `brew install gradle`
 
-### Run tests
+
+### Installation & Build
+
+  `git clone https://github.com/gigony/webautomator.git`
+  
+  `cd webautomator`
+  
+  `gradle build`   or `./gradlew build`
 
 ### Usage
 
