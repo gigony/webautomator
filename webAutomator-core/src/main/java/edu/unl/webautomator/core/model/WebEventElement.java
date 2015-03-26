@@ -100,6 +100,10 @@ public class WebEventElement implements EventElement {
     return this.args;
   }
 
+  public final void setArg(final int index, final String value) {
+    this.args.set(index, value);
+  }
+
   public final int getArgSize() {
     return this.args.size();
   }

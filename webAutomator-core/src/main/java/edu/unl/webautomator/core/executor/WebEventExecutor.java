@@ -115,7 +115,7 @@ public class WebEventExecutor implements EventExecutor<WebEventElement> {
 
     try {
       if (state != null) {
-        if (!MyWebDriverBackedSelenium.requireInput(eventElem)) {
+        if (MyWebDriverBackedSelenium.requireInput(eventElem)) {
           if (MyWebDriverBackedSelenium.isLocationBasedInputAction(eventElem.getEventType())) {
             // assume that first argument is a locator
             By locator = SeleniumHelper.convertStringLocatorToBy(eventElem.getArgs().get(0));
