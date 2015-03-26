@@ -230,7 +230,7 @@ public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
     } else if (this.isVerifyNotCommand(command)) {
 
     } else if (this.isWaitForCommand(command)) {
-
+      commandProcessor.doCommand(command, elem.getArgs().toArray(new String[0]));
     } else if (this.isWaitForNotCommand(command)) {
 
     } else {
