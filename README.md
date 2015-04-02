@@ -52,7 +52,7 @@ A framework for Web testing automation (in development).
 `TODO - describe usage` 
 
 
-Refer to [test code](webAutomator-core/src/test/java/edu/unl/qte/core) for further information.
+Refer to [test code](webautomator-core/src/test/java/edu/unl/qte/core) for further information.
 
 License
 -------
