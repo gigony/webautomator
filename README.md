@@ -1,5 +1,6 @@
 webautomator
 ============
+[![Build Status](https://travis-ci.org/gigony/webautomator.svg)](https://travis-ci.org/gigony/webautomator)
 
 A framework for Web testing automation (in development).
 
