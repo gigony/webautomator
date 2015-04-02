@@ -92,8 +92,8 @@ public class WebTestCaseConverterTest {
     Map<String, String[]> test3 = JacksonHelper.getObjectMapper().readValue("{\"a\":[\"a\",\"a2\",\"ac\"], \"b\": [], \"c\":[\"def\"]}", new TypeReference<Map<String, String[]>>() {
     });
     JacksonHelper.printObjectToJson(test2);
-    System.out.println(test.getClass().getTypeName());
-    System.out.println(test3.get("a")[0] + " " + test3.get("c")[0]);
+//    System.out.println(test.getClass().getTypeName());
+//    System.out.println(test3.get("a")[0] + " " + test3.get("c")[0]);
 
     ArrayList<String> test4 = new ArrayList<String>();
     test4.add("c");
