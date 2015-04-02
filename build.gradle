@@ -54,17 +54,16 @@ subprojects {
     archives javadocJar, sourcesJar
   }
 
-  def isMavenDeployable = hasProperty('signing.keyId') &&
-                          hasProperty('signing.password') &&
-                          hasProperty('signing.secretKeyRingFile') &&
-                          hasProperty('ossrhUsername') &&
-                          hasProperty('ossrhPassword')
-
+  def isMavenDeployable = project.hasProperty('signing.keyId') &&
+                          project.hasProperty('signing.password') &&
+                          project.hasProperty('signing.secretKeyRingFile') &&
+                          project.hasProperty('ossrhUsername') &&
+                          project.hasProperty('ossrhPassword')
   if (isMavenDeployable) {
     signing {
       sign configurations.archives
     }
-
+    
     uploadArchives {
       repositories {
         mavenDeployer {
