@@ -3,5 +3,5 @@ jdk: oraclejdk7
 install: true
 script:
 	- phantomjs --version
-	- ./gradlew clear
+	- ./gradlew clean
 	- ./gradlew build
