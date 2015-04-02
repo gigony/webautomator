@@ -29,26 +29,26 @@ package edu.unl.webautomator.core {
 
 
 
-interface edu.unl.webautomator.core.model.Event
-interface edu.unl.webautomator.core.model.WebEvent
-interface edu.unl.webautomator.core.model.TestCase
-interface edu.unl.webautomator.core.model.TestCaseExecutionResult
-interface edu.unl.webautomator.core.model.State
+interface Event
+interface WebEvent
+interface TestCase
+interface TestCaseExecutionResult
+interface State
 
-class edu.unl.webautomator.core.configuration.WebAutomatorConfiguration
-class edu.unl.webautomator.core.configuration.WebBrowserConfiguration
-class edu.unl.webautomator.core.configuration.WebProxyConfiguration
+class WebAutomatorConfiguration
+class WebBrowserConfiguration
+class WebProxyConfiguration
 class edu.unl.webautomator.core.configuration.EventTypeConfiguration
 
-class edu.unl.webautomator.core.Automator
-interface edu.unl.webautomator.core.WebAutomator
-class edu.unl.webautomator.core.WebAutomatorBase
+class Automator
+interface WebAutomator
+class WebAutomatorBase
 enum edu.unl.webautomator.core.BrowserType
-interface edu.unl.webautomator.core.converter.TestCaseConverter
-interface edu.unl.webautomator.core.executor.EventExecutor
-interface edu.unl.webautomator.core.extractor.StateExtractor
-interface edu.unl.webautomator.core.extractor.EventExtractor
-interface edu.unl.webautomator.core.provider.EventInputProvider
+interface TestCaseConverter
+interface EventExecutor
+interface StateExtractor
+interface EventExtractor
+interface EventInputProvider
 
 
 

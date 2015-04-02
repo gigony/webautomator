@@ -16,31 +16,93 @@ plugins {
     id "de.undercouch.download" version "1.2"
 }
 
+apply plugin: "idea"
 
-subprojects {
+allprojects {
   apply plugin: "java"
-//  apply plugin: "checkstyle"
-  apply plugin: "idea"
-
-  //apply plugin: "application"
-  //apply plugin: "console"
-  group = 'unl.edu.webautomator'
-  version = '0.1'
+  apply plugin: 'maven'
+  apply plugin: 'signing'
+  group = 'unl.edu.qte'
 
   repositories {
     mavenCentral()
   }
+}
 
+subprojects {
   dependencies {
-    testCompile group: "junit", name: "junit", version: "4.+"
+    testCompile group: "junit", name: "junit", version: "[4.0,)"
 
   }
 
   [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+
+  task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+  }
+  task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+  }
+  artifacts {
+    archives javadocJar, sourcesJar
+  }
+  signing {
+    sign configurations.archives
+  }
+
+  uploadArchives {
+    repositories {
+      mavenDeployer {
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+          authentication(userName: ossrhUsername, password: ossrhPassword)
+        }
+
+        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+          authentication(userName: ossrhUsername, password: ossrhPassword)
+        }
+
+        pom.project {
+          name 'QTE'
+          packaging 'jar'
+          // optionally artifactId can be defined here
+          description 'A Framework for Web automation and testing'
+          url 'https://github.com/gigony/webautomator'
+
+          scm {
+            connection 'scm:git:git@github.com:gigony/webautomator.git'
+            developerConnection 'scm:git:git@github.com:gigony/webautomator.git'
+            url 'https://github.com/gigony/webautomator'
+          }
+
+          licenses {
+            license {
+              name 'The Apache License, Version 2.0'
+              url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            }
+          }
+
+          developers {
+            developer {
+              id 'gigony'
+              name 'Gigon Bae'
+              email 'gigony@gmail.com'
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
-// mainClassName = "edu.unl.webautomator.Main"
 
+
+
+//mainClassName = "edu.unl.qte.webautomator.Main"
 
 task getHomeDir << {
     println gradle.gradleHomeDir
