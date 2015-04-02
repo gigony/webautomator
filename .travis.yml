@@ -2,6 +2,6 @@ language: java
 jdk: oraclejdk7
 install: true
 script:
-	- phantomjs --version
-	- ./gradlew clean
-	- ./gradlew build
+- phantomjs --version
+- ./gradlew clean
+- ./gradlew build
