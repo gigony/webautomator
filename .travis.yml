@@ -5,3 +5,6 @@ script:
 - phantomjs --version
 - ./gradlew clean
 - ./gradlew build
+- ./gradlew cleanTest
+- ./gradlew :webautomator-core:processResources
+- ./gradlew test
