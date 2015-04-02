@@ -27,32 +27,7 @@ allprojects {
   repositories {
     mavenCentral()
   }
-}
 
-subprojects {
-  dependencies {
-    testCompile group: "junit", name: "junit", version: "[4.0,)"
-
-  }
-
-  [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-  // force tests
-  test.outputs.upToDateWhen { false }
-
-  task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc
-  }
-
-  task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-  }
-
-  artifacts {
-    archives javadocJar, sourcesJar
-  }
 
   def isMavenDeployable = project.hasProperty('signing.keyId') &&
                           project.hasProperty('signing.password') &&
@@ -63,7 +38,7 @@ subprojects {
     signing {
       sign configurations.archives
     }
-    
+
     uploadArchives {
       repositories {
         mavenDeployer {
@@ -111,7 +86,66 @@ subprojects {
   }
 }
 
+subprojects {
+  dependencies {
+    testCompile group: "junit", name: "junit", version: "[4.0,)"
 
+  }
+
+  [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+  // force tests
+  // test.outputs.upToDateWhen { false }
+
+  javadoc {
+    source = sourceSets.main.allJava 
+  }
+
+  task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+  }
+
+  task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+  }
+
+  artifacts {
+    archives javadocJar, sourcesJar
+  }
+}
+
+
+archivesBaseName = "webautomator-all"
+version = "0.1"
+
+//subprojects.each { subproject -> evaluationDependsOn(subproject.path)}
+
+
+javadoc {
+  subprojects.each { subproject -> 
+    source = subprojects.sourceSets.main.allJava 
+  }
+}
+
+task javadocJar(type: Jar, dependsOn: subprojects.assemble) {
+  classifier = 'javadoc'
+  subprojects.each { subproject -> 
+      from subproject.javadoc
+  }
+}
+
+task sourcesJar(type: Jar, dependsOn: subprojects.assemble) {
+  classifier = 'sources'
+  subprojects.each { subproject -> 
+    from subproject.sourceSets.main.allSource
+  }
+}
+
+artifacts {
+  archives javadocJar, sourcesJar
+}
 
 
 //mainClassName = "edu.unl.qte.webautomator.Main"
