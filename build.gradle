@@ -22,7 +22,7 @@ allprojects {
   apply plugin: "java"
   apply plugin: 'maven'
   apply plugin: 'signing'
-  group = 'unl.edu.qte'
+  group = 'com.gigony'
 
   repositories {
     mavenCentral()
@@ -79,7 +79,7 @@ subprojects {
           }
 
           pom.project {
-            name 'QTE'
+            name 'Quick Test Enabler'
             packaging 'jar'
             // optionally artifactId can be defined here
             description 'A Framework for Web automation and testing'
