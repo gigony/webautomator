@@ -133,12 +133,12 @@ public final class WebAutomatorPlugins {
 
 
     private void setDefaultPlugins() {
-      this.setPlugin("core.converter.testcase", "WebTestCaseConverter");
-      this.setPlugin("core.extractor.state", "WebStateExtractor");
-      this.setPlugin("core.extractor.event", "WebEventExtractor");
-      this.setPlugin("core.provider.eventinput", "WebEventInputProvider");
-      this.setPlugin("core.executor.event", "WebEventExecutor");
-      this.setPlugin("core.executor.testcase", "WebTestCaseExecutor");
+      this.setPlugin("core.converter.testcase", "com.gigony.qte.core.converter.WebTestCaseConverter");
+      this.setPlugin("core.extractor.state", "com.gigony.qte.core.extractor.WebStateExtractor");
+      this.setPlugin("core.extractor.event", "com.gigony.qte.core.extractor.WebEventExtractor");
+      this.setPlugin("core.provider.eventinput", "com.gigony.qte.core.provider.WebEventInputProvider");
+      this.setPlugin("core.executor.event", "com.gigony.qte.core.executor.WebEventExecutor");
+      this.setPlugin("core.executor.testcase", "com.gigony.qte.core.executor.WebTestCaseExecutor");
     }
 
     public final WebAutomatorPlugins build() {
