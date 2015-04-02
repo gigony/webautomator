@@ -140,5 +140,10 @@ public class WebTestCase implements TestCase<WebEvent>, Iterable<WebEvent> {
       this.index++;
       return result;
     }
+
+    @Override
+    public void remove() {
+      throw new UnsupportedOperationException("remove");
+    }
   }
 }

@@ -272,5 +272,10 @@ public class WebEvent implements Event<WebEventElement>, Iterable<WebEventElemen
       this.index++;
       return result;
     }
+
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException("remove");
+    }
   }
 }
