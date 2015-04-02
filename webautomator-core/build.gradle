@@ -1,0 +1,82 @@
+project(':webautomator-core') {
+  archivesBaseName = "webautomator-core"
+  version = "0.1"
+}
+
+dependencies {
+  compile project(':qte-core')
+  compile group: "org.seleniumhq.selenium", name: "selenium-server", version: "2.45.0"
+  compile group: "org.seleniumhq.selenium", name: "selenium-java", version: "2.45.0"
+  compile group: "org.seleniumhq.selenium", name: "selenium-chrome-driver", version: "2.45.0"
+//    compile group: "com.github.detro", name: "phantomjsdriver", version: "1.2.0"
+  compile group: "com.codeborne", name: "phantomjsdriver", version: "1.2.1" //temporal use
+
+  compile group: "org.jsoup", name: "jsoup", version: "1.8.1"
+//    compile group: "io.fastjson", name: "boon", version: "0.30" // no need
+  compile group: "us.codecraft", name: "xsoup", version: "0.3.0"
+  testCompile project(':qte-core')
+  testCompile group: "io.vertx", name: "vertx-core", version: "2.1.5"
+}
+
+//https://github.com/michel-kraemer/gradle-download-task
+task downloadWebDrivers() {
+  outputs.file '$buildDir/webdrivers/chromedriver'
+
+  File targetFolder = file("$buildDir/webdrivers/")
+  targetFolder.mkdirs()
+  // http://chromedriver.storage.googleapis.com/index.html?path=2.12/
+  // http://chromedriver.storage.googleapis.com/LATEST_RELEASE
+//    download {
+//        src([
+//                "http://chromedriver.storage.googleapis.com/2.12/chromedriver_mac32.zip"
+//        ])
+//        dest "$buildDir/webdrivers/"
+//    }
+//    FileTree tree = fileTree(dir: targetFolder, include: '**/*.zip')
+//    tree.each {File file ->
+//        copy {
+//            from zipTree(file)
+//            into targetFolder
+//        }
+//    }
+
+}
+
+
+test {
+  doFirst {
+    def File targetFolder = file("$buildDir/webdrivers/")
+    def chromeDriverPath = "$targetFolder/chromedriver"
+
+    systemProperty "webdriver.chrome.driver", chromeDriverPath
+    println "ChromeDriverPath: " + chromeDriverPath
+
+    if (!file("$targetFolder/chromedriver").exists()) {
+      targetFolder.mkdirs()
+      // http://chromedriver.storage.googleapis.com/index.html?path=2.12/
+      // http://chromedriver.storage.googleapis.com/LATEST_RELEASE
+      download {
+        src([
+          "http://chromedriver.storage.googleapis.com/2.12/chromedriver_mac32.zip"
+        ])
+        dest "$buildDir/webdrivers/"
+      }
+      FileTree tree = fileTree(dir: targetFolder, include: '**/*.zip')
+      tree.each { File file ->
+        copy {
+          from zipTree(file)
+          into targetFolder
+        }
+      }
+    }
+
+  }
+}
+
+task copyTestResources(type: Copy) {
+  from "${projectDir}/src/test/resources"
+  into "${buildDir}/classes/test"
+}
+processTestResources.dependsOn copyTestResources
+
+

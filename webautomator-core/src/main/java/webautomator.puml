@@ -1,0 +1,91 @@
+@startuml
+package edu.unl.webautomator.core {
+    'package edu.unl.webautomator.core.internal {}
+
+    package edu.unl.webautomator.core.model {
+     'package edu.unl.webautomator.core.model.internal {}
+
+    }
+    package edu.unl.webautomator.core.configuration {
+        'package edu.unl.webautomator.core.configuration.internal{}
+    }
+    package edu.unl.webautomator.core.platform {
+        'package edu.unl.webautomator.core.platform.internal{}
+    }
+    package edu.unl.webautomator.core.converter{
+        'package edu.unl.webautomator.core.converter.internal{}
+    }
+    package edu.unl.webautomator.core.executor{
+        'package edu.unl.webautomator.core.executor.internal{}
+    }
+    package edu.unl.webautomator.core.extractor{
+        'package edu.unl.webautomator.core.extractor.internal{}
+    }
+    package edu.unl.webautomator.core.provider{
+        'package edu.unl.webautomator.core.provider.internal{}
+    }
+}
+
+
+
+
+interface Event
+interface WebEvent
+interface TestCase
+interface TestCaseExecutionResult
+interface State
+
+class WebAutomatorConfiguration
+class WebBrowserConfiguration
+class WebProxyConfiguration
+class edu.unl.webautomator.core.configuration.EventTypeConfiguration
+
+class Automator
+interface WebAutomator
+class WebAutomatorBase
+enum edu.unl.webautomator.core.BrowserType
+interface TestCaseConverter
+interface EventExecutor
+interface StateExtractor
+interface EventExtractor
+interface EventInputProvider
+
+
+
+
+
+
+enum edu.unl.webautomator.core.BrowserType{
+    CHROME
+    FIREFOX
+    IEXPLORER
+    PHANTOMJS
+    REMOTE
+}
+
+
+@enduml
+
+/*
+abstract class AbstractList
+abstract AbstractCollection
+interface List
+interface Collection
+
+List <|-- AbstractList
+Collection <|-- AbstractCollection
+
+Collection <|- List
+AbstractList <|-- ArrayList
+
+class ArrayList {
++ Object[] elementData
+- size()
+}
+
+enum TimeUnit {
+  DAYS
+  HOURS
+  MINUTES
+}
+*/
