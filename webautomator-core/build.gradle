@@ -1,6 +1,5 @@
 project(':webautomator-core') {
   archivesBaseName = "webautomator-core"
-  version = "0.1"
 }
 
 dependencies {

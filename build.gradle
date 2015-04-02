@@ -22,7 +22,8 @@ allprojects {
   apply plugin: "java"
   apply plugin: 'maven'
   apply plugin: 'signing'
-  group = 'com.gigony'
+  group = 'com.gigony.qte'
+  version = "0.1-SNAPSHOT"
 
   repositories {
     mavenCentral()
@@ -87,9 +88,13 @@ allprojects {
 }
 
 subprojects {
+
+  configurations {
+    markdownDoclet
+  }
   dependencies {
     testCompile group: "junit", name: "junit", version: "[4.0,)"
-
+    markdownDoclet 'ch.raffael.pegdown-doclet:pegdown-doclet:1.1.1'
   }
 
   [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
@@ -98,7 +103,12 @@ subprojects {
   // test.outputs.upToDateWhen { false }
 
   javadoc {
-    source = sourceSets.main.allJava 
+    source = sourceSets.main.allJava
+    options {
+      docletpath = configurations.markdownDoclet.files.asType(List) // gradle should relly make this simpler
+      doclet = "ch.raffael.doclets.pegdown.PegdownDoclet"
+      addStringOption("parse-timeout", "10")
+    }
   }
 
   task javadocJar(type: Jar) {
@@ -118,27 +128,22 @@ subprojects {
 
 
 archivesBaseName = "webautomator-all"
-version = "0.1"
 
 //subprojects.each { subproject -> evaluationDependsOn(subproject.path)}
 
 
-javadoc {
-  subprojects.each { subproject -> 
-    source = subprojects.sourceSets.main.allJava 
-  }
-}
 
 task javadocJar(type: Jar, dependsOn: subprojects.assemble) {
   classifier = 'javadoc'
-  subprojects.each { subproject -> 
+  subprojects.each { subproject ->
       from subproject.javadoc
+      println subproject.javadoc
   }
 }
 
 task sourcesJar(type: Jar, dependsOn: subprojects.assemble) {
   classifier = 'sources'
-  subprojects.each { subproject -> 
+  subprojects.each { subproject ->
     from subproject.sourceSets.main.allSource
   }
 }
