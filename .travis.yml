@@ -3,8 +3,5 @@ jdk: oraclejdk7
 install: true
 script:
 - phantomjs --version
-- ./gradlew clean
-- ./gradlew build
-- ./gradlew cleanTest
-- ./gradlew :webautomator-core:processResources
-- ./gradlew test
+- gradle :webautomator-core:copyTestResources
+- gradle test

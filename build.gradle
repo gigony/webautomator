@@ -37,6 +37,8 @@ subprojects {
 
   [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
+  // force tests
+  test.outputs.updateWhen { false }
 
   task javadocJar(type: Jar) {
     classifier = 'javadoc'
