@@ -20,7 +20,6 @@ public class MainTest {
   private static final Logger LOG = LoggerFactory.getLogger(MainTest.class);
 
 
-  @Test
   public final void scenario1() throws Exception {
     WebAutomator automator = QTE.webAutomator(WebBrowserType.FIREFOX);
     WebTestCase testCase = automator.getTestCaseConverter().loadTestCase("/Users/gigony/Development/Repository/github/webautomator/webautomator-core/src/test/resources/fixture/testcases/sampleTestCase4.html", "html");
