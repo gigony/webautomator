@@ -19,6 +19,7 @@ package com.gigony.qte.core.converter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.gigony.qte.core.model.*;
+import com.gigony.qte.core.util.MyWebDriverBackedSelenium;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -257,11 +258,21 @@ public class WebTestCaseConverter implements TestCaseConverter<WebEvent> {
     StringBuffer contentBuf = new StringBuffer();
 
     for (WebEvent event : testCase) {
-      for (WebEventElement eventElem : event) {
+      int elemLen = event.size();
+      for (int i = 0; i < elemLen; i++){
+        WebEventElement eventElem = event.get(i);
         int elemSize = eventElem.getArgSize();
         String command = eventElem.getEventType();
         String target = elemSize >= 1 ? StringEscapeUtils.escapeHtml4(eventElem.getArgs().get(0)) : "";
         String input = elemSize >= 2 ? StringEscapeUtils.escapeHtml4(eventElem.getArgs().get(1)) : "";
+
+        // if next eventElement is 'waitForPageToLoad'
+        if (i + 1 < elemLen && event.get(i + 1).getEventType().equals("waitForPageToLoad")) {
+          if (MyWebDriverBackedSelenium.exists(eventElem.getEventType())) {
+            command = command + "AndWait";
+            i++; //skip next eventElement;
+          }
+        }
         String body = String.format("<tr>\n"
           + "\t<td>%s</td>\n"
           + "\t<td>%s</td>\n"

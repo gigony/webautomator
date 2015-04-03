@@ -23,11 +23,13 @@ import com.gigony.qte.core.model.WebEvent;
 import com.gigony.qte.core.model.WebEventElement;
 import com.gigony.qte.core.model.WebTestCase;
 import com.gigony.qte.core.platform.WebBrowserType;
+import com.gigony.qte.core.util.IOHelper;
 import com.gigony.qte.core.util.JacksonHelper;
 import com.gigony.qte.core.StaticWebServer;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -71,9 +73,11 @@ public class WebTestCaseConverterTest {
   @Test
   public final void testSaveHtmlTestCase() throws Exception {
     String fileName = ClassLoader.getSystemResource("fixture/testcases/sampleTestCase3.html").toURI().getPath();
+    System.out.println(IOHelper.getResourceAsString("fixture/testcases/sampleTestCase3.html"));
     WebTestCase testCase = new WebTestCaseConverter(null).loadTestCase(fileName, "html");
     JacksonHelper.printObjectToJson(testCase);
     new WebTestCaseConverter(null).saveTestCase("test.html", "html", testCase);
+    System.out.println(IOHelper.getFileContentAsString(new File("test.html")));
   }
 
   @Test
