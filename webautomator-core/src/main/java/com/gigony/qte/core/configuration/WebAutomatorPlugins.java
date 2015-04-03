@@ -16,6 +16,7 @@
 
 package com.gigony.qte.core.configuration;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gigony.qte.core.exception.PluginNotFoundException;
@@ -29,7 +30,10 @@ import org.slf4j.LoggerFactory;
  * Created by gigony on 12/8/14.
  */
 
-
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY,
+  getterVisibility = JsonAutoDetect.Visibility.NONE,
+  setterVisibility = JsonAutoDetect.Visibility.NONE,
+  isGetterVisibility = JsonAutoDetect.Visibility.NONE)
 public final class WebAutomatorPlugins {
 
   private static final Logger LOG = LoggerFactory.getLogger(WebAutomatorPlugins.class);
@@ -37,7 +41,7 @@ public final class WebAutomatorPlugins {
   private final ImmutableMultimap<String, String> plugins;
 
   @JsonCreator
-  WebAutomatorPlugins(@JsonProperty("pluginConfiguration") final Multimap<String, String> pluginsMap) {
+  WebAutomatorPlugins(@JsonProperty("plugins") final Multimap<String, String> pluginsMap) {
     this.plugins = ImmutableMultimap.copyOf(pluginsMap);
   }
 

@@ -16,6 +16,7 @@
 
 package com.gigony.qte.core.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gigony.qte.core.util.SeleniumHelper;
@@ -24,6 +25,10 @@ import com.google.common.base.Objects;
 /**
  * Created by gigony on 1/7/15.
  */
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY,
+  getterVisibility = JsonAutoDetect.Visibility.NONE,
+  setterVisibility = JsonAutoDetect.Visibility.NONE,
+  isGetterVisibility = JsonAutoDetect.Visibility.NONE)
 public class WebEventType implements EventType {
 
   private String eventTypeName;

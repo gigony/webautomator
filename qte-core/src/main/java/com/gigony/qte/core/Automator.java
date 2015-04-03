@@ -1,3 +1,4 @@
+package com.gigony.qte.core;
 /*
  * Copyright 2015 Gigon Bae
  *
@@ -13,8 +14,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
-package com.gigony.qte.core;
 
 /**
  * Created by gigony on 12/7/14.

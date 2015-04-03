@@ -16,6 +16,7 @@
 
 package com.gigony.qte.core.configuration;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMultimap;
@@ -27,6 +28,10 @@ import com.gigony.qte.core.model.WebEventType;
  * Created by gigony on 12/6/14.
  *
  */
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY,
+  getterVisibility = JsonAutoDetect.Visibility.NONE,
+  setterVisibility = JsonAutoDetect.Visibility.NONE,
+  isGetterVisibility = JsonAutoDetect.Visibility.NONE)
 public class WebEventTypes {
 
   private final ImmutableMultimap<String, WebEventType> includingEventTypeMap;
