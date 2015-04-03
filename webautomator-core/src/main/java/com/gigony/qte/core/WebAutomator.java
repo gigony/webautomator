@@ -61,6 +61,8 @@ public interface WebAutomator extends Automator {
 
   TestCaseExecutionResult<WebState, WebEventElement> execute(WebTestCase webTestCase);
 
+  TestCaseExecutionResult<WebState, WebEventElement> execute(WebTestCase webTestCase, boolean saveState);
+
   void quit();
 
 

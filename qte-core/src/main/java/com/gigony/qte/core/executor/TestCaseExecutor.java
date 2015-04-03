@@ -23,4 +23,5 @@ import com.gigony.qte.core.model.TestCaseExecutionResult;
  */
 public interface TestCaseExecutor<E> {
   TestCaseExecutionResult execute(E testCase);
+  TestCaseExecutionResult execute(E testCase, boolean saveState);
 }

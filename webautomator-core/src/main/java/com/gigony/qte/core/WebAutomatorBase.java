@@ -130,6 +130,11 @@ public class WebAutomatorBase implements WebAutomator {
   }
 
   @Override
+  public final TestCaseExecutionResult<WebState, WebEventElement> execute(final WebTestCase webTestCase, final boolean saveState) {
+    return this.testCaseExecutor.execute(webTestCase, saveState);
+  }
+
+  @Override
   public final void quit() {
     this.getWebBrowser().getWebDriver().quit();
   }

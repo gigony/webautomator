@@ -220,7 +220,8 @@ public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
     String result = null;
     String command = elem.getEventType();
 
-    //TODO implement STORE/ASSERT/VERIFY/WAITFOR command
+    //TODO implement STORE
+    // Refer to https://code.google.com/p/selenium/source/browse/ide/plugins/java-format/src/content/formats/java-backed-junit4.js
     if (this.isStoreCommand(command)) {
       this.doStoreCommand(elem);
     } else if (this.isAssertNotCommand(command)) {
@@ -382,7 +383,6 @@ public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
       }
       try {
         String result = this.getReturnValue(substring, returnType, elem.getArgs());
-        System.out.println(result + "|"+ expectedValue);
         if (expectedValue.equals(result)) {
           break;
         }

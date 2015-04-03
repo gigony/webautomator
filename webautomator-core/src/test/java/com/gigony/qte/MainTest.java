@@ -19,16 +19,17 @@ import org.slf4j.LoggerFactory;
 public class MainTest {
   private static final Logger LOG = LoggerFactory.getLogger(MainTest.class);
 
-
   public final void scenario1() throws Exception {
     WebAutomator automator = QTE.webAutomator(WebBrowserType.FIREFOX);
     WebTestCase testCase = automator.getTestCaseConverter().loadTestCase("/Users/gigony/Development/Repository/github/webautomator/webautomator-core/src/test/resources/fixture/testcases/sampleTestCase4.html", "html");
-    TestCaseExecutionResult<WebState, WebEventElement> result = automator.execute(testCase);
+    TestCaseExecutionResult<WebState, WebEventElement> result = automator.execute(testCase, false);
 
     int size = result.size();
 
-    LOG.debug("State before execution");
-    LOG.debug("\t:{}", result.getState(0));
+    if (result.getState(0) != null) {
+      LOG.debug("State before execution");
+      LOG.debug("\t:{}", result.getState(0));
+    }
     for (int i = 0; i < size; i++) {
       LOG.debug("Execute event {} : {}", i + 1, result.getTestCase().get(i));
       State nextState = i + 1 < result.getStateSize() ? result.getState(i + 1) : null;

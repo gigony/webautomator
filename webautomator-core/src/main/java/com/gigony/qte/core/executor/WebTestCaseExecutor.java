@@ -36,6 +36,11 @@ public class WebTestCaseExecutor implements TestCaseExecutor<WebTestCase> {
 
   @Override
   public final TestCaseExecutionResult execute(final WebTestCase testCase) {
+    return this.execute(testCase, true);
+  }
+
+  @Override
+  public final TestCaseExecutionResult execute(final WebTestCase testCase, final boolean saveState) {
     WebEventExecutor eventExecutor = this.webAutomator.getEventExecutor();
     WebStateExtractor stateExtractor = this.webAutomator.getStateExtractor();
 
@@ -54,7 +59,7 @@ public class WebTestCaseExecutor implements TestCaseExecutor<WebTestCase> {
     }
 
     // add an initial state after prefix event execution.
-    if (testCase.getPrefixEvent().size() > 0) {
+    if (testCase.getPrefixEvent().size() > 0 && saveState) {
       result.addState(stateExtractor.extractState());
     } else {
       // just fill first state
@@ -65,9 +70,14 @@ public class WebTestCaseExecutor implements TestCaseExecutor<WebTestCase> {
     int eventIndex = 0;
     for (WebEvent e : testCase) {
       eventIndex++;
-      eventExecutionResult = eventExecutor.execute(e, result.getState(eventIndex - 1));
-      webState = stateExtractor.extractState();
-      result.addState(webState);
+      if (saveState) {
+        eventExecutionResult = eventExecutor.execute(e, result.getState(eventIndex - 1));
+        webState = stateExtractor.extractState();
+        result.addState(webState);
+      } else {
+        eventExecutionResult = eventExecutor.execute(e);
+        result.addState(null);
+      }
       if (!eventExecutionResult.isPassed()) {
         result.setFailureInducingEventInfo(eventExecutionResult);
         result.setResult(ExecutionResult.FAILED);
