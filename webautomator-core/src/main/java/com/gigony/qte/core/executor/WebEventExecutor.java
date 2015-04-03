@@ -84,7 +84,7 @@ public class WebEventExecutor implements EventExecutor<WebEventElement> {
         WebEventExecutionResult executionResult = this.execute(webBrowser, selenium, elem, eventInputProvider, state);
         if (!executionResult.isPassed()) {
           executionResult.setFailedEvent(e);
-          executionResult.setCauseMessage(String.format("Failed to verify a postcondition (%s) in an event (%s) exception: %s", elem, e, executionResult.getThrowable().getMessage()));
+          executionResult.setCauseMessage(String.format("Failed to verify a postcondition (%s) in an event (%s) exception: %s", elem, e, executionResult.getThrowable()));
           return executionResult;
         }
       }

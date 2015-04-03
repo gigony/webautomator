@@ -20,7 +20,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
 import java.io.*;
-import java.net.URISyntaxException;
 
 /**
  * Created by gigony on 12/18/14.
@@ -32,14 +31,33 @@ public final class IOHelper {
 
 
   public static String getResourceAsString(final String path) {
+//    try {
+    // try to get jar's resource
+    InputStream stream = ClassLoader.getSystemResourceAsStream(path);
+    if (stream != null) {
+      return getFileContentAsString(stream);
+    }
+    return null;
+//      // get from local file system
+//      File file = new File(ClassLoader.getSystemResource(path).toURI().getPath());
+//      return getFileContentAsString(file);
+//    } catch (URISyntaxException e) {
+//      e.printStackTrace();
+//      throw new RuntimeException(e.getMessage());
+//    }
+  }
+
+  public static String getFileContentAsString(final InputStream stream) {
+    String content = null;
     try {
-      File file = new File(ClassLoader.getSystemResource(path).toURI().getPath());
-      return getFileContentAsString(file);
-    } catch (URISyntaxException e) {
+      content = CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
+    } catch (IOException e) {
       e.printStackTrace();
       throw new RuntimeException(e.getMessage());
     }
+    return content;
   }
+
 
   public static String getFileContentAsString(final File file) {
     //System.out.println("######" + file.getAbsolutePath());

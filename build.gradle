@@ -21,7 +21,6 @@ apply plugin: "idea"
 allprojects {
   apply plugin: "java"
   apply plugin: 'maven'
-  apply plugin: 'signing'
   group = 'com.gigony.qte'
   version = "0.1-SNAPSHOT"
 
@@ -36,8 +35,11 @@ allprojects {
                           project.hasProperty('ossrhUsername') &&
                           project.hasProperty('ossrhPassword')
   if (isMavenDeployable) {
-    signing {
-      sign configurations.archives
+    if (!version.endsWith('-SNAPSHOT')) {
+      apply plugin: 'signing'
+      signing {
+        sign configurations.archives
+      }
     }
 
     uploadArchives {
@@ -137,7 +139,6 @@ task javadocJar(type: Jar, dependsOn: subprojects.assemble) {
   classifier = 'javadoc'
   subprojects.each { subproject ->
       from subproject.javadoc
-      println subproject.javadoc
   }
 }
 
@@ -148,8 +149,31 @@ task sourcesJar(type: Jar, dependsOn: subprojects.assemble) {
   }
 }
 
+
 artifacts {
   archives javadocJar, sourcesJar
+}
+
+
+dependencies {
+  compile project(':webautomator-core')
+}
+
+task fatJar(type: Jar, dependsOn: subprojects.assemble) {
+//  manifest {
+//    attributes 'Main-Class': ''
+//  }
+  baseName = project.name + '-fat'
+  subprojects.each { subproject ->
+    from {subproject.sourceSets.main.output}
+    from {subproject.sourceSets.main.allSource}
+    from {subproject.configurations.compile.collect { it.isDirectory() ? it: zipTree(it)} }
+  }
+  // remove all signature files
+  exclude "META-INF/*.SF"
+  exclude "META-INF/*.DSA"
+  exclude "META-INF/*.RSA"
+  with jar
 }
 
 

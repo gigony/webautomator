@@ -17,13 +17,16 @@
 package com.gigony.qte.core.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.gigony.qte.core.exception.VerifyException;
+import com.gigony.qte.core.model.WebEventElement;
 import com.google.common.collect.Sets;
 import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
-import com.gigony.qte.core.model.WebEventElement;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,21 +36,20 @@ import java.util.Set;
 public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
   private static final Logger LOG = LoggerFactory.getLogger(MyWebDriverBackedSelenium.class);
   private static Map<String, String[]> apis;
+  private static Map<String, String> getterApis;
   //  private static Map<String, Integer> argMap;
   private static Set<String> locationBasedInputActionSet;
   private static Set<String> locationBasedActionSet;
 
   static {
-
-//    try {
-//      File apiFile = new File(ClassLoader.getSystemResource("seleniumAPI.json").toURI());
     String apiDoc = IOHelper.getResourceAsString("seleniumAPI.json");
     apis = JacksonHelper.loadObjectFromJsonString(apiDoc, new TypeReference<Map<String, String[]>>() {
     });
-//    } catch (URISyntaxException e) {
-//      e.printStackTrace();
-//      LOG.error(e.getMessage());
-//    }
+
+    String getterDoc = IOHelper.getResourceAsString("getterAPI.json");
+    getterApis = JacksonHelper.loadObjectFromJsonString(getterDoc, new TypeReference<Map<String, String>>() {
+    });
+
 
     locationBasedInputActionSet = Sets.newHashSet("clickAt", "doubleClickAt", "contextMenuAt", "fireEvent", "keyPress", "keyDown",
       "keyUp", "mouseDownAt", "mouseDownRightAt", "mouseUpAt", "mouseUpRightAt", "mouseMoveAt", "type", "typeKeys",
@@ -220,23 +222,213 @@ public class MyWebDriverBackedSelenium extends WebDriverBackedSelenium {
 
     //TODO implement STORE/ASSERT/VERIFY/WAITFOR command
     if (this.isStoreCommand(command)) {
-
-    } else if (this.isAssertCommand(command)) {
-
+      this.doStoreCommand(elem);
     } else if (this.isAssertNotCommand(command)) {
-
-    } else if (this.isVerifyCommand(command)) {
-
+      this.doAssertNotCommand(elem);
+    } else if (this.isAssertCommand(command)) {
+      this.doAssertCommand(elem);
     } else if (this.isVerifyNotCommand(command)) {
-
-    } else if (this.isWaitForCommand(command)) {
-      commandProcessor.doCommand(command, elem.getArgs().toArray(new String[0]));
+      this.doVerifyNotCommand(elem);
+    } else if (this.isVerifyCommand(command)) {
+      this.doVerifyCommand(elem);
     } else if (this.isWaitForNotCommand(command)) {
-
+      this.doWaitForNotCommand(elem);
+    } else if (this.isWaitForCommand(command)) {
+      this.doWaitForCommand(elem);
     } else {
       commandProcessor.doCommand(command, elem.getArgs().toArray(new String[0]));
     }
     return result;
+  }
+
+  private void assertEquals(final String actual, final String expected) {
+    if (!actual.equals(expected)) {
+      throw new AssertionError(String.format("actual: %s, expected: %s", actual, expected));
+    }
+  }
+
+  private void assertNotEquals(final String actual, final String expected) {
+    if (actual.equals(expected)) {
+      throw new AssertionError(String.format("actual: %s, expected: %s", actual, expected));
+    }
+  }
+
+  private void verifyEquals(final String actual, final String expected) {
+    if (!actual.equals(expected)) {
+      throw new VerifyException(String.format("actual: %s, expected: %s", actual, expected));
+    }
+  }
+
+  private void verifyNotEquals(final String actual, final String expected) {
+    if (actual.equals(expected)) {
+      throw new VerifyException(String.format("actual: %s, expected: %s", actual, expected));
+    }
+  }
+
+
+  private String getReturnType(final String substring) {
+    String returnType = getterApis.get("is" + substring);
+    if (returnType != null) {
+      return returnType;
+    }
+
+    returnType = getterApis.get("get" + substring);
+    if (returnType != null) {
+      return returnType;
+    }
+    return null;
+  }
+
+  private String getReturnValue(final String substring, final String returnType, final List<String> args) {
+    if ("boolean".equals(returnType)) {
+      return String.valueOf(commandProcessor.getBoolean("is" + substring, args.toArray(new String[0])));
+    } else if ("String".equals(returnType)) {
+      return commandProcessor.getString("get" + substring, args.toArray(new String[0]));
+    } else if ("String[]".equals(returnType)) {
+      return StringUtils.join(commandProcessor.getStringArray("get" + substring, args.toArray(new String[0])), ',');
+    } else if ("Number".equals(returnType)) {
+      return commandProcessor.getNumber("get" + substring, args.toArray(new String[0])).toString();
+    }
+
+    return null;
+  }
+
+
+  private void doStoreCommand(final WebEventElement elem) {
+    throw new UnsupportedOperationException("Store command is not supported!");
+  }
+
+  private void doAssertCommand(final WebEventElement elem) {
+    String substring = elem.getEventType().substring(6);
+    String returnType = this.getReturnType(substring);
+    String result = this.getReturnValue(substring, returnType, elem.getArgs());
+
+    if (result == null) {
+      throw new RuntimeException("null value was returned!");
+    }
+
+    if ("boolean".equals(returnType)) {
+      this.assertEquals(result, "true");
+    } else {
+      this.assertEquals(result, elem.getArgs().get(elem.getArgSize() - 1));
+    }
+  }
+
+
+  private void doAssertNotCommand(final WebEventElement elem) {
+    String substring = elem.getEventType().substring(9);
+    String returnType = this.getReturnType(substring);
+    String result = this.getReturnValue(substring, returnType, elem.getArgs());
+
+    if (result == null) {
+      throw new RuntimeException("null value was returned!");
+    }
+
+    if ("boolean".equals(returnType)) {
+      this.assertNotEquals(result, "true");
+    } else {
+      this.assertNotEquals(result, elem.getArgs().get(elem.getArgSize() - 1));
+    }
+
+  }
+
+  private void doVerifyCommand(final WebEventElement elem) {
+    String substring = elem.getEventType().substring(6);
+    String returnType = this.getReturnType(substring);
+    String result = this.getReturnValue(substring, returnType, elem.getArgs());
+
+    if (result == null) {
+      throw new RuntimeException("null value was returned!");
+    }
+
+    if ("boolean".equals(returnType)) {
+      this.verifyEquals(result, "true");
+    } else {
+      this.verifyEquals(result, elem.getArgs().get(elem.getArgSize() - 1));
+    }
+
+  }
+
+  private void doVerifyNotCommand(final WebEventElement elem) {
+    String substring = elem.getEventType().substring(9);
+    String returnType = this.getReturnType(substring);
+    String result = this.getReturnValue(substring, returnType, elem.getArgs());
+
+    if (result == null) {
+      throw new RuntimeException("null value was returned!");
+    }
+
+    if ("boolean".equals(returnType)) {
+      this.verifyNotEquals(result, "true");
+    } else {
+      this.verifyNotEquals(result, elem.getArgs().get(elem.getArgSize() - 1));
+    }
+  }
+
+  private void doWaitForCommand(final WebEventElement elem) {
+    String substring = elem.getEventType().substring(7);
+    String returnType = this.getReturnType(substring);
+
+    if (returnType == null) { // if ordinary waitFor function
+      commandProcessor.doCommand(elem.getEventType(), elem.getArgs().toArray(new String[0]));
+      return;
+    }
+
+    String expectedValue = elem.getArgs().get(elem.getArgSize() - 1);
+
+    for (int second = 0;; second++) {
+      if (second >= 60) {
+        throw new AssertionError("timeout");
+      }
+      try {
+        String result = this.getReturnValue(substring, returnType, elem.getArgs());
+        System.out.println(result + "|"+ expectedValue);
+        if (expectedValue.equals(result)) {
+          break;
+        }
+      } catch (Exception e) {
+        LOG.debug("WaitForNot command... {}", e.toString());
+      }
+
+      try {
+        Thread.sleep(1000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+        throw new RuntimeException(e);
+      }
+    }
+  }
+
+  private void doWaitForNotCommand(final WebEventElement elem) {
+    String substring = elem.getEventType().substring(10);
+    String returnType = this.getReturnType(substring);
+
+    if (returnType == null) { // if ordinary waitFor function
+      commandProcessor.doCommand(elem.getEventType(), elem.getArgs().toArray(new String[0]));
+      return;
+    }
+
+    String expectedValue = elem.getArgs().get(elem.getArgSize() - 1);
+
+    for (int second = 0;; second++) {
+      if (second >= 60) {
+        throw new AssertionError("timeout");
+      }
+      try {
+        String result = this.getReturnValue(substring, returnType, elem.getArgs());
+        if (!expectedValue.equals(result)) {
+          break;
+        }
+      } catch (Exception e) {
+        LOG.debug("WaitForNot command... {}", e.toString());
+      }
+      try {
+        Thread.sleep(1000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+        throw new RuntimeException(e);
+      }
+    }
   }
 
   private boolean isStoreCommand(final String command) {
