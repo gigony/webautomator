@@ -4,6 +4,9 @@ webautomator
 
 A framework for Web testing automation (in development).
 
+Currently, this framework is under development in a cloned private repository.
+I will make it public after some research is done with it.
+
 ### Introduction
 
 ### Requirements
@@ -48,8 +51,6 @@ A framework for Web testing automation (in development).
   `gradle build`   or `./gradlew build`
 
 ### Usage
-
-`TODO - describe usage` 
 
 
 Refer to [test code](webautomator-core/src/test/java/com/gigony/qte/core) for further information.
